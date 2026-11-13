@@ -98,7 +98,7 @@ effis:
   name: EFFIS burnt areas (European Forest Fire Information System), layer modis.ba.poly
   url: https://maps.effis.emergency.copernicus.eu/effis
   licence: Copernicus Emergency Management Service data, free use with attribution (WFS says fees none, no access constraints)
-  licence_status: to_verify       # check the EFFIS data policy page before relying on it
+  licence_status: to_verify       # check the EFFIS data policy page. Real, 2026-11-13: keep burned-forest info public meanwhile
   credit: "© European Union, EFFIS, Copernicus Emergency Management Service"
   use: v0.3 habitat (audit step 8) — burnt areas with fire dates, 2016-2026; recent burns for morels, burnt squares removed for tree partners.
 gbif_fennel:

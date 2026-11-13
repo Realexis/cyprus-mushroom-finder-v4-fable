@@ -49,7 +49,7 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | V1 | Minimum tree cover for tree-partner species | 30% | `config/soil.yaml -> habitat_v03` |
 | V2 | **Formation -> rock grouping** for "calcareous" (Lefkara, Pakhna, Nicosia, Lapithos, Kyrenia limestones…) | see list | `config/soil.yaml -> geology` |
 | V3 | Drainage classes from texture (fast: sand ≥ 60% or clay < 15%; slow: clay ≥ 35%) | rule of thumb | `config/soil.yaml -> drainage` |
-| V4 | ~~Burn scars with fire year (EFFIS)~~ **Done (audit step 8):** EFFIS `modis.ba.poly` answered later on 2026-11-13: 175 Cyprus burnt areas 2016-2026 with fire dates. **Licence to verify** (`config/sources.yaml effis`). CORINE 2018 is the fallback | EFFIS | `pipeline/shroomy/habitat/effis.py` |
+| V4 | ~~Burn scars with fire year (EFFIS)~~ **Done (audit step 8):** EFFIS `modis.ba.poly` answered later on 2026-11-13: 175 Cyprus burnt areas 2016-2026 with fire dates. **Licence to verify** (`config/sources.yaml effis`). **Real, 2026-11-13: keep burned-forest info public meanwhile.** CORINE 2018 is the fallback | EFFIS | `pipeline/shroomy/habitat/effis.py` |
 | V5 | Kermes oak (Quercus coccifera) has no map. Golden oak = broadleaf on Troodos rock (approximate) | approximate | habitat layer |
 | V6 | Dept of Forests tree-species map (INSPIRE) not obtained; tree zones stay rule-based (approximate) | approximate | habitat layer |
 | V7 | Clay Atlas geochemical grids (e.g. calcium) could refine "calcareous" | ask the user | — |
