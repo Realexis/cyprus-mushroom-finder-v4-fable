@@ -203,7 +203,7 @@ The base rate is now also counted **only from the first window near each find** 
   and its panel says "No species in season here on this day".
 - Saved 13 Nov data: key-species map 98,612 habitat squares, **93,433 drawn** today, **5,179 not drawn**
   (all species: 94,551 drawn, 13,344 not). Zones and "best zones" use in-season squares only.
-- **Real decides:** hidden (now) or shown grey.
+- **Real, 2026-11-13: keep them hidden.**
 
 ### Fix 3: the panel says when a square has burned
 
