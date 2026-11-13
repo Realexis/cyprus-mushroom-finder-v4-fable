@@ -11,7 +11,7 @@ import numpy as np
 from .. import config
 
 STORE = config.PROCESSED / "weather" / "history.npz"
-VARS = ["precip", "tmean", "tmin", "tmax", "rh", "soil"]
+VARS = ["precip", "tmean", "tmin", "tmax", "rh", "soil", "tsoil_om"]   # tsoil_om: audit step 7
 POINT_KEYS = ["lon", "lat", "x", "y", "elev_om"]
 KEEP_DAYS = 240          # audit step 4: the engine runs from 1 September (season memory)
 
@@ -42,12 +42,13 @@ def merge(run_path, store=STORE) -> dict:
     out["model"] = run["model"]
     for v in VARS:
         a = np.full((n, len(dates)), np.nan, "float32")
-        if h is not None:
+        if h is not None and v in h:                          # older stores have no soil temperature
             for j, d in enumerate(old_dates):
                 if d in idx:
                     a[:, idx[d]] = h[v][:, j]
-        for j, d in enumerate(run_dates):
-            a[:, idx[d]] = run[v][:, j]
+        if v in run:
+            for j, d in enumerate(run_dates):
+                a[:, idx[d]] = run[v][:, j]
         out[v] = a
     observed = np.zeros(len(dates), bool)
     if h is not None:

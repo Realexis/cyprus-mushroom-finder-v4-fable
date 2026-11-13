@@ -5,7 +5,10 @@ open_meteo:
   model: ecmwf_ifs                # [BRIEF] ECMWF IFS 9 km. The only model here with soil moisture 0-7 cm.
   timezone: Asia/Nicosia          # days run midnight to midnight, Cyprus time
   daily: [precipitation_sum, temperature_2m_mean, temperature_2m_min, temperature_2m_max, relative_humidity_2m_mean]
-  hourly: [soil_moisture_0_to_7cm]   # daily mean is made from these
+  # Daily means are made from these. Soil moisture must stay first (soil climatology uses it).
+  # soil_temperature_0_to_7cm: audit step 7 (TODO-facts P2), available for ecmwf_ifs [OM].
+  # No extra calls: 7 variables still count as one call per 14 days.
+  hourly: [soil_moisture_0_to_7cm, soil_temperature_0_to_7cm]
   past_days: 31                   # covers 30-day rain + the 7-20 day pulse
   forecast_days: 8                # today + 7 days
   locations_per_request: 50       # smaller replies = fewer timeouts from GitHub servers

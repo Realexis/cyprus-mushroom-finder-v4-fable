@@ -456,3 +456,19 @@ def test_bucket_starts_empty_in_september():
     assert start_fill({"dates": ["2026-09-01", "2026-09-02"]}, BC) == BC["start_fill_september"] == 0.0
     assert start_fill({"dates": ["2026-10-13"]}, BC) == BC["start_fill"]
     assert start_fill({}, BC) == BC["start_fill"]
+
+
+def test_real_soil_temperature_is_used_and_gaps_use_the_estimate():
+    """Audit step 7: Open-Meteo soil temperature where present; air estimate fills the gaps."""
+    n, d = 2, 10
+    ts = np.full((n, d), 9.0, "float32")
+    ts[1, 4:] = np.nan
+    inp = {"lat": np.full(n, 34.9), "doy": 300 + np.arange(d), "month": np.full(d, 10),
+           "precip": np.zeros((n, d)), "tmean": np.full((n, d), 15.0), "tmin": np.full((n, d), 10.0),
+           "tmax": np.full((n, d), 20.0), "tsoil": ts, "island_awc_median": 27.0,
+           "squares": {**_squares(n), "awc_mm": np.full(n, 27.0), "awc_q05_mm": np.full(n, 10.0),
+                       "awc_q95_mm": np.full(n, 60.0), "shade_score": np.full(n, 0.5)}}
+    w = prepare_water(inp, E, S)
+    assert np.allclose(w["tsoil"][0], 9.0)
+    assert np.allclose(w["tsoil"][1, :4], 9.0) and np.allclose(w["tsoil"][1, 4:], 15.0)
+    assert np.isfinite(w["tsoil"]).all()

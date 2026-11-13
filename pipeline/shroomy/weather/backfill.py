@@ -36,7 +36,7 @@ def plan(today=None, store=history.STORE):
     if end < start:
         return None
     n_days = (end - start).days + 1
-    cost = openmeteo.call_cost(len(h["lon"]), len(DAILY) + 1, n_days)
+    cost = openmeteo.call_cost(len(h["lon"]), len(DAILY) + 2, n_days)
     return start, end, h, cost
 
 
@@ -56,14 +56,15 @@ def backfill(store=history.STORE):
     n_days = (end - start).days + 1
     per_loc = cost / n
     per = max(1, int(caps["per_minute"] * 0.8 // per_loc))
-    params = {"daily": ",".join(DAILY), "hourly": "soil_moisture_0_to_7cm", "start_date": start.isoformat(),
+    params = {"daily": ",".join(DAILY), "hourly": "soil_moisture_0_to_7cm,soil_temperature_0_to_7cm",
+              "start_date": start.isoformat(),
               "end_date": end.isoformat(), "models": cfg["model"], "timezone": cfg["timezone"]}
     print(f"Backfill {start} to {end}: {n} points, ~{cost:,.0f} calls")
     res = []
     for b in range(math.ceil(n / per)):
         s = slice(b * per, (b + 1) * per)
         print(f" - batch {b + 1}/{math.ceil(n / per)}")
-        res += openmeteo.fetch(cfg["history_url"], h["lat"][s], h["lon"][s], params, len(DAILY) + 1, n_days,
+        res += openmeteo.fetch(cfg["history_url"], h["lat"][s], h["lon"][s], params, len(DAILY) + 2, n_days,
                                budget, config.RAW / "weather" / "backfill" / f"{start}_{end}_b{b:03d}.json")
     dates = res[0]["daily"]["time"]
     out = {k: h[k] for k in history.POINT_KEYS}
@@ -71,6 +72,8 @@ def backfill(store=history.STORE):
         out[KEYS[v]] = np.array([[np.nan if x is None else x for x in r["daily"][v]] for r in res], "float32")
     out["soil"] = np.array([[_daily_mean_from_hourly(r["hourly"]["time"], r["hourly"]["soil_moisture_0_to_7cm"])
                              .get(d, np.nan) for d in dates] for r in res], "float32")
+    out["tsoil_om"] = np.array([[_daily_mean_from_hourly(r["hourly"]["time"], r["hourly"]["soil_temperature_0_to_7cm"])
+                                 .get(d, np.nan) for d in dates] for r in res], "float32")
     run = config.PROCESSED / "weather" / f"backfill_{start}_{end}.npz"
     # today = the day after the stretch, so every day in it counts as observed.
     np.savez_compressed(run, dates=np.array(dates), today=(end + timedelta(days=1)).isoformat(),

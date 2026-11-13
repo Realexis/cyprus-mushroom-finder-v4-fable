@@ -40,9 +40,12 @@ def prepare_water(inp, ecfg, scfg):
     fill = B.run_bucket(inp["precip"], et0, cap, B.slope_factor(sq["shade_score"], bc),
                         B.drain_rate(sq["drainage"], bc), bc, cap * start_fill(inp, bc))
     st = ecfg["soil_temperature"]
+    proxy = soil_temp_proxy(inp["tmean"], st["proxy_days"])
     tsoil = inp.get("tsoil")
     if tsoil is None:
-        tsoil = soil_temp_proxy(inp["tmean"], st["proxy_days"])
+        tsoil = proxy
+    else:                                       # real soil temperature; gaps from the air estimate
+        tsoil = np.where(np.isfinite(tsoil), tsoil, proxy).astype("float32")
     return {"et0": et0.astype("float32"), "capacity_mm": cap, "fill": fill, "tsoil": tsoil,
             "frost": inp["tmin"] <= st["frost_air_min_c"]}
 

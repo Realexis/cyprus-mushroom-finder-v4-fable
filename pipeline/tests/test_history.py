@@ -81,3 +81,15 @@ def test_engine_run_stops_at_a_gap(tmp_path):
 
 def test_history_keeps_the_season():
     assert H.KEEP_DAYS >= 240
+
+
+def test_old_store_without_soil_temperature_merges(tmp_path):
+    store = tmp_path / "h.npz"
+    old = fake_run(tmp_path / "a.npz", "2026-11-12", 31, 8, 1.0)
+    z = dict(np.load(old))
+    z.pop("tsoil_om")
+    np.savez_compressed(old, **z)                       # a fetch from before audit step 7
+    H.merge(old, store)
+    H.merge(fake_run(tmp_path / "b.npz", "2026-11-13", 3, 8, 2.0), store)
+    h = np.load(store)
+    assert np.isnan(h["tsoil_om"][0, 0]) and h["tsoil_om"][0, -1] == 2.0

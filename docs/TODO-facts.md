@@ -72,7 +72,7 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | E12 | Soft edges: tree cover 15 points, altitude 150 m | | `habitat` |
 | E13 | Burnt share for full morel habitat | 0.5 | `habitat.burn_full_at_frac` |
 | E14 | pH acid below 6.5, alkaline above 7.5, ramp 1 unit | | `habitat.ph_*` |
-| P2 | **Fetch Open-Meteo soil temperature** (`soil_temperature_0_to_7cm`). Check the call budget first | proxy from air temperature | `config/weather.yaml` |
+| P2 | ~~Fetch Open-Meteo soil temperature~~ **Done (audit step 7):** `soil_temperature_0_to_7cm` daily mean, no extra calls (7 variables). Moved to each square's height with the air lapse rate **[GUESS for soil]**. Air estimate stays as the fallback | Open-Meteo, fallback air estimate | `config/weather.yaml`, `engine/inputs.py` |
 
 | L5 | **Species-specific lookalikes** for each profile (spec wants 2-3, sourced). Now: red pine mushroom and bloody milk cap list only *Lactarius chrysorrheus* (the brief's milk-colour note; for the bloody milk cap it is our guess) | 1 each | `species/*.yaml` |
 | S12 | Profile numbers for red pine mushroom and bloody milk cap (wait **150** degree-days above 4 C [LOI19 + backtest weather, audit step 2; base 4 C a guess], recovery **0** [LOI19, step 3]; soil 3-24 C best 8-18, window 10 days, season edges) are guesses | guesses | `species/lde.yaml`, `lsa.yaml` |

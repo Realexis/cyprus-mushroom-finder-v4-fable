@@ -53,11 +53,12 @@ def fetch_main(run_day: date | None = None, past_days: int | None = None, out_na
         s = slice(b * per, (b + 1) * per)
         print(f" - batch {b + 1}/{math.ceil(n / per)}")
         results += openmeteo.fetch(cfg["forecast_url"], pts["lat"][s], pts["lon"][s], params,
-                                   n_vars, n_days, budget, raw_dir / f"main_p{past}_b{b:03d}.json")
+                                   n_vars, n_days, budget, raw_dir / f"main_p{past}_v{n_vars}_b{b:03d}.json")
 
     dates = results[0]["daily"]["time"]
     arr = {v: np.full((n, len(dates)), np.nan, "float32") for v in cfg["daily"]}
     sm = np.full((n, len(dates)), np.nan, "float32")
+    ts = np.full((n, len(dates)), np.nan, "float32")          # soil temperature 0-7 cm, model height
     elev = np.zeros(n, "float32")
     for i, r in enumerate(results):
         assert r["daily"]["time"] == dates
@@ -65,6 +66,9 @@ def fetch_main(run_day: date | None = None, past_days: int | None = None, out_na
             arr[v][i] = [np.nan if x is None else x for x in r["daily"][v]]
         dm = _daily_mean_from_hourly(r["hourly"]["time"], r["hourly"][cfg["hourly"][0]])
         sm[i] = [dm.get(d, np.nan) for d in dates]
+        if "soil_temperature_0_to_7cm" in r["hourly"]:
+            dm = _daily_mean_from_hourly(r["hourly"]["time"], r["hourly"]["soil_temperature_0_to_7cm"])
+            ts[i] = [dm.get(d, np.nan) for d in dates]
         elev[i] = r.get("elevation", np.nan)
 
     OUT.mkdir(parents=True, exist_ok=True)
@@ -74,7 +78,7 @@ def fetch_main(run_day: date | None = None, past_days: int | None = None, out_na
                         elev_om=elev, precip=arr["precipitation_sum"],
                         tmean=arr["temperature_2m_mean"], tmin=arr["temperature_2m_min"],
                         tmax=arr["temperature_2m_max"], rh=arr["relative_humidity_2m_mean"],
-                        soil=sm, model=cfg["model"])
+                        soil=sm, tsoil_om=ts, model=cfg["model"])
     print(f"Saved {out.name} · calls used in last 24 h: {budget.today():,.0f}")
     return out
 

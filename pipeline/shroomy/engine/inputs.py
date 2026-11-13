@@ -59,10 +59,16 @@ def build(run_file, squares="land"):
         "lat": interp(w["lat"]),
         "precip": np.clip(interp(np.nan_to_num(w["precip"])), 0, None).astype("float32"),
         "tmean": temp("tmean"), "tmin": temp("tmin"), "tmax": temp("tmax"),
-        "tsoil": None,                               # Open-Meteo soil temperature: TODO-facts P2
+        # Open-Meteo soil temperature 0-7 cm (audit step 7), moved to each square's height with the air
+        # lapse rate [GUESS for soil]. Days without it are filled from the air estimate (runner.py).
+        "tsoil": temp("tsoil_om") if _has(w, "tsoil_om") else None,
         "squares": sq,
         "island_awc_median": island_awc_median,
     }
+
+
+def _has(w, name):
+    return name in w.files and np.isfinite(w[name]).any()
 
 
 def subset(inp, keep):

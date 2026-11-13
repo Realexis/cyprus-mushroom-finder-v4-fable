@@ -47,8 +47,9 @@ water_fit:
   full_at_fill: 0.60               # [DRAFT] E7
 
 soil_temperature:
-  # Open-Meteo soil temperature is not fetched yet (TODO-facts P2). Until then:
-  # soil temperature = slow running mean of the air temperature at the square's height.
+  # Open-Meteo soil temperature 0-7 cm is used where the weather file has it (audit step 7).
+  # Fallback, for days or files without it: slow running mean of the air temperature
+  # at the square's height.
   proxy_days: 4                    # [DRAFT] E8: soil follows air with about this lag
   frost_air_min_c: 0               # [DRAFT] same as scoring.yaml frost_threshold_c
 
