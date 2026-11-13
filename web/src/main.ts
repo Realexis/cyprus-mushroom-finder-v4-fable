@@ -121,18 +121,14 @@ async function main() {
   const protocol = new Protocol();
   maplibregl.addProtocol("pmtiles", protocol.tile);
 
-  const [meta, priv, spots, rain, shade, summary, hexFC] = await Promise.all([
+  const [meta, priv, spots, rain, shade, summary] = await Promise.all([
     fetch(abs("data/meta.json"), { cache: "no-cache" }).then((r) => r.json() as Promise<Meta>),
     hasCells(),
     getJSON<Spots>(abs("data/spots.json")),
     getJSON<GeoJSON.FeatureCollection>(abs("data/rain.geojson")),
     hasFile(pmtiles("tiles/shade50.pmtiles")),
     getJSON<Summary>(abs("data/summary.json")),
-    getJSON<GeoJSON.FeatureCollection>(abs("data/hexes.geojson")),
   ]);
-  // ~2 km zone features by their spots.json index, so "Best 3 spots" can open a zone's panel.
-  const hexByH = new Map<number, { props: Record<string, number>; id: number }>();
-  hexFC?.features.forEach((f, id) => hexByH.set(Number((f.properties as { h: number }).h), { props: f.properties as Record<string, number>, id }));
 
   if (meta.weather_run < cyprusToday()) {
     const d = document.getElementById("delayed")!;
@@ -257,36 +253,6 @@ async function main() {
     const d = summary?.days[day];
     const z = code ? (d?.species?.[code]?.in_season ? d.species[code].top_zones[0] : undefined) : d?.top_zones[0];
     return z ? { score: z.score, where: z.where } : null;
-  };
-  // Best 3 spots of a day: the top zones of summary.json, with a short plain reason.
-  const REASON: [number, string][] = [[1, "soaking rain"], [0, "lots of rain"], [3, "wet soil"], [2, "mild"], [5, "shady"]];
-  const reasonFor = (spot: number | undefined, day: number) => {
-    const f = spot === undefined ? undefined : spots?.spots[spot]?.f[day];
-    const h = spot === undefined ? undefined : hexByH.get(spot)?.props;
-    const out: string[] = [];
-    const since = h ? Number(h[`p${day}`]) : -1;
-    if (since >= meta.clock.opens && since <= meta.clock.closes) out.push("window open");
-    if (f) REASON.map(([i, t]) => [f[i], t] as const).filter(([v]) => v >= 70).sort((a, b) => b[0] - a[0])
-      .forEach(([, t]) => { if (out.length < 2) out.push(t); });
-    return out.length ? out.join(" · ") : "fair conditions";
-  };
-  panel.top3 = (day, code) => {
-    const d = summary?.days[day];
-    const zones = code ? (d?.species?.[code]?.in_season ? d.species[code].top_zones : []) : d?.top_zones ?? [];
-    return zones.slice(0, 3).filter((z) => z.spot !== undefined).map((z) => ({
-      where: z.where, score: z.score, spot: z.spot!, lat: z.lat, lon: z.lon, reason: reasonFor(z.spot, day) }));
-  };
-  panel.onBest = (z) => {
-    const pad = phone.matches ? { bottom: Math.min(sheet.offsetHeight, innerHeight * 0.55), top: 0, left: 0, right: 0 }
-      : { left: sheet.offsetWidth + 32, top: 0, bottom: 0, right: 0 };
-    map.flyTo({ center: [z.lon, z.lat], zoom: 11, padding: pad, duration: 1400 });
-    const hx = hexByH.get(z.spot);
-    if (!hx) return;
-    // Open the zone's panel as if its ~2 km zone had been tapped.
-    const f = { properties: hx.props, id: hx.id, layer: { id: "hex-fill" } } as unknown as MapGeoJSONFeature;
-    lastPick = { f, lngLat: new maplibregl.LngLat(z.lon, z.lat) };
-    applySelection();
-    panel.showSpot(buildSpot(lastPick));
   };
   panel.refresh();
 

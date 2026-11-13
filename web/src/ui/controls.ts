@@ -17,8 +17,6 @@ export interface HotZone { hex: string; where: string; lat: number; lon: number;
 const CONF_WORD = { high: "sure", medium: "likely", low: "unsure" };
 /** The best ~2 km zone of a day (from summary.json), for the general map or a species. */
 export interface Best { score: number; where: string; }
-/** One of the "Best 3 spots" (a ~2 km zone from summary.json, never a closed reserve). */
-export interface BestSpot { where: string; score: number; spot: number; lat: number; lon: number; reason: string; }
 const CONF_TIP = {
   high: "Forecast for the next 2 days: usually reliable.",
   medium: "Forecast 3-4 days ahead: it may still change.",
@@ -47,15 +45,10 @@ export class Panel {
   private spot: SpotData | null = null;
   /** Phone panel size: "min" (just a bar), "peek" (days, or the top of a zone), "full" (everything). */
   sheet: "min" | "peek" | "full" = matchMedia("(max-width: 899px)").matches ? "peek" : "full";
-  /** Phone: is the "Top spots" list open? */
-  bestOpen = false;
   private setSheet(s: "min" | "peek" | "full") { this.sheet = s; this.render(); }
   /** Best zone per day (set by main.ts from summary.json). */
   best: (day: number, species: string | null) => Best | null = () => null;
   refresh() { this.render(); }
-  /** Best 3 zones of a day (set by main.ts), and what tapping one does. */
-  top3: (day: number, species: string | null) => BestSpot[] = () => [];
-  onBest: (z: BestSpot) => void = () => {};
 
   /** `fine` = the 250 m forest squares are published (the normal case). Without them: ~2 km zones. */
   constructor(private el: HTMLElement, private meta: Meta, fine: boolean,
@@ -204,7 +197,7 @@ export class Panel {
 
     this.el.innerHTML = `
       <div class="sheet-top">
-        ${this.sheet === "min" ? `<span class="sheet-top-label">Days · Top spots</span>` : `<button type="button" class="sheet-chip" id="sheet-size" aria-expanded="${this.sheet === "full"}"
+        ${this.sheet === "min" ? `<span class="sheet-top-label">Days</span>` : `<button type="button" class="sheet-chip" id="sheet-size" aria-expanded="${this.sheet === "full"}"
           data-tip="${this.sheet === "full" ? "Make the panel smaller." : "Show everything: details, species, rain and settings."}">${this.sheet === "full" ? "▾ Less" : "▴ More"}</button>`}
         <button class="grip-btn" id="grip" type="button" aria-label="${this.sheet === "full" ? "Show less" : "Show more"}"><div class="grip"></div></button>
         <button type="button" class="sheet-chip" id="sheet-hide" aria-expanded="${this.sheet !== "min"}"
@@ -217,14 +210,6 @@ export class Panel {
       <p class="conf-line">${fmtDay(cur.date, { weekday: "long", day: "numeric", month: "long" })}
         ${(() => { const b = this.best(this.day, this.species); return b ? `· best zone <b>${b.score}</b>, ${esc(b.where)}` : ""; })()}
         · Forecast: <b>${CONF_WORD[cur.confidence]}</b></p>
-      ${(() => {
-        const b3 = this.mode === "conditions" ? this.best3HTML() : "";
-        if (!b3) return "";
-        const d = this.meta.days[this.day];
-        return `<button type="button" class="best-toggle" id="best-toggle" aria-expanded="${this.bestOpen}"
-            data-tip="Show or hide the three best zones of this day.">
-            ${this.bestOpen ? "▾" : "▸"} Top spots ${d.offset === 0 ? "today" : fmtDay(d.date, { weekday: "long" })}</button>${b3}`;
-      })()}
       </div>
       <div class="sheet-more">
       <h2 id="sp-h"><label for="species">Conditions for</label></h2>
@@ -280,10 +265,6 @@ export class Panel {
     this.el.querySelector<HTMLSelectElement>("#species")?.addEventListener("change", (e) =>
       this.setSpecies((e.target as HTMLSelectElement).value || null));
     this.el.querySelector("#cards-btn")?.addEventListener("click", () => this.openSpecies(this.species ?? undefined));
-    this.el.querySelectorAll<HTMLButtonElement>("[data-best]").forEach((b) => b.addEventListener("click", () => {
-      const z = this.top3(this.day, this.species)[Number(b.dataset.best)];
-      if (z) this.onBest(z);
-    }));
     this.el.querySelectorAll<HTMLButtonElement>(".filter-line [data-pick-species]").forEach((b) =>
       b.addEventListener("click", () => this.setSpecies(b.dataset.pickSpecies!)));
     this.el.querySelector("#play")?.addEventListener("click", () => (this.playing ? this.stop() : this.play()));
@@ -299,35 +280,13 @@ export class Panel {
     });
     // Phone panel size controls
     this.el.dataset.sheet = this.sheet;
-    this.el.classList.toggle("best-open", this.bestOpen);
     this.el.querySelector("#grip")?.addEventListener("click", () => this.setSheet(this.sheet === "full" ? "peek" : "full"));
     this.el.querySelector("#sheet-size")?.addEventListener("click", () => this.setSheet(this.sheet === "full" ? "peek" : "full"));
     this.el.querySelector("#sheet-hide")?.addEventListener("click", () => this.setSheet(this.sheet === "min" ? "peek" : "min"));
-    this.el.querySelector("#best-toggle")?.addEventListener("click", () => { this.bestOpen = !this.bestOpen; this.render(); });
     this.el.querySelector("#theme-btn")?.addEventListener("click", () => document.dispatchEvent(new Event("toggle-theme")));
     this.el.querySelector("#guide-btn")?.addEventListener("click", () => document.dispatchEvent(new Event("open-guide")));
     if (this.mode === "replay") this.updateReplay();
     this.renderSpot();
-  }
-
-  private best3HTML() {
-    const sp = speciesByCode(this.species);
-    const d = this.meta.days[this.day];
-    const when = d.offset === 0 ? "today" : `on ${fmtDay(d.date, { weekday: "long" })}`;
-    const title = sp ? `Best 3 for <i>${esc(sp.common)}</i> ${when}` : `Best 3 spots ${when}`;
-    if (sp && !this.inSeason(this.day)) {
-      return `<section class="best3"><h2>${title}</h2><p class="muted small">Out of season (${esc(sp.season_text)}).</p></section>`;
-    }
-    const list = this.top3(this.day, this.species);
-    if (!list.length) return "";
-    const items = list.map((z, i) => `<li><button type="button" class="best-btn" data-best="${i}"
-        data-tip="Fly to this ~2 km zone and open its details. Growing conditions only.">
-        <span class="best-rank" aria-hidden="true">${i + 1}</span>
-        <span class="best-main"><b>${esc(z.where)}</b><span class="best-why">${esc(z.reason)}</span></span>
-        <span class="best-score"><i style="background:${scoreColour(z.score)}"></i>${z.score}</span></button></li>`).join("");
-    return `<section class="best3" aria-labelledby="best3-h">
-      <h2 id="best3-h" data-tip="The three best ~2 km zones of this day, spread over the island. Nature reserves are never listed.">${title}</h2>
-      <ol>${items}</ol></section>`;
   }
 
   private legend() {
