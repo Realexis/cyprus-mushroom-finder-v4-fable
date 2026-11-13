@@ -20,6 +20,7 @@ import { hideMapTip as hideTip, mountTips, showAt } from "./ui/tips";
 import { mountGuide } from "./ui/guide";
 import { renderLegend } from "./ui/legend";
 import { words } from "./ui/spot";
+import { mountFullMap, trackReady, urlSwitches } from "./ui/fullmap";
 
 const abs = (p: string) => new URL(p, document.baseURI).href;
 
@@ -71,6 +72,8 @@ class TerrainControl implements maplibregl.IControl {
   private map?: maplibregl.Map;
   on = false;
   constructor(private toggle: (on: boolean) => void) {}
+  /** Back to flat 2D (used by Full map). */
+  off() { if (this.on) { this.on = false; this.update(); this.toggle(false); } }
   onAdd(map: maplibregl.Map) {
     this.map = map;
     const div = document.createElement("div");
@@ -108,7 +111,9 @@ class TerrainControl implements maplibregl.IControl {
 }
 
 async function main() {
-  applyTheme(currentTheme());
+  // Web-address switches for Full map screenshots: ?full=1 &layer= &day= &theme= (ui/fullmap.ts).
+  const sw = urlSwitches();
+  applyTheme(sw.theme ?? currentTheme());
   if (PREVIEW_BADGE) {
     const sub = document.querySelector(".brand-sub");
     sub?.insertAdjacentHTML("afterend", ` <span class="ver-badge" data-tip="Test version ${VERSION}. Not the live site.">v${VERSION.split(".").slice(0, 2).join(".")} preview</span>`);
@@ -148,7 +153,7 @@ async function main() {
   })();
   // v0.3: scores come from small files per species / general map (map/scores.ts).
   const store = new ScoreStore((f) => `${abs(f)}?v=${encodeURIComponent(meta.generated_utc)}`);
-  const paintScores = () => { if (meta.engine && map.getSource("cells")) void store.paint(map, panel.scoreKey, panel.day); };
+  const paintScores = () => { if (meta.engine && map.getSource("cells")) trackReady(map, store.paint(map, panel.scoreKey, panel.day)); };
   if (import.meta.env.DEV) (window as unknown as { store: unknown }).store = store;
   // Top-zone outlines (daily). The 50 m shade itself is the fixed file tiles/shade50.pmtiles.
   let hotZonesGeo: GeoJSON.FeatureCollection | undefined;
@@ -171,7 +176,7 @@ async function main() {
     hotspotZones: hotZonesGeo,
   };
   const basemap = v(pmtiles("tiles/basemap.pmtiles"));
-  let theme: Theme = currentTheme();
+  let theme: Theme = sw.theme ?? currentTheme();
 
   const map = new maplibregl.Map({
     container: "map",
@@ -191,6 +196,13 @@ async function main() {
   const terrainCtl = new TerrainControl((on) => set3D(map, on, theme));
   map.addControl(terrainCtl, "top-right");
   map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true } }), "top-right");
+  // Full map: the whole island for clean screenshots (shroomy-shared/FULL-MAP-SPEC.md).
+  const full = mountFullMap({
+    map,
+    flat: () => terrainCtl.off(),
+    fitNormal: () => fitCyprus(),
+    quiet: () => { hideTip(); lastPick = null; applySelection(); panel.showSpot(null); },
+  });
   // Our own tips on MapLibre's buttons (and no second, native browser tooltip).
   const ctlTips: Record<string, string> = {
     ".maplibregl-ctrl-zoom-in": "Zoom in. You can also scroll or pinch.",
@@ -295,6 +307,14 @@ async function main() {
     },
     (p) => { if (map.isStyleLoaded()) setReplayFrame(map, p.view); },
     (code) => openSpecies(code));
+  if (sw.layer !== null) {
+    const code = sw.layer === "general" || sw.layer === "" ? null : sw.layer;
+    if (code === null || meta.engine?.codes.includes(code)) {
+      panel.showMore = speciesByCode(code)?.tier === "more";       // the same menu every time (not the saved choice)
+      panel.setSpecies(code);
+    }
+  }
+  if (sw.day !== null && sw.day < meta.days.length) { panel.day = sw.day; panel.refresh(); }
   // Best zone per day (and per species) for the day buttons, from summary.json.
   panel.best = (day, code) => {
     const d = summary?.days[day];
@@ -347,6 +367,7 @@ async function main() {
   };
   map.once("load", () => {
     fitCyprus();
+    if (sw.full) full.enter();
     document.querySelector(".maplibregl-ctrl-attrib")?.classList.remove("maplibregl-compact-show");
   });
 
@@ -389,7 +410,7 @@ async function main() {
     window.clearTimeout(slow);
     loading.classList.add("done");
     window.setTimeout(() => (loading.hidden = true), 400);
-    guide.openIfFirstVisit();
+    if (!full.isOn()) guide.openIfFirstVisit();
   };
   map.once("idle", finishLoading);
   map.on("sourcedata", (e) => {

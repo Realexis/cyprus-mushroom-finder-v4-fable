@@ -63,6 +63,25 @@ def write_info(path, parts, inputs):
         f.write(np.asarray(inputs, "<i2").tobytes())
 
 
+VERSION_NAME = "V4 + Fable"
+
+
+def views(codes, today):
+    """data/views.json for Full map screenshots (shroomy-shared/FULL-MAP-SPEC.md): the "Conditions for" menu,
+    same labels and order as web/src/ui/controls.ts (with "Show more species" on), for today's month."""
+    sp = json.loads((config.ROOT / "web" / "src" / "generated" / "species.json").read_text(encoding="utf-8"))["species"]
+    scored = [s for s in sp if s["code"] in codes]
+    m = today.month
+    label = lambda s, off: (f"{s['common']} · {s['latin']}" + (f" · {s['season_text']}" if off else "")
+                            + (" · rare" if s.get("rare") else ""))
+    on = [s for s in scored if m in s["months"]]
+    off = [s for s in scored if m not in s["months"]]
+    layers = [{"id": "general", "label": "All forest (general map)", "in_season": True}]
+    layers += [{"id": s["code"], "label": label(s, False), "in_season": True, "tier": s.get("tier", "key")} for s in on]
+    layers += [{"id": s["code"], "label": label(s, True), "in_season": False, "tier": s.get("tier", "key")} for s in off]
+    return {"version": VERSION_NAME, "date": today.isoformat(), "layers": layers}
+
+
 def rain_since(run_file, today):
     """Island-average rain from the engine run's first day to today (a plain fact for the cards,
     audit step 9). Not part of any score."""
@@ -215,6 +234,7 @@ def build(run, engine_run=None):
     }
     meta["rain_since"] = rain_since(engine_run or run, today)
     (PUBLIC / "meta.json").write_text(json.dumps(meta, indent=1))
+    (PUBLIC / "views.json").write_text(json.dumps(views(codes, today), indent=1, ensure_ascii=False))
     specs = [{"code": c, "latin": q["latin_name"], "common": q["english_name"], "months": list(range(1, 13)),
               "season_text": q["season_text"], "tier": q["tier"]} for c, q in eng["profiles"].items()]
     summ = summary.build(zones, day_info, meta, specs, engine=True)

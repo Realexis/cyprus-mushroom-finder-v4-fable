@@ -1,0 +1,49 @@
+/* Full map mode (shroomy-shared/FULL-MAP-SPEC.md). Same layout in every version so screenshots line up. */
+
+/* The map button: expand icon + "Full map". 44 px tall tap target. */
+.fm-ctrl .fm-open {
+  display: inline-flex; align-items: center; gap: 6px; width: auto; min-width: 44px; height: 44px;
+  padding: 0 12px; font: inherit; font-size: var(--fs-0); font-weight: 700; color: var(--ink);
+  background: var(--surface); border: 0; border-radius: inherit; cursor: pointer; white-space: nowrap;
+}
+/* Beat app.css's 40 x 40 px rule for map buttons: this one carries words. */
+.maplibregl-ctrl-group.fm-ctrl button.fm-open { width: auto !important; height: 44px !important; }
+.fm-ctrl .fm-open svg { width: 18px; height: 18px; flex: none; }
+.fm-ctrl .fm-open:hover { background: var(--surface-2); }
+.fm-ctrl .fm-open:focus-visible, .fm-exit:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Only in full map mode. */
+.fm-safety, .fm-exit { display: none; }
+
+html.full-map .topbar, html.full-map .safety, html.full-map .sheet, html.full-map .map-note,
+html.full-map .tip, html.full-map .loading, html.full-map .delayed, html.full-map .guide-dlg,
+html.full-map .pick-pin, html.full-map .maplibregl-ctrl-top-right { display: none !important; }
+
+/* The map fills the whole window. */
+html.full-map #map { position: fixed; inset: 0; z-index: 0; }
+
+/* One slim safety line at the bottom edge (never removed). */
+html.full-map .fm-safety {
+  display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  padding: 4px 12px; background: var(--safety-bg); color: var(--safety-ink);
+  font-size: var(--fs-0); font-weight: 700; line-height: 1.35; text-align: center;
+}
+
+/* Small "Exit full map" button, top right. */
+html.full-map .fm-exit {
+  display: inline-flex; align-items: center; position: fixed; top: 10px; right: 10px; z-index: 5;
+  min-height: 44px; padding: 0 14px; font: inherit; font-size: var(--fs-0); font-weight: 700;
+  color: var(--ink); background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow); cursor: pointer;
+}
+
+/* Small colour key, bottom left, above the safety line. */
+html.full-map .map-legend {
+  position: fixed; left: 10px; right: auto; top: auto; bottom: calc(var(--fm-line, 30px) + 8px); z-index: 4;
+  width: 168px; height: auto; max-height: none; padding: 6px 10px 7px; cursor: default;
+}
+html.full-map .map-legend .ml-bar { height: 10px; }
+
+/* Map credits stay (licences), compact, bottom right above the safety line. */
+html.full-map .maplibregl-ctrl-bottom-right { bottom: calc(var(--fm-line, 30px) + 2px); }
+html.full-map .maplibregl-ctrl-bottom-left { bottom: calc(var(--fm-line, 30px) + 2px); }
