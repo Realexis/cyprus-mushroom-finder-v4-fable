@@ -92,6 +92,8 @@ def load(path) -> dict:
     return check(p, path.name)
 
 
-def load_all(folder=SPECIES_DIR) -> list[dict]:
-    """Every profile in species/ (files starting with _ are templates, skipped)."""
-    return [load(f) for f in sorted(Path(folder).glob("*.yaml")) if not f.name.startswith("_")]
+def load_all(folder=SPECIES_DIR, include_hidden=False) -> list[dict]:
+    """Every profile in species/ (files starting with _ are templates, skipped).
+    Profiles with `hidden: true` (e.g. no Cyprus source yet) are left out unless include_hidden."""
+    ps = [load(f) for f in sorted(Path(folder).glob("*.yaml")) if not f.name.startswith("_")]
+    return [p for p in ps if include_hidden or not p.get("hidden")]

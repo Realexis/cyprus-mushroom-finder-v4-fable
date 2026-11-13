@@ -229,3 +229,9 @@ The base rate is now also counted **only from the first window near each find** 
 - Same Sep-Feb weather: species-level hit **91 % → 82 %** (9 of 11), wet-season gap −8 % → −11 %.
   Cause: morels now open a window in January, then rest 30 days, so the **28 Feb Karpas find misses**.
 - The two December *Russula* finds (genus only) still miss: December is past white brittlegill's November edge.
+
+### Species decisions (Real, 2026-11-13)
+
+- "slippery Jack" → **"slippery Jacks", *Suillus*** (0 Cyprus records of *S. luteus*, 5 of *S. collinitus*).
+- **Chanterelle hidden** (`hidden: true`): no Cyprus source, 0 records. Not on the map, menu, cards or robot data
+  (13 species). Remove the flag to bring it back once someone confirms it.

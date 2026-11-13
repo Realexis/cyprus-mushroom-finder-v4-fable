@@ -199,6 +199,7 @@ species:
     inat: ["Agaricus campestris"]
 
   - code: cci
+    hidden: true                                    # Real, 2026-11-13: no Cyprus source, 0 records (species/cci.yaml)
     latin: Cantharellus cibarius / subpruinosus
     common: chanterelle                             # [SPEC]
     local: ""

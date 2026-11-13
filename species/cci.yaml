@@ -3,6 +3,9 @@
 # 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
 # [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
 code: cci
+# HIDDEN (Real, 2026-11-13): no Cyprus source and 0 Cyprus records (audit). Not on the map, menu or cards
+# until someone (e.g. the Cyprus Mycological Association) confirms it. Remove this line to bring it back.
+hidden: true
 english_name: chanterelle
 latin_name: Cantharellus cibarius / subpruinosus
 local_name: {name: "", confirmed: false}

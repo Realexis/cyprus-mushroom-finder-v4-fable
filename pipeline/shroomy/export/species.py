@@ -134,7 +134,7 @@ def profile_lookalikes(code: str) -> list:
 
 
 def build(refresh=False):
-    specs = config.load("species")["species"]
+    specs = [s for s in config.load("species")["species"] if not s.get("hidden")]     # hidden: not on the site
     looks = config.load("lookalikes")["lookalikes"]
     out_s = []
     for s in specs:

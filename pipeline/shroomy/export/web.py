@@ -118,7 +118,7 @@ def build(run, private=True, engine_run=None):            # `private` is kept fo
     S = config.load("scoring")
     pv = S["public_view"]
     W = S["score"]["weights"]
-    specs = config.load("species")["species"]
+    specs = [s for s in config.load("species")["species"] if not s.get("hidden")]
     months = [date.fromisoformat(dates[t0 + k]).month for k in range(N_DAYS)]
     min_cells = pv["min_open_forest_cells"]
 

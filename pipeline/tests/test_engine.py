@@ -396,6 +396,8 @@ def test_real_profiles_load():
     from shroomy.engine.profile import load_all
     codes = {p["code"] for p in load_all()}
     assert {"lde", "lsa"} <= codes
+    assert "cci" not in codes                                       # chanterelle hidden (Real, 2026-11-13)
+    assert "cci" in {p["code"] for p in load_all(include_hidden=True)}
 
 
 def test_season_text():
@@ -445,7 +447,7 @@ def test_scores_file_round_trip(tmp_path):
 
 def test_all_profiles_valid_and_tiers():
     from shroomy.engine.profile import load_all
-    ps = load_all()
+    ps = load_all(include_hidden=True)                              # every file valid, hidden ones too
     tiers = {p["code"]: p["tier"] for p in ps}
     assert len(ps) == 14
     assert sum(t == "key" for t in tiers.values()) == 7 and sum(t == "more" for t in tiers.values()) == 7
