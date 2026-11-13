@@ -83,11 +83,14 @@
     </ul>
 
     <h2>How sure is the forecast?</h2>
+    <p>It depends on <b>rain</b>, not on how many days ahead.</p>
     <ul>
-      <li><b>Sure</b>: today and the next 2 days.</li>
-      <li><b>Likely</b>: 3 to 4 days ahead.</li>
-      <li><b>Unsure</b>: 5 or more days ahead. Only a rough guide.</li>
+      <li><b>Sure</b>: the window depends on rain that has <b>already fallen</b>.
+        That can be sure even 6 days ahead.</li>
+      <li><b>Likely</b> or <b>unsure</b>: it depends on rain that is <b>only forecast</b>.</li>
     </ul>
+    <p class="muted">How we check: we run the map a second time with all forecast rain taken out.
+      If a score holds, it is sure. Under a quarter of it needing forecast rain = sure; up to 60% = likely; more = unsure.</p>
 
     <h2>Where the data comes from</h2>
     <ul>

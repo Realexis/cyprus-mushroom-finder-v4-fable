@@ -80,6 +80,7 @@ def build(run):
         old.unlink()
 
     profiles = load_all()
+    E = config.load("engine")
     print(f"Running the species engine ({len(profiles)} species)")
     eng = D.run(run, hab["land_fraction"] > 0.5, profiles)
     codes = eng["codes"]
@@ -127,9 +128,14 @@ def build(run):
         props = {"h": len(spots)}
         zone_of[m] = len(spots)
         gen_score = _nanmean(score[mg]) if has_gen else None
+        # Forecast confidence of the zone (spec 3.7): its mean score with vs without forecast rain.
+        conf = (D.confidence(D.rain_dependence(gen_score, gk["dry"][mg].astype(float).mean(axis=0)), E["confidence"])
+                if has_gen else None)
         if has_gen:
             props.update({f"s{i}": int(round(v)) for i, v in enumerate(gen_score)})
         sp_mean = {c: eng["score"][c][v].astype(float).mean(axis=0) for c, v in sp_cells.items()}
+        sp_conf = {c: D.confidence(D.rain_dependence(sp_mean[c], eng["dry"][c][v].astype(float).mean(axis=0)),
+                                   E["confidence"]) for c, v in sp_cells.items()}
         feats.append({"type": "Feature", "properties": props, "geometry": {"type": "Polygon", "coordinates": [ring]}})
         sel = mg if has_gen else m
         fm = {k: _nanmean(fac[sel, :, j]) for j, k in enumerate(D.PARTS)}
@@ -146,6 +152,7 @@ def build(run):
             "road": rd.describe(float(cx[m].mean()), float(cy[m].mean())) if rd else None,
         })
         zones.append({"hex": hx, "lat": clat, "lon": clon, "score": gen_score, "species": sp_mean,
+                      "conf": conf, "species_conf": sp_conf,
                       "factors": fm, "inputs": im, "clock": np.zeros(N_DAYS, int),
                       "trees": np.bincount(tree[m], minlength=6)[1:] / len(m), "alt": alt,
                       "where": spots[-1]["where"], "spot": len(spots) - 1})
@@ -183,7 +190,8 @@ def build(run):
         "weights": {}, "season_share": 0, "general_map_trees": S["score"]["general_map_trees"],
         "engine": {"parts": D.PARTS, "inputs": D.INPUTS, "general_inputs": GENERAL_INPUTS, "codes": codes,
                    "general": {k: v["codes"] for k, v in eng["general"].items()},
-                   "species": eng["profiles"], "states": STATE_NAMES},
+                   "species": eng["profiles"], "states": STATE_NAMES,
+                   "confidence": {k: E["confidence"][k] for k in ("sure_below", "likely_below")}},
         "credits": [{"name": v["name"], "credit": v["credit"], "licence": v["licence"],
                      "status": v["licence_status"], "use": v.get("use", "")}
                     for v in sources.values() if isinstance(v, dict) and "credit" in v],

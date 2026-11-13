@@ -74,6 +74,8 @@ def reasons(inp: dict, fac: dict) -> str:
     return s
 
 
+CONF = ["high", "medium", "low"]                  # v0.3: from rain dependence (engine/daily.py)
+
 STATE_TEXT = {
     0: "Soil too warm or too cold: the mushroom clock is paused.",
     1: "Waiting for a soaking rain to start the mushroom clock.",
@@ -131,6 +133,7 @@ def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False
                 "spot": z.get("spot"),             # index into spots.json (the site opens this zone)
                 "lat": round(z["lat"], 4), "lon": round(z["lon"], 4),
                 "score": int(round(z["score"][k])),
+                **({"confidence": CONF[int(z["conf"][k])]} if z.get("conf") is not None else {}),
                 "why": engine_reasons(inp, fac) if engine else reasons(inp, fac),
                 "mushroom_clock": engine_clock(inp) if engine else clock.sentence(int(z["clock"][k]), c["opens"], c["closes"]),
                 "trees": trees,
@@ -149,7 +152,9 @@ def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False
             sp_out[s["code"]] = {"label": label, "in_season": True, "season": s.get("season_text") or SP.months_text(s["months"]),
                                  "top_zones": [{"where": z["where"], "spot": z.get("spot"), "lat": round(z["lat"], 4),
                                                 "lon": round(z["lon"], 4),
-                                                "score": int(round(z["species"][s["code"]][k]))}
+                                                "score": int(round(z["species"][s["code"]][k])),
+                                                **({"confidence": CONF[int(z["species_conf"][s["code"]][k])]}
+                                                   if z.get("species_conf") else {})}
                                                for z in pick(have, lambda z: z["species"][s["code"]][k], 3)]}
         out_days.append({
             "date": d["date"], "weekday": date.fromisoformat(d["date"]).strftime("%A"),
@@ -178,8 +183,11 @@ def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False
         "how_to_read": (
             how + "It never says a mushroom is "
             "there, and never says anything about eating one. Nature reserves are closed and "
-            "never listed. Confidence: high = days 0-2, medium = 3-4, low = 5+ (forecast). "
-            "Picking rules: no rakes or tools; pick by hand or knife; put the leaf litter back."),
+            "never listed. "
+            + ("Each zone's confidence says how much its score needs rain that has not fallen yet: "
+               "high = it holds on rain that already fell, medium = partly forecast rain, low = mostly forecast rain. "
+               if engine else "Confidence: high = days 0-2, medium = 3-4, low = 5+ (forecast). ")
+            + "Picking rules: no rakes or tools; pick by hand or knife; put the leaf litter back."),
         "emergency": "Poisoning: call 112. Cyprus Poison Centre: 1401. Do not wait for symptoms.",
         "weather_run": meta["weather_run"], "generated_utc": meta["generated_utc"],
         "site": "https://realexis.github.io/cyprus-mushroom-finder/",

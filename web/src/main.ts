@@ -24,7 +24,7 @@ import { words } from "./ui/spot";
 const abs = (p: string) => new URL(p, document.baseURI).href;
 
 /** The parts of summary.json the site reads (top zones per day, overall and per species). */
-interface SummaryZone { where: string; lat: number; lon: number; score: number; spot?: number; why?: string; }
+interface SummaryZone { where: string; lat: number; lon: number; score: number; spot?: number; why?: string; confidence?: "high" | "medium" | "low"; }
 interface Summary { days: { date: string; top_zones: SummaryZone[];
   species?: Record<string, { in_season: boolean; top_zones: SummaryZone[] }> }[]; }
 
@@ -299,10 +299,10 @@ async function main() {
     if (!code && meta.engine && panel.showMore) {            // general map with the "more" species: best of all
       const all = Object.values(d?.species ?? {}).map((x) => x.top_zones[0]).filter(Boolean);
       const z = all.sort((a, b) => b.score - a.score)[0];
-      return z ? { score: z.score, where: z.where } : null;
+      return z ? { score: z.score, where: z.where, confidence: z.confidence } : null;
     }
     const z = code ? (d?.species?.[code]?.in_season ? d.species[code].top_zones[0] : undefined) : d?.top_zones[0];
-    return z ? { score: z.score, where: z.where } : null;
+    return z ? { score: z.score, where: z.where, confidence: z.confidence } : null;
   };
   panel.refresh();
 

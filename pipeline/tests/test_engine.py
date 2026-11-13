@@ -346,3 +346,29 @@ def test_land_cover_needs_a_real_share():
     h = habitat_fit(sq, p, E["habitat"], 30, 1.0)
     assert h[0] == 0 and 0 < h[1] < 1 and h[2] == 1 and h[4] == 0
     assert h[5] == 0                                      # reserve
+
+
+def test_rain_dependence_and_confidence():
+    from shroomy.engine.daily import confidence, rain_dependence
+    wet = np.array([0.8, 0.8, 0.8, 0.0])
+    dry = np.array([0.8, 0.4, 0.0, 0.0])
+    dep = rain_dependence(wet, dry)
+    assert np.allclose(dep, [0.0, 0.5, 1.0, 0.0])          # no score -> nothing depends on rain
+    c = confidence(dep, E["confidence"])
+    assert list(c) == [0, 1, 2, 0]                          # sure, likely, unsure, sure
+
+
+def test_window_from_past_rain_is_sure_days_ahead():
+    """A window opened by rain that already fell stays 'sure' in the forecast days (spec 3.7)."""
+    from shroomy.engine.daily import confidence, rain_dependence
+    n, d, t0 = 1, 30, 20
+    precip = np.zeros((n, d)); precip[0, 5] = 40              # soaking rain long before today
+    inp = {"lat": np.full(n, 34.9), "doy": 280 + np.arange(d), "month": np.full(d, 10),
+           "precip": precip, "tmean": np.full((n, d), 13.0), "tmin": np.full((n, d), 8.0),
+           "tmax": np.full((n, d), 18.0), "tsoil": None, "island_awc_median": 27.0,
+           "squares": {**_squares(n), "awc_mm": np.full(n, 27.0), "awc_q05_mm": np.full(n, 10.0),
+                       "awc_q95_mm": np.full(n, 60.0), "shade_score": np.full(n, 1.0)}}
+    wet = run_species(TEST_PROFILE, inp, prepare_water(inp, E, S), E, S)["score"][:, t0:]
+    dry_inp = dict(inp); dry_inp["precip"] = precip.copy(); dry_inp["precip"][:, t0 + 1:] = 0
+    dry = run_species(TEST_PROFILE, dry_inp, prepare_water(dry_inp, E, S), E, S)["score"][:, t0:]
+    assert np.all(confidence(rain_dependence(wet, dry), E["confidence"]) == 0)

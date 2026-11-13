@@ -594,3 +594,9 @@ details.oos p { margin: 2px 0; }
 .formula .f-part, .formula .f-res { padding: 6px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; }
 .formula .f-res { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
 .formula .f-op { font-weight: 700; color: var(--ink-soft); }
+/* v0.3 step 8: words, not numbers */
+.spot-word { flex: none; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: var(--fs-2);
+  background: color-mix(in srgb, var(--c) 30%, var(--surface)); color: var(--ink); border: 2px solid var(--c); cursor: help; white-space: nowrap; }
+.clock.top { margin: 6px 0 2px; font-weight: 700; }
+.conf-note { margin: 2px 0 6px; cursor: help; }
+.fc-num { font-size: 0.72rem; }

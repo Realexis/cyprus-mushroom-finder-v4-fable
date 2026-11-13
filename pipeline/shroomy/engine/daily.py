@@ -14,7 +14,25 @@ from .runner import prepare_water, rolling_sum, run_species
 N_DAYS = 8
 # The parts of the score shown in "Why this score" (x100) and the plain numbers behind them (x10).
 PARTS = ["habitat", "water", "temperature", "cycle", "prior"]
-INPUTS = ["fill_pct", "soil_temp_c", "rain_3d_mm", "state", "left_days"]
+INPUTS = ["fill_pct", "soil_temp_c", "rain_3d_mm", "state", "left_days", "rain_dep_pct"]
+CONF_WORDS = ["high", "medium", "low"]           # shown as sure / likely / unsure
+
+
+def rain_dependence(wet, dry):
+    """Share (0..1) of a score that needs rain that has NOT fallen yet (spec 3.7).
+
+    wet = score with the forecast rain, dry = the same run with all forecast rain removed.
+    A score that holds without any more rain does not depend on the forecast."""
+    wet = np.asarray(wet, "float64")
+    with np.errstate(divide="ignore", invalid="ignore"):
+        d = 1 - np.asarray(dry, "float64") / wet
+    return np.where(wet > 0.005, np.clip(np.nan_to_num(d), 0, 1), 0.0)
+
+
+def confidence(dep, cfg):
+    """Rain dependence -> 0 high (sure), 1 medium (likely), 2 low (unsure). cfg = engine.yaml confidence."""
+    dep = np.asarray(dep)
+    return np.where(dep < cfg["sure_below"], 0, np.where(dep < cfg["likely_below"], 1, 2)).astype("uint8")
 
 
 def season_text(prior: dict) -> str:
@@ -91,25 +109,35 @@ def run(run_file, mask, profiles=None, keep=None):
     t0 = inp["today_index"]
     days = slice(t0, t0 + N_DAYS)
     water = prepare_water(inp, E, S)
+    # Same run with every drop of forecast rain removed: what holds on rain that already fell.
+    dry_inp = dict(inp)
+    dry_inp["precip"] = inp["precip"].copy()
+    dry_inp["precip"][:, t0 + 1:] = 0
+    water_dry = prepare_water(dry_inp, E, S)
     rain3 = rolling_sum(inp["precip"], E["cycle"]["trigger_days"])
     common = [water["fill"][:, days] * 100, water["tsoil"][:, days], rain3[:, days]]
 
     codes = [p["code"] for p in profiles]
-    out = {"codes": codes, "habitat": hab.astype("float32"), "score": {}, "parts": {}, "inputs": {},
+    out = {"codes": codes, "habitat": hab.astype("float32"), "score": {}, "dry": {}, "parts": {}, "inputs": {},
            "profiles": {}, "rows": inp["rows"], "cols": inp["cols"], "dates": inp["dates"][days]}
-    raw = []
+    raw, raw_dry = [], []
     for prof in profiles:
         r = run_species(prof, inp, water, E, S)
         c = prof["code"]
         pp = P.engine_params(prof, E)
         sc = r["score"][:, days]
+        sc_dry = run_species(prof, dry_inp, water_dry, E, S)["score"][:, days]
+        dep = rain_dependence(sc, sc_dry)
         raw.append(sc)
+        raw_dry.append(sc_dry)
         out["score"][c] = _pack_parts(sc)
+        out["dry"][c] = _pack_parts(sc_dry)
         out["parts"][c] = _pack_parts(np.stack([np.broadcast_to(r["habitat"][:, None], sc.shape), r["water"][:, days],
                                                 r["temperature"][:, days], r["cycle"][:, days], r["prior"][:, days]],
                                                axis=2))
         left = _left_days(r["state"], t0, pp["window_days"], r["days"])
-        out["inputs"][c] = _pack_inputs(np.stack(common + [r["state"][:, days].astype("float32"), left], axis=2))
+        out["inputs"][c] = _pack_inputs(np.stack(common + [r["state"][:, days].astype("float32"), left, dep * 100],
+                                                 axis=2))
         out["profiles"][c] = {"english_name": prof["english_name"], "latin_name": prof["latin_name"],
                               "tier": prof["tier"], "rare": bool(prof["rare"]), "group": prof["group"],
                               "confidence": prof["confidence"], "window_days": pp["window_days"],
@@ -117,6 +145,7 @@ def run(run_file, mask, profiles=None, keep=None):
                               "season_text": season_text(prof["season_prior"])}
         del r
     raw = np.stack(raw)                                                   # (species, n, 8)
+    raw_dry = np.stack(raw_dry)
     n = raw.shape[1]
     ar, dd = np.arange(n)[:, None], np.arange(N_DAYS)[None, :]
     out["general"] = {}
@@ -130,6 +159,7 @@ def run(run_file, mask, profiles=None, keep=None):
             "codes": [codes[i] for i in members],
             "habitat": hab[members].max(axis=0),
             "score": _pack_parts(sub.max(axis=0)),
+            "dry": _pack_parts(raw_dry[src, ar, dd]),               # the best species, without forecast rain
             "best": best.astype("uint8"),
             "parts": np.stack([out["parts"][c] for c in codes])[src, ar, dd],
             "inputs": np.stack([out["inputs"][c] for c in codes])[src, ar, dd],

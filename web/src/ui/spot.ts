@@ -22,7 +22,6 @@ const FACTOR_LABEL: Record<string, string> = {
   temperature: "Temperature, last 7 days", soil_moisture: "Soil moisture",
   season_altitude: "Season for the altitude", shade: "Shade",
 };
-const CONF_TEXT = { high: "High confidence", medium: "Medium confidence", low: "Low confidence" };
 // Plain-language help for each factor (same numbers as config/scoring.yaml and the About page).
 const FACTOR_TIP: Record<string, string> = {
   rain_total: "All rain in the last 30 days. No points below 20 mm, full points from 80 mm.",
@@ -63,6 +62,31 @@ export function engineClock(inp: number[] | null, names: string[]): { text: stri
   if (st === 3 && left > 0) return { text: `Window open, about ${pl(left)} more.`, open: true };
   if (st === 2 && left > 0) return { text: `Soaking rain fell. Window opens in about ${pl(left)}.`, open: false };
   return { text: STATE_TEXT[st], open: st === 3 };
+}
+
+/** v0.3 forecast confidence (spec 3.7): how much of a score needs rain that has not fallen yet. */
+type Conf = "high" | "medium" | "low";
+export const CONF_LABEL: Record<Conf, string> = { high: "sure", medium: "likely", low: "unsure" };
+const CONF_WHY: Record<Conf, string> = {
+  high: "this rests on rain that already fell",
+  medium: "partly needs rain that is only forecast",
+  low: "mostly needs rain that is only forecast",
+};
+const CONF_HELP: Record<Conf, string> = {
+  high: "Sure: the score holds even if no more rain falls. Rain that already fell drives it.",
+  medium: "Likely: part of the score needs forecast rain. Forecasts can change.",
+  low: "Unsure: most of the score needs rain that has not fallen yet. Check again closer to the day.",
+};
+const SHORT_WORD = (v: number) => (v >= 80 ? "V.good" : v >= 65 ? "Good" : v >= 45 ? "Fair" : "Poor");
+
+/** Confidence of this spot on a day, from its "rain_dep_pct" number (v0.3); null if not known. */
+function confWord(s: SpotData, ctx: SpotContext, day: number): Conf | null {
+  const e = ctx.meta.engine, inp = s.inputs?.(day);
+  if (!e || !inp) return null;
+  const i = e.inputs.indexOf("rain_dep_pct");
+  if (i < 0 || !Number.isFinite(inp[i])) return null;
+  const dep = inp[i] / 100;
+  return dep < e.confidence.sure_below ? "high" : dep < e.confidence.likely_below ? "medium" : "low";
 }
 
 export const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
@@ -140,8 +164,8 @@ function speciesHere(s: SpotData, ctx: SpotContext): string {
   const item = (r: (typeof rows)[number]) => `<li><button type="button" class="sp-here" data-pick-species="${r.sp.code}"
       data-tip="Colour the whole map for ${esc(r.sp.latin)} habitat.">
       ${r.sp.photos[0] ? `<img src="${esc(r.sp.photos[0].url)}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : ""}
-      <span class="sp-here-name"><i>${esc(r.sp.latin)}</i><br><span class="muted">${esc(r.sp.common)}</span></span>
-      <span class="sp-here-score" style="background:${scoreColour(r.v!)}">${r.v}</span></button>
+      <span class="sp-here-name">${e ? `${esc(r.sp.common)}<br><span class="muted"><i>${esc(r.sp.latin)}</i></span>` : `<i>${esc(r.sp.latin)}</i><br><span class="muted">${esc(r.sp.common)}</span>`}</span>
+      <span class="sp-here-score" style="background:${scoreColour(r.v!)}"${e ? ` data-tip="${r.v} out of 100"` : ""}>${e ? SHORT_WORD(r.v!) : r.v}</span></button>
       <button type="button" class="link-btn" data-open-card="${r.sp.code}" data-tip="Open the species card: deadly lookalikes first.">Card</button></li>`;
   const names = (list: typeof rows, withSeason: boolean) =>
     list.map((r) => `<i>${esc(r.sp.latin)}</i>${withSeason ? ` (${esc(r.sp.season_text)})` : ""}`).join(", ");
@@ -151,7 +175,7 @@ function speciesHere(s: SpotData, ctx: SpotContext): string {
     ${off.length ? `<details class="oos"><summary>Show out-of-season species (${off.length})</summary>
       <p class="muted small">${names(off, true)}.</p></details>` : ""}
     ${none.length ? `<p class="muted small"><b>No habitat here:</b> ${names(none, false)}.</p>` : ""}
-    <p class="muted small">A high number means good conditions for that species' habitat, not that it is there.</p>`;
+    <p class="muted small">${e ? "A better word means" : "A high number means"} good conditions for that species' habitat, not that it is there.</p>`;
 }
 
 function factorText(name: string, inp: number[] | null, f: number, ctx: SpotContext, d: DayInfo): string {
@@ -223,14 +247,16 @@ function forecast(s: SpotData, ctx: SpotContext): string {
     const v = off ? null : s.score(d.offset);
     const label = d.offset === 0 ? "Today" : fmtDay(d.date, { weekday: "short" });
     const h = v === null ? 0 : Math.max(4, v * 0.56);
-    const tipText = `${fmtDay(d.date, { weekday: "long", day: "numeric", month: "long" })}: ${off ? "out of season" : v === null ? "no score" : `score ${v}`}. ${CONF_TEXT[d.confidence]}.`;
+    const cf = (ctx.meta.engine && v !== null ? confWord(s, ctx, d.offset) : null) ?? d.confidence;
+    const tipText = `${fmtDay(d.date, { weekday: "long", day: "numeric", month: "long" })}: ${off ? "out of season" : v === null ? "no score" : `${words(v).toLowerCase()} (${v}/100)`}. Forecast ${CONF_LABEL[cf]}.`;
     return `<div class="fc-day${d.offset === ctx.day ? " sel" : ""}" data-tip="${tipText}">
-      <span class="fc-num">${v ?? "–"}</span>
+      <span class="fc-num">${v === null ? "–" : ctx.meta.engine ? SHORT_WORD(v) : v}</span>
       <i style="height:${h}px;background:${v === null ? "transparent" : scoreColour(v)}"></i>
-      <span class="fc-lab">${label}</span><span class="dot ${d.confidence}" aria-hidden="true"></span></div>`;
+      <span class="fc-lab">${label}</span><span class="dot ${cf}" aria-hidden="true"></span></div>`;
   }).join("");
   return `<h3 class="spot-h" data-tip="The score for today and the next 7 days. Later days use the weather forecast, so they are less certain.">Next 8 days</h3><div class="fc" aria-label="Score for the next 8 days">${bars}</div>
-    <p class="muted small">Dots: forecast confidence (full = high, half = medium, empty = low).</p>`;
+    <p class="muted small">${ctx.meta.engine ? "Dots: how sure (full = sure: rain already fell, half = likely, empty = unsure: needs forecast rain)."
+      : "Dots: forecast confidence (full = high, half = medium, empty = low)."}</p>`;
 }
 
 // ---------------------------------------------------------------- Google Maps links
@@ -312,7 +338,10 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
   } else if (sp && !ctx.inSeason(ctx.day)) {
     head = `<b>Out of season for <i>${esc(sp.latin)}</i></b><span class="muted"> (${esc(sp.season_text)})</span>`;
   } else {
-    head = sp ? `<b>${words(v)} conditions for <i>${esc(sp.latin)}</i> habitat</b>` : `<b>${words(v)} growing conditions</b>`;
+    // v0.3: the word sits in the coloured badge next to it, so the title does not repeat it.
+    head = ctx.meta.engine
+      ? (sp ? `<b>Conditions for <i>${esc(sp.latin)}</i> habitat</b>` : `<b>Growing conditions</b>`)
+      : (sp ? `<b>${words(v)} conditions for <i>${esc(sp.latin)}</i> habitat</b>` : `<b>${words(v)} growing conditions</b>`);
   }
   const showScore = v !== null && !(sp && !ctx.inSeason(ctx.day));
   const e = ctx.meta.engine;
@@ -326,14 +355,22 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
     s.soil ? `<li data-tip="From SoilGrids (a computer estimate, few Cyprus samples). 'Holds water' compares this square with other Cyprus forest squares."><span aria-hidden="true">🟫</span> <b>Soil:</b> ${s.soil}</li>` : "",
     s.road ? `<li data-tip="Straight-line distance to the nearest forest track and drivable road, from OpenStreetMap. Not a driving route."><span aria-hidden="true">🚙</span> <b>Nearest:</b> ${s.road}</li>` : "",
   ].join("");
+  const e0 = ctx.meta.engine;
+  // v0.3 (spec 3.7): words, not numbers. The number stays in the tooltip for the curious.
+  const badge = !showScore ? "" : e0
+    ? `<span class="spot-word" style="--c:${scoreColour(v!)}" data-tip="Score ${v} out of 100. It describes growing conditions, not mushrooms.">${words(v!)}</span>`
+    : `<span class="spot-score" data-tip="0 to 100: how good the growing conditions are here. It does not mean a mushroom is there.">${v}<small>/100</small></span>`;
+  const conf = e0 && showScore ? confWord(s, ctx, ctx.day) : null;
   return `
-    <div class="spot-head"><span>${head}</span>${showScore ? `<span class="spot-score" data-tip="0 to 100: how good the growing conditions are here. It does not mean a mushroom is there.">${v}<small>/100</small></span>` : ""}</div>
+    <div class="spot-head"><span>${head}</span>${badge}</div>
+    ${e0 && clk ? `<p class="clock top ${clk.open ? "open" : ""}" data-tip="${esc(clkTip)}"><span aria-hidden="true">⏱</span> ${clk.text}</p>` : ""}
+    ${conf ? `<p class="muted small conf-note" data-tip="${esc(CONF_HELP[conf])}">Forecast: <b>${CONF_LABEL[conf]}</b> · ${CONF_WHY[conf]}</p>` : ""}
     ${s.where ? `<p class="muted">${esc(s.where)}</p>` : ""}
     ${s.note ? `<p class="muted small">${s.note}</p>` : ""}
     ${mapsLinks(s)}
     <button type="button" class="spot-more-btn" id="spot-more" data-tip="Show or hide the rest: mushroom clock, why this score, the 8 days, species and trees."></button>
     <div class="spot-rest">
-    ${clk ? `<p class="clock ${clk.open ? "open" : ""}" data-tip="${esc(clkTip)}"><span aria-hidden="true">⏱</span> <b>Mushroom clock:</b> ${clk.text}</p>` : ""}
+    ${clk && !e0 ? `<p class="clock ${clk.open ? "open" : ""}" data-tip="${esc(clkTip)}"><span aria-hidden="true">⏱</span> <b>Mushroom clock:</b> ${clk.text}</p>` : ""}
     ${showScore ? whyBars(s, ctx) : ""}
     ${forecast(s, ctx)}
     ${ctx.species ? (s.speciesBase ? `<p><button type="button" class="link-btn" data-pick-species=""

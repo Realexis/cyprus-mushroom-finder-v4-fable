@@ -94,3 +94,9 @@ habitat:
   ph_acid_below: 6.5
   ph_alkaline_above: 7.5
   ph_ramp: 1.0                     # mismatch grows from 0 to 1 over this many pH units
+
+confidence:
+  # Spec 3.7: forecast confidence = how much of the score depends on rain that has NOT fallen yet.
+  # dependence = 1 - (score with all forecast rain removed) / (score). [DRAFT] E16
+  sure_below: 0.25                 # less than a quarter of the score needs forecast rain -> "sure"
+  likely_below: 0.6                # up to 60% -> "likely"; more -> "unsure"

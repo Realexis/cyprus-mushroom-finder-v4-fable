@@ -12,6 +12,8 @@ export interface Meta {
   weights: Record<string, number>; season_share: number; general_map_trees: number[];
   /** v0.3 species engine: present when the map shows the multiplied score. */
   engine?: { parts: string[]; inputs: string[]; general_inputs: string[]; codes: string[]; states: string[];
+    /** Rain dependence limits for sure / likely / unsure (config/engine.yaml). */
+    confidence: { sure_below: number; likely_below: number };
     /** Species codes behind each general map ("key", "all"), in the order of the "best" input. */
     general: Record<string, string[]>;
     species: Record<string, { english_name: string; latin_name: string; season_text: string; window_days: number }> };
@@ -21,11 +23,17 @@ export interface HotZone { hex: string; where: string; lat: number; lon: number;
 /** Forecast confidence in plain words (it is about the weather forecast, not about mushrooms). */
 const CONF_WORD = { high: "sure", medium: "likely", low: "unsure" };
 /** The best ~2 km zone of a day (from summary.json), for the general map or a species. */
-export interface Best { score: number; where: string; }
+export interface Best { score: number; where: string; confidence?: DayInfo["confidence"]; }
 const CONF_TIP = {
   high: "Forecast for the next 2 days: usually reliable.",
   medium: "Forecast 3-4 days ahead: it may still change.",
   low: "Forecast 5 or more days ahead: only a rough guide. Check again closer to the day.",
+};
+/** v0.3 (spec 3.7): confidence = how much the best zone's score needs rain that has not fallen yet. */
+const CONF_TIP_V3 = {
+  high: "the best zone's score rests on rain that already fell, so it holds even if no more rain comes.",
+  medium: "part of the best zone's score needs rain that is only forecast.",
+  low: "most of the best zone's score needs rain that is only forecast. Check again closer to the day.",
 };
 const REPLAY_DAYS = 30;
 /** Top row of the zone panel: always a clear way back (stays visible while the panel scrolls). */
@@ -184,16 +192,18 @@ export class Panel {
       const label = d.offset === 0 ? "Today" : fmtDay(d.date, { weekday: "short" });
       const num = fmtDay(d.date, { day: "numeric", month: "short" });
       const b = this.best(d.offset, this.species);
-      const word = CONF_WORD[d.confidence];
+      // v0.3: the best zone's own confidence (does its score need forecast rain?); else by days ahead.
+      const conf = b?.confidence ?? d.confidence;
+      const word = CONF_WORD[conf];
       const long = fmtDay(d.date, { weekday: "long", day: "numeric", month: "long" });
       const oos = !!this.species && !this.inSeason(d.offset);
       const scoreTip = b ? `Best zone: ${words(b.score).toLowerCase()} (${b.score}/100), ${b.where}.` : oos ? "Out of season for this species." : "No score.";
       return `<button class="day" data-day="${d.offset}" aria-pressed="${d.offset === this.day}"
           aria-label="${label} ${num}. ${b ? `Best zone: ${words(b.score).toLowerCase()} (${b.score} out of 100)` : oos ? "Out of season" : "No score"}. Forecast ${word}."
-          data-tip="${long}. ${scoreTip} Forecast ${word}: ${CONF_TIP[d.confidence]}">
+          data-tip="${long}. ${scoreTip} Forecast ${word}: ${(this.meta.engine && b?.confidence ? CONF_TIP_V3 : CONF_TIP)[conf]}">
         <span class="day-top"><b>${label}</b><span class="day-date">${num}</span></span>
         <span class="day-score">${b ? `${words(b.score)}<span class="day-bar" aria-hidden="true"><i style="width:${Math.max(6, b.score)}%;background:${scoreColour(b.score)}"></i></span>` : "–"}</span>
-        <span class="day-conf"><i class="dot ${d.confidence}"></i>Forecast: ${word}</span></button>`;
+        <span class="day-conf"><i class="dot ${conf}"></i>Forecast: ${word}</span></button>`;
     }).join("");
     const cur = this.meta.days[this.day];
     const sp = speciesByCode(this.species);
