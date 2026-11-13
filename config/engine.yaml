@@ -1,0 +1,92 @@
+# =====================================================================
+# v0.3 species engine: shared settings (docs/methodology-v0.3.md, section 3).
+# Species numbers live in species/<name>.yaml, never here.
+# Tags:
+#   [SPEC]  = from the v0.3 spec
+#   [FAO56] = FAO Irrigation and Drainage Paper 56 (Allen et al. 1998)
+#   [DRAFT] = our guess, to calibrate in the backtest (step 9). Listed in docs/TODO-facts.md (E1-E8).
+# =====================================================================
+
+bucket:
+  # Each 250 m square has a soil-water bucket. Rain fills it, evaporation and
+  # drainage empty it. Bucket size = available water capacity (config/soil.yaml).
+  start_fill: 0.3                  # [DRAFT] E1: fill on the first day of a run (spin-up guess)
+
+  # Bucket size, "blend by certainty" (user decision, 2026-11-13):
+  # size = island median + (SoilGrids value - median) x certainty.
+  # certainty = 1 - (Q95-Q05)/mean / soil.yaml soil_effect.neutral_at_rel_band, clipped 0..1.
+  capacity_min_mm: 10              # [DRAFT] E2: never smaller than this
+  capacity_fallback_mm: 27         # [DRAFT] used only if there is no soil data at all (forest median today: 26.9)
+
+  # Canopy catches the first mm of each rain day before it reaches the soil.
+  interception_mm: 1.0             # [DRAFT] E3
+
+  # Evaporation = Hargreaves ET0 x crop factor x slope factor x dryness factor.
+  crop_factor: 0.7                 # [DRAFT] E4: forest floor under canopy loses less than open grass
+  # Slope factor from the 0..1 shade score (habitat_250m.tif shade_score):
+  # sunny south slope (shade 0) -> sunny_k, deep shade (shade 1) -> shade_k.
+  sunny_k: 1.2                     # [DRAFT] E5
+  shade_k: 0.8                     # [DRAFT] E5
+  # Below this fill, evaporation slows down in step with the fill (soil holds the last water tighter).
+  readily_available_fraction: 0.5  # [FAO56] p = 0.5 is the common default
+
+  # Drainage: share of the water above `drain_above_fill` that leaves each day.
+  drain_above_fill: 0.7            # [DRAFT] E6
+  drain_per_day:                   # by soil.yaml drainage class [DRAFT] E6
+    fast: 0.30
+    medium: 0.15
+    slow: 0.05
+    unknown: 0.15
+
+water_fit:
+  # Bucket fill (0..1) -> water fit (0..1). A profile may override these two.
+  zero_at_fill: 0.15               # [DRAFT] E7
+  full_at_fill: 0.60               # [DRAFT] E7
+
+soil_temperature:
+  # Open-Meteo soil temperature is not fetched yet (TODO-facts P2). Until then:
+  # soil temperature = slow running mean of the air temperature at the square's height.
+  proxy_days: 4                    # [DRAFT] E8: soil follows air with about this lag
+  frost_air_min_c: 0               # [DRAFT] same as scoring.yaml frost_threshold_c
+
+cycle:
+  # Trigger = rain over `trigger_days` >= the species trigger_mm AND the bucket at least this full.
+  trigger_days: 3                  # [SPEC] "soaking rain over 1-3 days"
+  trigger_min_fill: 0.5            # [DRAFT] E9
+  # While waiting, the bucket falling below this cancels the wait (back to Primed).
+  abort_below_fill: 0.15           # [DRAFT] E9
+  # An open window closes early when the bucket falls below this, or on a frost night.
+  close_below_fill: 0.15           # [DRAFT] E9
+  # A window cut short by dryness or frost is not "used up": back to Primed.
+  # A window that runs its full length goes to Spent, then Recovering. [DRAFT] E10
+  spent_days: 3                    # [DRAFT] E10: part of recovery_days shown as "Spent"
+  # Cycle factor per state (multiplies the score).
+  factor:                          # [DRAFT] E11
+    dormant: 0.05
+    primed: 0.2
+    triggered_start: 0.3           # rises with degree-day progress ...
+    triggered_end: 0.8             # ... to this just before the window opens
+    open: 1.0
+    spent: 0.1
+    recovering: 0.2
+
+season_prior:
+  floor: 0.5                       # [SPEC] soft prior 0.5..1; months a profile leaves out get this
+
+habitat:
+  # Host tree names in profiles -> habitat_250m.tif likely_tree codes.
+  # kermes_oak: no map layer yet (TODO-facts D8), so it scores 0 for now.
+  tree_codes:
+    calabrian_pine: 1
+    black_pine: 2
+    golden_oak: 3
+    other_broadleaf: 4
+  tree_cover_soft_pct: 15          # [DRAFT] E12: tree cover ramps from (min - this) to min
+  altitude_soft_m: 150             # [DRAFT] E12: altitude range edges ramp over this many metres
+  # Land-cover names a profile may weight (habitat_v03_250m.tif bands, 0..1 shares).
+  land_cover: [grass_frac, clc_arable, clc_pasture, clc_grassland, clc_sclerophyll, clc_transitional, clc_burnt]
+  burn_full_at_frac: 0.5           # [DRAFT] E13: needs_burn species get full fit at this burnt share
+  # Soil preference (profile soil_pref): pH ranges for the mismatch ramp. [DRAFT] E14
+  ph_acid_below: 6.5
+  ph_alkaline_above: 7.5
+  ph_ramp: 1.0                     # mismatch grows from 0 to 1 over this many pH units

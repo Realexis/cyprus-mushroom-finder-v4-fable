@@ -1,0 +1,22 @@
+# TEMPLATE ONLY - not a real species. Copy to <code>.yaml and fill in.
+# Every number in a profile is a starting guess from research: say where it came from.
+code: xxx
+english_name: "..."
+latin_name: "..."
+local_name: {name: "...", confirmed: false}      # to confirm
+group: pine_partner
+tier: key
+rare: false
+confidence: low
+host_trees: {calabrian_pine: 1.0}                # GUESS
+altitude_range: [0, 1950]                        # GUESS, metres
+trigger_mm: 20                                   # GUESS
+wait_degree_days: {total: 100, base_c: 5}        # GUESS
+soil_temp_window: {min: 5, best: [10, 16], max: 22}   # GUESS
+extra_cues: {}
+window_length_days: 10                           # GUESS
+recovery_days: 21                                # GUESS
+season_prior: {oct: 1.0, nov: 1.0}               # GUESS; other months -> 0.5
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: ["...", "..."]
+sources: ["..."]

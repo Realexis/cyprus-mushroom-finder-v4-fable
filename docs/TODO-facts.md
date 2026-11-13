@@ -54,6 +54,28 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | V6 | Dept of Forests tree-species map (INSPIRE) not obtained; tree zones stay rule-based (approximate) | approximate | habitat layer |
 | V7 | Clay Atlas geochemical grids (e.g. calcium) could refine "calcareous" | ask the user | — |
 
+## v0.3 engine (step 4) — settings in `config/engine.yaml`, all guesses to calibrate in the backtest
+
+| ID | Question | Now | Where |
+|---|---|---|---|
+| E1 | Bucket fill on the first day of a run (spin-up) | 0.3 | `bucket.start_fill` |
+| E2 | Smallest bucket | 10 mm | `bucket.capacity_min_mm` |
+| E3 | Canopy catches the first mm of rain | 1.0 mm/day | `bucket.interception_mm` |
+| E4 | Forest-floor evaporation vs open grass | 0.7 | `bucket.crop_factor` |
+| E5 | Sunny vs shady slope evaporation | 1.2 / 0.8 | `bucket.sunny_k`, `shade_k` |
+| E6 | Drainage above 70% full, per day | fast 0.30, medium 0.15, slow 0.05 | `bucket.drain_*` |
+| E7 | Bucket fill for zero / full water fit | 0.15 / 0.60 | `water_fit` |
+| E8 | Soil temperature = air running mean, lag | 4 days (until P2) | `soil_temperature.proxy_days` |
+| E9 | Trigger needs bucket 50% full; wait cancelled / window closed below 15% | 0.5 / 0.15 | `cycle` |
+| E10 | Window cut short by dry soil or frost goes back to Primed (not Spent); Spent = first 3 recovery days | our reading of the spec | `cycle.spent_days` |
+| E11 | Score multiplier per cycle state | dormant 0.05, primed 0.2, triggered 0.3-0.8, open 1, spent 0.1, recovering 0.2 | `cycle.factor` |
+| E12 | Soft edges: tree cover 15 points, altitude 150 m | | `habitat` |
+| E13 | Burnt share for full morel habitat | 0.5 | `habitat.burn_full_at_frac` |
+| E14 | pH acid below 6.5, alkaline above 7.5, ramp 1 unit | | `habitat.ph_*` |
+| P2 | **Fetch Open-Meteo soil temperature** (`soil_temperature_0_to_7cm`). Check the call budget first | proxy from air temperature | `config/weather.yaml` |
+
+Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure in Cyprus that today every forest bucket is the island median (26.9 mm); drainage class and slope still differ.
+
 ## Data and legal
 | # | What | Status |
 |---|---|---|
