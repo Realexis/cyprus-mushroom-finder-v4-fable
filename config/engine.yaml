@@ -11,6 +11,9 @@ bucket:
   # Each 250 m square has a soil-water bucket. Rain fills it, evaporation and
   # drainage empty it. Bucket size = available water capacity (config/soil.yaml).
   start_fill: 0.3                  # [DRAFT] E1: fill on the first day of a run (spin-up guess)
+  # A run that starts in September (the engine's season run, audit step 4) starts empty:
+  # the 2025-26 backtest had the bucket at 1-3 % all through September to November.
+  start_fill_september: 0.0
 
   # Bucket size, "blend by certainty" (user decision, 2026-11-13):
   # size = island median + (SoilGrids value - median) x certainty.

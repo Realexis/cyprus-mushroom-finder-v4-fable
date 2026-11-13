@@ -20,6 +20,15 @@ def rolling_sum(x, days):
     return out
 
 
+def start_fill(inp, bc):
+    """Bucket fill on the run's first day: empty for a run that starts in September
+    (end of the dry summer), else the spin-up guess."""
+    d0 = (inp.get("dates") or [None])[0]
+    if d0 is not None and str(d0)[5:7] == "09":
+        return bc.get("start_fill_september", bc["start_fill"])
+    return bc["start_fill"]
+
+
 def prepare_water(inp, ecfg, scfg):
     """Species-independent part: bucket fill, soil temperature, frost. Run once, share across species."""
     bc = ecfg["bucket"]
@@ -29,7 +38,7 @@ def prepare_water(inp, ecfg, scfg):
     cap = B.blended_capacity(sq["awc_mm"], sq["awc_q05_mm"], sq["awc_q95_mm"], inp["island_awc_median"],
                              scfg["soil_effect"]["neutral_at_rel_band"], bc)
     fill = B.run_bucket(inp["precip"], et0, cap, B.slope_factor(sq["shade_score"], bc),
-                        B.drain_rate(sq["drainage"], bc), bc)
+                        B.drain_rate(sq["drainage"], bc), bc, cap * start_fill(inp, bc))
     st = ecfg["soil_temperature"]
     tsoil = inp.get("tsoil")
     if tsoil is None:

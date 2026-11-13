@@ -55,3 +55,24 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
   Morels 28 Feb: no morel habitat within 126 km (step 8).
 - **Honest note:** the base rate rose too. Once wet, the winter stays open almost everywhere
   (shaggy ink cap 96-99 % in Jan-Feb). The gap, not the hit rate, is the result.
+
+### Step 4: longer memory (option B, keep more history)
+
+- The history now keeps **240 days** (was 75). The engine runs from **1 September** of the season,
+  or as far back as the history has unbroken observed days. The map still shows today + 7 days.
+- A run that starts in September starts with an **empty bucket** (was 30 % full).
+- **Check (Fable):** a run started 31 days before the day, against a run from 1 September,
+  same 2025-26 weather. Share of squares in the **same state** on that day:
+
+| Day | Bucket (median, long / short) | Red pine: same state | Red pine open, long / short |
+|---|---|---|---|
+| 27 Dec 2025 | 72 % / 72 % | 100 % | 31 % / 31 % |
+| 31 Jan 2026 | 82 % / 82 % | 46 % | 78 % / 28 % |
+| 28 Feb 2026 | 38 % / 37 % | 16 % | 79 % / 10 % |
+
+  The bucket forgets its start within 31 days. **The clock does not:** a short run does not know the
+  season has started, so it waits the full 19 days again. **The short run was wrong**, as Fable expected.
+- Backtest (same weather): hit 90 %, base 37 % — unchanged, because the backtest already ran from 1 Sep.
+- **Not done yet:** the local history starts 12 Oct 2026. Filling 1 Sep to 11 Oct once is about
+  **3,400 free calls** (`uv run python -m shroomy.weather.backfill`). Until then the map's memory starts 12 Oct.
+  The daily robot on `main` is not changed.

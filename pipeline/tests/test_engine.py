@@ -421,3 +421,10 @@ def test_window_from_past_rain_is_sure_days_ahead():
     dry_inp = dict(inp); dry_inp["precip"] = precip.copy(); dry_inp["precip"][:, t0 + 1:] = 0
     dry = run_species(TEST_PROFILE, dry_inp, prepare_water(dry_inp, E, S), E, S)["score"][:, t0:]
     assert np.all(confidence(rain_dependence(wet, dry), E["confidence"]) == 0)
+
+
+def test_bucket_starts_empty_in_september():
+    from shroomy.engine.runner import start_fill
+    assert start_fill({"dates": ["2026-09-01", "2026-09-02"]}, BC) == BC["start_fill_september"] == 0.0
+    assert start_fill({"dates": ["2026-10-13"]}, BC) == BC["start_fill"]
+    assert start_fill({}, BC) == BC["start_fill"]

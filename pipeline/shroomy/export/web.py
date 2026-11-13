@@ -105,12 +105,12 @@ def species_scores(base, months, specs, share):
             for s in specs}
 
 
-def build(run, private=True):            # `private` is kept for old callers; everything is public now
+def build(run, private=True, engine_run=None):            # `private` is kept for old callers; everything is public now
     # v0.3: when species profiles exist (species/*.yaml), the map shows the species engine.
     from ..engine.profile import load_all
     if load_all():
         from . import web_v03
-        return web_v03.build(run)
+        return web_v03.build(run, engine_run)
     w = np.load(run)
     today = date.fromisoformat(str(w["today"]))
     dates = [str(d) for d in w["dates"]]

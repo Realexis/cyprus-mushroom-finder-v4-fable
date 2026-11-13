@@ -63,7 +63,8 @@ def write_info(path, parts, inputs):
         f.write(np.asarray(inputs, "<i2").tobytes())
 
 
-def build(run):
+def build(run, engine_run=None):
+    """engine_run: the longer season run file for the engine's memory (audit step 4); default `run`."""
     w = np.load(run)
     today = date.fromisoformat(str(w["today"]))
     dates = [str(d) for d in w["dates"]]
@@ -82,7 +83,7 @@ def build(run):
     profiles = load_all()
     E = config.load("engine")
     print(f"Running the species engine ({len(profiles)} species)")
-    eng = D.run(run, hab["land_fraction"] > 0.5, profiles)
+    eng = D.run(engine_run or run, hab["land_fraction"] > 0.5, profiles)
     codes = eng["codes"]
     rows, cols = eng["rows"], eng["cols"]
     n = len(rows)

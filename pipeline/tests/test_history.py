@@ -54,3 +54,30 @@ def test_next_day_needs_only_incremental_fetch(tmp_path):
     # Tomorrow: the 3 newest past days come from the small fetch -> no full fetch needed.
     assert H.complete_for(date(2026, 11, 13), 31, store, skip_recent=3)
     assert not H.complete_for(date(2026, 11, 13), 31, store, skip_recent=0)
+
+
+# ------------------------------------------------------------------ season memory (audit step 4)
+def test_season_start():
+    assert H.season_start(date(2026, 11, 13)) == date(2026, 9, 1)
+    assert H.season_start(date(2027, 2, 1)) == date(2026, 9, 1)
+    assert H.season_start(date(2026, 9, 1)) == date(2026, 9, 1)
+
+
+def test_engine_run_reaches_back_to_1_september(tmp_path):
+    store = tmp_path / "h.npz"
+    H.merge(fake_run(tmp_path / "a.npz", "2026-10-01", 30, 0, 1.0), store)     # 1 Sep .. 30 Sep observed
+    H.merge(fake_run(tmp_path / "b.npz", "2026-11-13", 43, 8, 2.0), store)     # 1 Oct .. 20 Nov
+    assert H.season_past_days(date(2026, 11, 13), 31, store) == 73            # back to 1 Sep exactly
+    out, k = H.assemble_season(date(2026, 11, 13), 31, 8, tmp_path / "s.npz", store)
+    z = np.load(out)
+    assert k == 73 and str(z["dates"][0]) == "2026-09-01" and z["precip"].shape[1] == 73 + 8
+
+
+def test_engine_run_stops_at_a_gap(tmp_path):
+    store = tmp_path / "h.npz"
+    H.merge(fake_run(tmp_path / "b.npz", "2026-11-13", 40, 8, 2.0), store)
+    assert H.season_past_days(date(2026, 11, 13), 31, store) == 40
+
+
+def test_history_keeps_the_season():
+    assert H.KEEP_DAYS >= 240

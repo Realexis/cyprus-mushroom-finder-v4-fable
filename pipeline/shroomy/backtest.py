@@ -357,6 +357,57 @@ def run(run_file, season, label=None):
     return report
 
 
+def slice_run(run_file, first, last, out):
+    """Copy of a run file with only the dates first..last (ISO), `today` = last."""
+    w = dict(np.load(run_file))
+    d = [str(x) for x in w["dates"]]
+    a, b = d.index(first), d.index(last) + 1
+    for k, v in list(w.items()):
+        if hasattr(v, "ndim") and v.ndim == 2 and v.shape[1] == len(d):
+            w[k] = v[:, a:b]
+    w["dates"] = np.array(d[a:b])
+    w["today"] = np.array(last)
+    np.savez_compressed(out, **w)
+    return out
+
+
+def memory_check(run_file, day, short_days=31):
+    """Audit step 4 check: does a run that starts `short_days` before `day` give the same state on
+    `day` as a run from the start of the file? Share of habitat squares in the same state, per species."""
+    run_file, _ = fill_minmax(run_file)
+    d = [str(x) for x in np.load(run_file)["dates"]]
+    first_short = (date.fromisoformat(day) - timedelta(days=short_days)).isoformat()
+    tmp = CACHE / "memory_check"
+    tmp.mkdir(parents=True, exist_ok=True)
+    long_f = slice_run(run_file, d[0], day, tmp / "long.npz")
+    short_f = slice_run(run_file, first_short, day, tmp / "short.npz")
+    E, S = config.load("engine"), config.load("soil")
+    profiles = P.load_all()
+    mask = _habitat()["land_fraction"] > 0.5
+    res = {}
+    runs = {}
+    for name, f in (("long", long_f), ("short", short_f)):
+        inp = I.build(f, mask)
+        hab = habitat_all(inp, profiles, E, S)
+        keep = np.nonzero((hab > 0).any(axis=0))[0][::SAMPLE_EVERY]
+        inp, hab = I.subset(inp, keep), hab[:, keep]
+        water = prepare_water(inp, E, S)
+        runs[name] = (inp, hab, water)
+    for k, prof in enumerate(profiles):
+        st = {}
+        for name, (inp, hab, water) in runs.items():
+            m = hab[k] > 0
+            r = run_species(prof, I.subset(inp, m), {kk: (v[m] if hasattr(v, "shape") and v.shape[:1] == m.shape else v)
+                                                       for kk, v in water.items()}, E, S)
+            st[name] = r["state"][:, -1]
+        if len(st["long"]):
+            res[prof["code"]] = {"same_state": round(float((st["long"] == st["short"]).mean()), 3),
+                                 "open_long": round(float((st["long"] == OPEN).mean()), 3),
+                                 "open_short": round(float((st["short"] == OPEN).mean()), 3)}
+    fl = {"long": float(np.median(runs["long"][2]["fill"][:, -1])), "short": float(np.median(runs["short"][2]["fill"][:, -1]))}
+    return {"day": day, "short_days": short_days, "start_long": d[0], "bucket_fill_median": fl, "species": res}
+
+
 def print_summary(rep):
     print(f"\n{rep['label']}: {rep['dates_run'][0]} to {rep['dates_run'][1]}")
     f = rep["fair"]
@@ -379,7 +430,11 @@ if __name__ == "__main__":
     ap.add_argument("--label", default=None, help="name of the output file (default: the season)")
     ap.add_argument("--fetch-only", action="store_true")
     ap.add_argument("--cost", action="store_true", help="print the Open-Meteo cost and stop")
+    ap.add_argument("--memory-check", metavar="DAY", help="compare a 31-day run with a run from 1 Sep on DAY")
     a = ap.parse_args()
+    if a.memory_check:
+        print(json.dumps(memory_check(run_file_for(a.season), a.memory_check), indent=1))
+        sys.exit()
     if a.cost:
         print(f"{a.season}: ~{season_cost(a.season)[0]:,.0f} calls")
         sys.exit()

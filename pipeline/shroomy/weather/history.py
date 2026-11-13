@@ -13,7 +13,7 @@ from .. import config
 STORE = config.PROCESSED / "weather" / "history.npz"
 VARS = ["precip", "tmean", "tmin", "tmax", "rh", "soil"]
 POINT_KEYS = ["lon", "lat", "x", "y", "elev_om"]
-KEEP_DAYS = 75
+KEEP_DAYS = 240          # audit step 4: the engine runs from 1 September (season memory)
 
 
 def _load(path):
@@ -93,3 +93,29 @@ def assemble(today: date, past_days: int, forecast_days: int, out_path, store=ST
     np.savez_compressed(out_path, dates=np.array(want), today=today.isoformat(),
                         model=h["model"], **out)
     return out_path
+
+
+def season_start(today: date) -> date:
+    """1 September of the mushroom season that `today` belongs to (Sep-Aug)."""
+    return date(today.year if today.month >= 9 else today.year - 1, 9, 1)
+
+
+def season_past_days(today: date, past_days: int, store=STORE) -> int:
+    """How many past days the engine can use: back to 1 September, as far as the store has
+    unbroken observed days. Never fewer than `past_days` (the normal run)."""
+    if not store.exists():
+        return past_days
+    h = _load(store)
+    obs = {str(d): bool(o) for d, o in zip(h["dates"], h["observed"])}
+    want = (today - season_start(today)).days
+    k = past_days
+    while k < want and obs.get((today - timedelta(days=k + 1)).isoformat(), False):
+        k += 1
+    return k
+
+
+def assemble_season(today: date, past_days: int, forecast_days: int, out_path, store=STORE):
+    """The engine's run file: from 1 September (or as far back as the store goes) to today + forecast.
+    Returns (path, number of past days)."""
+    k = season_past_days(today, past_days, store)
+    return assemble(today, k, forecast_days, out_path, store), k
