@@ -94,6 +94,13 @@ corine:
   licence_status: verified
   credit: "© European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)"
   use: v0.3 habitat — fields, pasture, sclerophyllous scrub (rock-rose), burnt areas (around 2018).
+effis:
+  name: EFFIS burnt areas (European Forest Fire Information System), layer modis.ba.poly
+  url: https://maps.effis.emergency.copernicus.eu/effis
+  licence: Copernicus Emergency Management Service data, free use with attribution (WFS says fees none, no access constraints)
+  licence_status: to_verify       # check the EFFIS data policy page before relying on it
+  credit: "© European Union, EFFIS, Copernicus Emergency Management Service"
+  use: v0.3 habitat (audit step 8) — burnt areas with fire dates, 2016-2026; recent burns for morels, burnt squares removed for tree partners.
 soilgrids:
   name: SoilGrids 2.0 (ISRIC) — water retention, texture, pH, organic carbon
   url: https://maps.isric.org/

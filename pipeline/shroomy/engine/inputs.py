@@ -40,6 +40,11 @@ def build(run_file, squares="land"):
     sq["awc_certainty"] = _awc_certainty(sq)
 
     w = np.load(run_file)
+    # Burnt areas with fire years (EFFIS, audit step 8), relative to the run's year.
+    from ..habitat.effis import burn_layers
+    bl = burn_layers(date.fromisoformat(str(w["today"])).year)
+    if bl is not None:
+        sq["burn_recent"], sq["burn_5y"] = bl[0][rows, cols], bl[1][rows, cols]
     cx = g.west + (cols + 0.5) * g.res
     cy = g.north - (rows + 0.5) * g.res
     interp = Interpolator(np.c_[w["x"], w["y"]], np.c_[cx, cy])

@@ -19,7 +19,7 @@ REQUIRED = ["code", "group", "host_trees", "altitude_range", "trigger_mm", "wait
 GROUPS = {"pine_partner", "oak_partner", "litter_recycler", "field_recycler", "fennel_root",
           "burn", "underground"}
 # Extra cues the engine knows how to use today. Others are kept but have no effect yet.
-KNOWN_CUES = {"needs_burn"}
+KNOWN_CUES = {"needs_burn", "one_spring_after_fire"}    # the second: EFFIS fire years (audit step 8)
 
 
 class ProfileError(ValueError):

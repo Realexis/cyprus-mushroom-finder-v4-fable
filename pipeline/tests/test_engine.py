@@ -319,6 +319,44 @@ def test_needs_burn():
     assert habitat_fit(sq, p, E["habitat"], 30, 1.0)[0] == pytest.approx(1.0)
 
 
+def test_morels_recent_burn_or_unburned_host():
+    """Audit step 8: EFFIS recent burn gives full weight; unburned host trees count at their low weight."""
+    p = copy.deepcopy(TEST_PROFILE)
+    p["extra_cues"] = {"needs_burn": True}
+    p["group"] = "burn"
+    p["host_trees"] = {"calabrian_pine": 0.3}
+    sq = {**_squares(), "burn_recent": np.array([0, 0.6, 0, 0, 0.6, 0.6]), "burn_5y": np.zeros(6)}
+    h = habitat_fit(sq, p, E["habitat"], 30, 1.0)
+    assert h[0] == pytest.approx(0.3)                    # unburned Calabrian pine: no longer forced to 0
+    assert h[1] == pytest.approx(1.0)                    # 60 % burnt recently (black pine square)
+    assert h[4] == pytest.approx(1.0)                    # burnt forest needs no tree cover
+    assert h[5] == 0                                     # reserves stay closed
+    assert h[2] == 0                                     # golden oak: not a host in this test
+
+
+def test_recent_burn_removes_tree_partner_habitat():
+    sq = {**_squares(), "burn_recent": np.zeros(6), "burn_5y": np.array([0.6, 0.25, 0, 0, 0, 0])}
+    h = habitat_fit(sq, TEST_PROFILE, E["habitat"], 30, 1.0)          # pine partner
+    assert h[0] == 0                                     # burnt in the last 5 years
+    assert h[1] == pytest.approx(0.8 * 0.5)              # a quarter burnt: halved
+
+
+def test_burn_years_are_relative_to_the_run(tmp_path):
+    import rasterio
+    from shroomy.habitat.effis import burn_layers
+    f = tmp_path / "b.tif"
+    with rasterio.open(f, "w", driver="GTiff", width=1, height=1, count=3, dtype="float32") as dst:
+        for i, (y, v) in enumerate(((2019, 0.9), (2024, 0.2), (2025, 0.7)), start=1):
+            dst.write(np.full((1, 1), v, "float32"), i)
+            dst.set_band_description(i, f"burn_{y}")
+    recent, five = burn_layers(2026, f)
+    assert recent[0, 0] == pytest.approx(0.7) and five[0, 0] == pytest.approx(0.7)   # 2024, 2025
+    recent, five = burn_layers(2028, f)
+    assert recent[0, 0] == 0 and five[0, 0] == pytest.approx(0.7)                   # too old for morels
+    recent, five = burn_layers(2020, f)
+    assert recent[0, 0] == pytest.approx(0.9)                                        # 2019 fire, spring 2020
+
+
 # ------------------------------------------------------------------ profiles
 def test_profile_check():
     check(TEST_PROFILE)

@@ -8,8 +8,8 @@ New 250 m layers (on the same grid as habitat_250m.tif):
   sand, clay, pH (+ Q05/Q95), organic carbon, drainage class
 - calcareous share of each square (geology map, formation grouping in config/soil.yaml [DRAFT])
 
-Burn scars with fire year (EFFIS) are NOT here yet: the EFFIS services did not answer
-(2026-11-13). CORINE "burnt areas" (around 2018, no year) is used meanwhile.
+Burn scars with fire year (EFFIS) are in their own layer: habitat/effis.py (audit step 8).
+CORINE "burnt areas" (around 2018, no year) stays here as the fallback when that layer is missing.
 
 Output: data/processed/habitat_v03_250m.tif (named bands) + habitat_v03_summary.json
 Run:    uv run python -m shroomy.habitat.v03

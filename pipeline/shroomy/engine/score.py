@@ -97,6 +97,12 @@ def habitat_fit(sq, prof, h, tree_cover_min, neutral_at_rel_band):
     tmin = prof.get("min_tree_cover_pct", tree_cover_min)
     cover = ramp(np.nan_to_num(sq["tree_cover_pct"], nan=0), tmin - h["tree_cover_soft_pct"], tmin)
     base = tw * cover
+    cues = prof["extra_cues"] or {}
+    effis = "burn_recent" in sq
+    if cues.get("needs_burn") and effis:
+        # Burn species (audit step 8): recent burn (EFFIS, fires 1-2 years back) gives full weight
+        # from burn_full_at_frac [LAR16]; unburned host trees count at their own (low) weight.
+        base = np.maximum(base, ramp(np.nan_to_num(sq["burn_recent"]), 0, h["burn_full_at_frac"]))
 
     # Land-cover partners (fields, scrub ...): weight x share of the square.
     for name, w in (prof.get("land_cover") or {}).items():
@@ -111,8 +117,11 @@ def habitat_fit(sq, prof, h, tree_cover_min, neutral_at_rel_band):
 
     fit = base * alt * soil_fit(sq, prof["soil_pref"], h, neutral_at_rel_band)
 
-    if (prof["extra_cues"] or {}).get("needs_burn"):
+    if cues.get("needs_burn") and not effis:                # no EFFIS layer: old rule, CORINE burnt only
         fit = fit * ramp(np.nan_to_num(sq["clc_burnt"]), 0, h["burn_full_at_frac"])
+    if effis and prof["group"] in h.get("burnt_excludes_groups", []):
+        # A square burnt in the last 5 years is no longer habitat for tree partners [GUESS].
+        fit = fit * (1 - ramp(np.nan_to_num(sq["burn_5y"]), 0, h["burn_full_at_frac"]))
 
     closed = (np.nan_to_num(sq["reserve_id"]) > 0) | (tree == 5)     # nature reserves stay CLOSED
     return np.where(closed, 0.0, fit)

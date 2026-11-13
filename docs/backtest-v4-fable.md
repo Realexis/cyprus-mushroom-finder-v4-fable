@@ -102,3 +102,16 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
   Those two finds are not named to species, so they may be another *Russula*.
 - **Not changed, waiting for Real:** the slippery Jack name, the bronze bolete "rare" tag, hiding the chanterelle,
   the bloody milk cap habitat (a question for the Cyprus Mycological Association).
+
+### Step 8: morels with recent fires and unburned ground
+
+- **EFFIS answered** (it did not this morning): 175 burnt areas in Cyprus, 2016-2026, each with a fire date.
+  The **23 July 2025 Limassol fire** is in it (12,437 ha; ERA25 says 120.7 km²).
+- Morel habitat = the larger of: **recent burn** (fires in the 2 calendar years before) with full weight from
+  50 % burnt [LAR16], or **unburned** Calabrian pine and Troodos broadleaf ground at 0.3 [GUESS, LOI16].
+  CORINE 2018 burns are no longer used when the EFFIS layer is there.
+- Tree partners lose squares burnt in the last 5 years [GUESS]: 4,450 squares are at least half burnt.
+- **Backtest (same weather):** morel habitat squares 89 → 8,985 (sample). 11 species-level events
+  (the Karpas morel find now has habitat 1.5 km away): **hit 91 %, base 35 %, gap +56 %**.
+- **Morel check:** 28 Feb 2026 (Karpas): window open within 5 km. 10 Mar 2026 (Paphos district): not in this
+  weather file (ends 28 Feb). Neither is in the Limassol fire area, which fits "many Cyprus morels are not fire morels".

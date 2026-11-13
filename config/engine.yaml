@@ -102,7 +102,10 @@ habitat:
   # nothing below `land_cover_zero_share`, full weight from `land_cover_full_share`. [DRAFT] E15
   land_cover_zero_share: 0.2
   land_cover_full_share: 0.5
-  burn_full_at_frac: 0.5           # [DRAFT] E13: needs_burn species get full fit at this burnt share
+  burn_full_at_frac: 0.5           # [LAR16] burn morels did not appear where < 50 % of the surface burned
+  # EFFIS burnt areas (audit step 8, habitat/effis.py): a square burnt in the run's year or the
+  # 5 before stops counting for these groups (fit x (1 - burnt share ramp)). [GUESS] 5 years
+  burnt_excludes_groups: [pine_partner, oak_partner]
   # Soil preference (profile soil_pref): pH ranges for the mismatch ramp. [DRAFT] E14
   ph_acid_below: 6.5
   ph_alkaline_above: 7.5
