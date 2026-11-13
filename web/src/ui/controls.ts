@@ -10,6 +10,9 @@ export interface Meta {
   rain_days: string[];
   clock: { opens: number; closes: number; soak_mm: number };
   weights: Record<string, number>; season_share: number; general_map_trees: number[];
+  /** v0.3 species engine: present when the map shows the multiplied score. */
+  engine?: { parts: string[]; inputs: string[]; codes: string[]; states: string[];
+    species: Record<string, { english_name: string; latin_name: string; season_text: string; window_days: number }> };
 }
 export interface HotZone { hex: string; where: string; lat: number; lon: number; score: number; date: string; }
 
@@ -66,15 +69,22 @@ export class Panel {
   /** Month of a day offset (1-12), for species season windows. */
   monthOf(day: number) { return Number(this.meta.days[day].date.slice(5, 7)); }
 
-  inSeason = (day: number) => {
+  /** Is this species scored by the v0.3 engine (soft season: never greyed out)? */
+  isEngine = (code: string | null) => !!code && !!this.meta.engine?.codes.includes(code);
+
+  /** In the species' usual months (species.yaml). */
+  usualSeason = (day: number) => {
     const sp = speciesByCode(this.species);
     return !sp || sp.months.includes(this.monthOf(day));
   };
 
+  /** Scored on this day? Engine species always are (soft season); older species only in season. */
+  inSeason = (day: number) => this.isEngine(this.species) || this.usualSeason(day);
+
   get filter(): Filter {
     const sp = speciesByCode(this.species);
     return { code: sp?.code ?? null, trees: sp?.trees ?? [], bands: sp?.bands ?? [],
-      inSeason: this.inSeason(this.day), seasonShare: this.meta.season_share };
+      inSeason: this.inSeason(this.day), seasonShare: this.meta.season_share, engine: this.isEngine(sp?.code ?? null) };
   }
 
   get view(): View {
@@ -181,14 +191,23 @@ export class Panel {
     const month = this.monthOf(this.day);
     const opt = (s: (typeof SPECIES)[number], off: boolean) =>
       `<option value="${s.code}" ${s.code === this.species ? "selected" : ""}>${esc(s.common)} · ${esc(s.latin)}${off ? ` · ${esc(s.season_text)}` : ""}</option>`;
-    const inSeasonList = SPECIES.filter((s) => s.months.includes(month));
-    const offList = SPECIES.filter((s) => !s.months.includes(month));
+    // v0.3: only species with an engine profile are scored; the rest follow in the next step.
+    const eng = !!this.meta.engine;
+    const scored = SPECIES.filter((s) => !eng || this.isEngine(s.code));
+    const later = SPECIES.filter((s) => eng && !this.isEngine(s.code));
+    const inSeasonList = scored.filter((s) => s.months.includes(month));
+    const offList = scored.filter((s) => !s.months.includes(month));
     const monthName = fmtDay(cur.date, { month: "long" });
     const options = [`<option value="" ${this.species ? "" : "selected"}>All forest (general map)</option>`,
       inSeasonList.length ? `<optgroup label="In season in ${monthName}: coloured by score">${inSeasonList.map((s) => opt(s, false)).join("")}</optgroup>` : "",
-      offList.length ? `<optgroup label="Out of season in ${monthName}: grey, no score">${offList.map((s) => opt(s, true)).join("")}</optgroup>` : "",
+      offList.length ? `<optgroup label="${eng ? `Outside their usual season: lower scores` : `Out of season in ${monthName}: grey, no score`}">${offList.map((s) => opt(s, true)).join("")}</optgroup>` : "",
+      later.length ? `<optgroup label="Coming soon to the new model">${later.map((s) => `<option value="${s.code}" disabled>${esc(s.common)} · ${esc(s.latin)}</option>`).join("")}</optgroup>` : "",
     ].join("");
-    const seasonMsg = sp ? (this.inSeason(this.day)
+    const seasonMsg = sp && this.isEngine(sp.code) ? (this.usualSeason(this.day)
+      ? `<p class="filter-line">Good conditions for <i>${esc(sp.latin)}</i> habitat · <span class="tag">in season ${esc(sp.season_text)}</span></p>`
+      : `<p class="filter-line warn-line"><b>Outside its usual season.</b> <i>${esc(sp.latin)}</i> usually fruits in
+          <b>${esc(sp.season_text)}</b>. Its scores are lowered, not set to zero.</p>`)
+      : sp ? (this.inSeason(this.day)
       ? `<p class="filter-line">Good conditions for <i>${esc(sp.latin)}</i> habitat · <span class="tag">in season ${esc(sp.season_text)}</span></p>`
       : `<p class="filter-line warn-line"><b>Why is the map grey?</b> <i>${esc(sp.latin)}</i> (${esc(sp.common)}) fruits in
           <b>${esc(sp.season_text)}</b>, and this day is in ${fmtDay(cur.date, { month: "long" })}. Grey shows where its habitat is
@@ -217,16 +236,17 @@ export class Panel {
         <select id="species" aria-describedby="sp-help" data-tip="Pick a mushroom to colour the map for its habitat: its trees, its altitude and its season. Out of season = grey, no score. The map never says the mushroom is there.">${options}</select>
         <button id="cards-btn" type="button" class="icon-btn" aria-label="Open species cards" data-tip="Photos, season, trees and the deadly lookalikes for each mushroom.">Species cards</button>
       </div>
-      <p id="sp-help" class="muted small">A species changes only the trees, altitude and season that count.</p>
+      <p id="sp-help" class="muted small">${eng ? "Each species has its own trees, water, warmth and season." : "A species changes only the trees, altitude and season that count."}</p>
       ${sp ? "" : (() => {
-        const on = SPECIES.filter((x) => x.months.includes(this.monthOf(this.day)));
-        const off = SPECIES.filter((x) => !x.months.includes(this.monthOf(this.day)));
+        const on = scored.filter((x) => x.months.includes(this.monthOf(this.day)));
+        const off = scored.filter((x) => !x.months.includes(this.monthOf(this.day)));
         return `<div class="filter-line">
           <p data-tip="Species whose season includes this day's month. Tap one to colour the map for its habitat.">
           <b>In season on this day:</b> ${on.length ? on.map((x) => `<button type="button" class="chip" data-pick-species="${x.code}">${esc(x.common)}</button>`).join(" ") : "none of our target species"}</p>
           ${off.length ? `<details class="oos"><summary>Show out-of-season species (${off.length})</summary>
             <ul>${off.map((x) => `<li>${esc(x.common)} · ${esc(x.season_text)}</li>`).join("")}</ul>
-            <p>Picked anyway, its habitat shows <b>grey</b> with no score.</p></details>` : ""}</div>`;
+            <p>${eng ? "Picked anyway, its scores are lower." : "Picked anyway, its habitat shows <b>grey</b> with no score."}</p></details>` : ""}
+          ${later.length ? `<p class="muted small">Coming soon to the new model: ${later.map((x) => esc(x.common)).join(", ")}.</p>` : ""}</div>`;
       })()}
       ${seasonMsg}
       <h2 id="layer-h">Show</h2>

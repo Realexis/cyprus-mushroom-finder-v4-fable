@@ -1,0 +1,31 @@
+# Bloody milk cap (Lactarius sanguifluus).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records
+# and the 2025-26 backtest. Tags: [SPEC] = v0.3 spec, [BRIEF] = original brief, [GUESS] = ours.
+code: lsa
+english_name: bloody milk cap
+latin_name: Lactarius sanguifluus
+local_name: {name: gematas, confirmed: false}           # [SPEC] to confirm
+group: pine_partner                                     # [SPEC] 3.3
+tier: key                                               # [SPEC] 3.5
+rare: false
+confidence: medium                                      # [SPEC] 3.5
+host_trees:
+  black_pine: 1.0                                       # [SPEC] black pine above 1,200 m
+altitude_range: [1200, 1950]                            # [SPEC] above 1,200 m; top = black pine top [BRIEF]
+trigger_mm: 20                                          # [GUESS] same as the red pine mushroom (same group)
+# [GUESS] same group and genus as the red pine mushroom: same 7-20 day rule.
+wait_degree_days: {total: 72, base_c: 4}
+soil_temp_window: {min: 3, best: [8, 18], max: 24}      # [GUESS] as the red pine mushroom
+extra_cues: {}
+window_length_days: 10                                  # [GUESS] as the red pine mushroom
+recovery_days: 21                                       # [GUESS]
+season_prior: {aug: 0.3, sep: 1.0, oct: 1.0, nov: 0.3}  # [SPEC] Sep-Oct; Aug/Nov edges [GUESS]
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}  # [SPEC] 3.9
+lookalikes:
+  - latin: Lactarius chrysorrheus
+    why: "Milk turns yellow, not red-orange."           # [GUESS] same check as the red pine mushroom; confirm (L5)
+    source: draft
+  # More species-specific lookalikes: to source and confirm (TODO-facts L1, L5).
+sources:
+  - "v0.3 spec, docs/methodology-v0.3.md sections 3.3-3.5"
+  - "Original project brief (private/BRIEF.md): trees, altitude, season"

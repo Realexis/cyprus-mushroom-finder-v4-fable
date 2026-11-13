@@ -56,8 +56,10 @@ def check(p: dict, name: str = "profile") -> dict:
     for t, v in p["host_trees"].items():
         if not 0 <= v <= 1:
             err.append(f"host_trees {t}: weight 0..1")
-    if not 2 <= len(p["lookalikes"]) <= 3:
-        err.append("lookalikes: 2-3 specific to this species (spec 3.4)")
+    # Spec 3.4 wants 2-3. Until sourced lookalikes exist (TODO-facts L5) we accept 1-3,
+    # and never make one up.
+    if not 1 <= len(p["lookalikes"]) <= 3:
+        err.append("lookalikes: 1-3 specific to this species (spec 3.4 wants 2-3)")
     if err:
         raise ProfileError(f"{name}: " + "; ".join(err))
     return p

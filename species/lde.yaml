@@ -1,0 +1,40 @@
+# Red pine mushroom (Lactarius deliciosus).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records
+# and the 2025-26 backtest. Tags: [SPEC] = v0.3 spec (docs/methodology-v0.3.md),
+# [BRIEF] = original project brief, [GUESS] = our guess, reason given.
+code: lde
+english_name: red pine mushroom
+latin_name: Lactarius deliciosus
+local_name: {name: kokkinomanitaro, confirmed: true}     # [BRIEF] the one local name given as known
+group: pine_partner                                     # [SPEC] 3.3
+tier: key                                               # [SPEC] 3.5
+rare: false
+confidence: medium                                      # [SPEC] 3.5
+host_trees:                                             # [SPEC] 3.4 example
+  calabrian_pine: 1.0
+  black_pine: 0.8
+  golden_oak: 0.5
+  kermes_oak: 0.4                                       # no map layer yet (TODO-facts D8): scores 0 for now
+altitude_range: [0, 1950]                               # [SPEC] sea level to 1,950 m
+trigger_mm: 20                                          # [SPEC] about 20 mm soaking rain over 1-3 days
+# [GUESS] from the spec's 7-20 day rule: moist and mild soil (~12 C) -> 8 degree-days a day
+# -> about 9 days; cool soil (~8 C) -> 4 a day -> about 18 days. 72 fits both ends.
+wait_degree_days: {total: 72, base_c: 4}
+# [GUESS] "mild, frost stops it" [SPEC]. Numbers reuse the brief's v1 temperature curve
+# (no points at 3 C or 24 C, best 8-18 C), here applied to soil temperature.
+soil_temp_window: {min: 3, best: [8, 18], max: 24}
+extra_cues:
+  young_stand_bonus: true                               # [SPEC] 11-20 year stands; no stand-age layer yet (EFFIS, V4)
+window_length_days: 10                                  # [SPEC] "about 1-2 weeks" -> 10 [GUESS]
+recovery_days: 21                                       # [GUESS] no source yet
+# [SPEC] Oct-Jan, "high ground first". Values 0..1 (0 -> 0.5 soft floor). Sep/Feb edges [GUESS].
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 0.3}
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}  # [SPEC] 3.9: unknown until finds teach us
+lookalikes:
+  - latin: Lactarius chrysorrheus
+    why: "Milk turns yellow, not orange."               # [BRIEF] lookalikes.yaml note
+    source: brief
+  # More species-specific lookalikes: to source and confirm (TODO-facts L1, L5).
+sources:
+  - "v0.3 spec, docs/methodology-v0.3.md sections 3.3-3.5"
+  - "Original project brief (private/BRIEF.md): season, trees, lookalike note"

@@ -140,9 +140,20 @@ async function main() {
   // 250 m square details (~8 MB) load only when a square is first tapped. 50 m hotspot zoom list.
   let cellInfo: CellInfo | null = null;
   let cellInfoLoading: Promise<void> | null = null;
+  let cellMeta: { factors: string[]; inputs: string[]; days: number } | null = null;
   const ensureCellInfo = () => cellInfoLoading ??= (async () => {
-    const im = await getJSON<{ factors: string[]; inputs: string[]; days: number }>(abs("data/cells_info.json"));
-    if (im) cellInfo = await CellInfo.load(abs("data/cells_info.bin"), im).catch(() => null);
+    cellMeta = await getJSON<{ factors: string[]; inputs: string[]; days: number }>(abs("data/cells_info.json"));
+    if (cellMeta) cellInfo = await CellInfo.load(abs("data/cells_info.bin"), cellMeta).catch(() => null);
+  })();
+  // v0.3: one parts file per species (~7 MB), loaded when that species is picked and a square tapped.
+  const spInfo = new Map<string, CellInfo | null>();
+  const spLoading = new Map<string, Promise<void>>();
+  const ensureSpInfo = (code: string) => spLoading.get(code) ?? (() => {
+    const p = ensureCellInfo().then(async () => {
+      spInfo.set(code, cellMeta ? await CellInfo.loadSpecies(abs(`data/cells_sp_${code}.bin`), cellMeta).catch(() => null) : null);
+    });
+    spLoading.set(code, p);
+    return p;
   })();
   // Top-zone outlines (daily). The 50 m shade itself is the fixed file tiles/shade50.pmtiles.
   let hotZonesGeo: GeoJSON.FeatureCollection | undefined;
@@ -222,16 +233,20 @@ async function main() {
     if (p.f.layer.id === "hot-fill") return { kind: "hot", score: () => null, hot: props };
     if (p.f.layer.id === "cells-fill") {
       const sp = speciesByCode(panel.species);
+      const eng = panel.isEngine(sp?.code ?? null);
       const score = (d: number) => {
         if (!sp) return props[`s${d}`] === null || props[`s${d}`] === undefined ? null : Number(props[`s${d}`]);
+        if (eng) return props[`${sp.code}${d}`] === undefined ? null : Number(props[`${sp.code}${d}`]);
         if (!sp.trees.includes(Number(props.tree)) || !sp.bands.includes(Number(props.band))) return null;
         return panel.inSeason(d) ? Math.round(Number(props[`b${d}`]) + meta.season_share) : 0;
       };
-      const s = cellSpot(props, cellInfo, score, p.lngLat, meta.season_share);
+      const s = cellSpot(props, cellInfo, score, p.lngLat, meta.season_share, !!meta.engine,
+        eng ? spInfo.get(sp!.code) ?? null : null);
       const zone = props.h === undefined ? undefined : spots?.spots[Number(props.h)];
       s.where = zone ? `${zone.where} · 250 m forest square` : "250 m forest square";
-      s.note = cellInfo ? undefined : "Loading the details for this square…";
-      if (!cellInfo) void ensureCellInfo().then(() => {
+      const ready = !!cellInfo && (!eng || spInfo.has(sp!.code));
+      s.note = ready ? undefined : "Loading the details for this square…";
+      if (!ready) void (eng ? ensureSpInfo(sp!.code) : ensureCellInfo()).then(() => {
         if (lastPick?.f.layer.id === "cells-fill") panel.showSpot(buildSpot(lastPick), false);
       });
       return s;

@@ -33,6 +33,38 @@ const FACTOR_TIP: Record<string, string> = {
   shade: "North and east-facing slopes, valley bottoms and little autumn sun keep the ground moist longer.",
 };
 
+// v0.3 engine: the five parts that multiply into the score.
+const PART_LABEL: Record<string, string> = {
+  habitat: "Habitat", water: "Water in the ground", temperature: "Soil warmth",
+  cycle: "Mushroom clock", prior: "Season",
+};
+const PART_TIP: Record<string, string> = {
+  habitat: "Partner trees, tree cover, altitude and soil for this species. It does not change from day to day.",
+  water: "Each square has a water bucket. Rain fills it. Sun and wind empty it, faster on sunny slopes.",
+  temperature: "Is the soil in this species' comfortable range? Frost stops most species.",
+  cycle: "After a soaking rain the clock starts. Warm soil runs it faster, cold soil slower. Then a window opens.",
+  prior: "The usual months for this species. Outside them the score is lowered, never to zero.",
+};
+const STATE_TEXT = [
+  "Soil too warm or too cold: the clock is paused.",
+  "Waiting for a soaking rain.",
+  "Soaking rain fell. The clock is running.",
+  "Window open.",
+  "A window just ended. It needs rest and a new soaking rain.",
+  "Resting after a window. It needs a new soaking rain later.",
+];
+
+/** The v0.3 mushroom clock in plain words, from the state and days-left inputs. */
+export function engineClock(inp: number[] | null, names: string[]): { text: string; open: boolean } | null {
+  if (!inp) return null;
+  const st = Math.round(inp[names.indexOf("state")]), left = Math.round(inp[names.indexOf("left_days")]);
+  if (!(st >= 0 && st <= 5)) return null;
+  const pl = (k: number) => `${k} day${k === 1 ? "" : "s"}`;
+  if (st === 3 && left > 0) return { text: `Window open, about ${pl(left)} more.`, open: true };
+  if (st === 2 && left > 0) return { text: `Soaking rain fell. Window opens in about ${pl(left)}.`, open: false };
+  return { text: STATE_TEXT[st], open: st === 3 };
+}
+
 export const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
 
 export const fmtDay = (iso: string, opts: Intl.DateTimeFormatOptions) =>
@@ -96,7 +128,10 @@ export interface SpotData {
 function speciesHere(s: SpotData, ctx: SpotContext): string {
   if (!s.speciesBase) return "";
   const m = ctx.monthOf(ctx.day);
-  const rows = ctx.all.map((sp) => ({ sp, v: s.speciesBase!(sp, ctx.day), on: sp.months.includes(m) }));
+  const e = ctx.meta.engine;
+  const all = e ? ctx.all.filter((sp) => e.codes.includes(sp.code)) : ctx.all;
+  // v0.3: every scored species is ranked (outside its usual season it just scores lower).
+  const rows = all.map((sp) => ({ sp, v: s.speciesBase!(sp, ctx.day), on: !!e || sp.months.includes(m) }));
   const good = rows.filter((r) => r.v !== null && r.on).sort((a, b) => (b.v ?? 0) - (a.v ?? 0));
   const off = rows.filter((r) => r.v !== null && !r.on);
   const none = rows.filter((r) => r.v === null);
@@ -134,7 +169,32 @@ function factorText(name: string, inp: number[] | null, f: number, ctx: SpotCont
   return "";
 }
 
+function engineBars(s: SpotData, ctx: SpotContext): string {
+  const e = ctx.meta.engine!;
+  const fac = s.factors?.(ctx.day);
+  if (!fac) return "";
+  const inp = s.inputs?.(ctx.day) ?? null;
+  const at = (n: string) => (inp ? inp[e.inputs.indexOf(n)] : NaN);
+  const clk = engineClock(inp, e.inputs);
+  const val: Record<string, string> = {
+    water: Number.isFinite(at("fill_pct")) ? `${Math.round(at("fill_pct"))}% full · ${Math.round(at("rain_3d_mm"))} mm rain in 3 days` : "",
+    temperature: Number.isFinite(at("soil_temp_c")) ? `about ${Math.round(at("soil_temp_c"))} °C in the soil` : "",
+    cycle: clk?.text ?? "",
+    prior: ctx.species ? (ctx.species.season_text ? `usual season ${ctx.species.season_text}` : "") : "",
+  };
+  const rows = e.parts.map((n, i) => {
+    const pct = Math.round(Math.max(0, Math.min(1, fac[i])) * 100);
+    return `<li class="why-row" data-tip="${esc(PART_TIP[n])}">
+      <div class="why-top"><span>${PART_LABEL[n]}</span><span class="muted">${pct}/100</span></div>
+      <div class="why-bar" role="img" aria-label="${PART_LABEL[n]}: ${pct} out of 100"><i style="width:${pct}%;background:${scoreColour(pct)}"></i></div>
+      ${val[n] ? `<div class="why-val">${esc(val[n])}</div>` : ""}</li>`;
+  }).join("");
+  return `<details class="why" open><summary data-tip="The five parts multiply. One short bar pulls the whole score down. Tap to hide or show."><b>Why this score</b></summary>
+    <p class="muted small">${ctx.species ? "" : "For the species that does best here. "}The parts multiply: one short bar pulls the score down.</p><ul>${rows}</ul></details>`;
+}
+
 function whyBars(s: SpotData, ctx: SpotContext): string {
+  if (ctx.meta.engine) return engineBars(s, ctx);
   const fac = s.factors?.(ctx.day);
   if (!fac) return "";
   const names = Object.keys(ctx.meta.weights);
@@ -253,7 +313,11 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
     head = sp ? `<b>${words(v)} conditions for <i>${esc(sp.latin)}</i> habitat</b>` : `<b>${words(v)} growing conditions</b>`;
   }
   const showScore = v !== null && !(sp && !ctx.inSeason(ctx.day));
-  const clk = s.clock ? clockSentence(s.clock(ctx.day), ctx.meta.clock) : null;
+  const e = ctx.meta.engine;
+  const clk = e ? engineClock(s.inputs?.(ctx.day) ?? null, e.inputs)
+    : s.clock ? clockSentence(s.clock(ctx.day), ctx.meta.clock) : null;
+  const clkTip = e ? "After a soaking rain (about 20 mm in 3 days) the clock starts. Warm soil runs it faster, cold soil slower. Then a window opens for about 10 days."
+    : `Counts the days since the last soaking rain (${ctx.meta.clock.soak_mm} mm or more). The fruiting window opens about ${ctx.meta.clock.opens} days after it and closes about ${ctx.meta.clock.closes} days after it.`;
   const facts = [
     s.trees ? `<li data-tip="The likely trees, worked out from satellite forest maps, height and rock type. Not a tree survey."><span aria-hidden="true">🌲</span> <b>Trees:</b> ${s.trees}</li>` : "",
     s.altitude ? `<li data-tip="Height above sea level. Higher forest is cooler and its season starts earlier."><span aria-hidden="true">⛰</span> <b>Altitude:</b> ${s.altitude}</li>` : "",
@@ -267,7 +331,7 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
     ${mapsLinks(s)}
     <button type="button" class="spot-more-btn" id="spot-more" data-tip="Show or hide the rest: mushroom clock, why this score, the 8 days, species and trees."></button>
     <div class="spot-rest">
-    ${clk ? `<p class="clock ${clk.open ? "open" : ""}" data-tip="Counts the days since the last soaking rain (${ctx.meta.clock.soak_mm} mm or more). The fruiting window opens about ${ctx.meta.clock.opens} days after it and closes about ${ctx.meta.clock.closes} days after it."><span aria-hidden="true">⏱</span> <b>Mushroom clock:</b> ${clk.text}</p>` : ""}
+    ${clk ? `<p class="clock ${clk.open ? "open" : ""}" data-tip="${esc(clkTip)}"><span aria-hidden="true">⏱</span> <b>Mushroom clock:</b> ${clk.text}</p>` : ""}
     ${showScore ? whyBars(s, ctx) : ""}
     ${forecast(s, ctx)}
     ${ctx.species ? (s.speciesBase ? `<p><button type="button" class="link-btn" data-pick-species=""
@@ -323,7 +387,12 @@ export function hexSpot(props: Record<string, number>, info: SpotInfo | undefine
 /** Private 250 m cell details (cells_info.bin from the pipeline). */
 export class CellInfo {
   private constructor(private a: Int16Array, private nf: number, private ni: number, private days: number,
-                      private ra: Float32Array | null) {}
+                      private ra: Float32Array | null, private tail = 2) {}
+  /** A species file (cells_sp_<code>.bin): same layout without the two road numbers. */
+  static async loadSpecies(url: string, meta: { factors: string[]; inputs: string[]; days: number }): Promise<CellInfo> {
+    const buf = await fetch(url).then((r) => { if (!r.ok) throw new Error(url); return r.arrayBuffer(); });
+    return new CellInfo(new Int16Array(buf), meta.factors.length, meta.inputs.length, meta.days, null, 0);
+  }
   static async load(url: string, meta: { factors: string[]; inputs: string[]; days: number }): Promise<CellInfo> {
     const buf = await fetch(url).then((r) => r.arrayBuffer());
     // Drive-there pins (cells_road.bin, next to cells_info.bin): each square's centre. Optional.
@@ -338,7 +407,7 @@ export class CellInfo {
     const lat = this.ra[2 * i], lon = this.ra[2 * i + 1];
     return Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null;
   }
-  private get stride() { return this.days * (this.nf + this.ni) + 2; }
+  private get stride() { return this.days * (this.nf + this.ni) + this.tail; }
   factors(i: number, d: number): number[] | null {
     const o = i * this.stride + d * (this.nf + this.ni);
     const f = [...this.a.subarray(o, o + this.nf)];
@@ -355,18 +424,22 @@ export class CellInfo {
 }
 
 export function cellSpot(props: Record<string, number>, info: CellInfo | null, score: (d: number) => number | null,
-                         lngLat: { lng: number; lat: number }, seasonShare: number): SpotData {
+                         lngLat: { lng: number; lat: number }, seasonShare: number,
+                         engine = false, spInfo: CellInfo | null = null): SpotData {
   const i = Number(props.i);
   const m = (x: number) => (x < 0 ? "–" : x < 1000 ? `${Math.round(x / 10) * 10} m` : `${(x / 1000).toFixed(1)} km`);
   const rd = info?.road(i);
   const acc = info?.access(i);
   return {
     kind: "cell", score,
-    speciesBase: (sp, d) => (sp.trees.includes(Number(props.tree)) && sp.bands.includes(Number(props.band)) && !props.closed
-      ? Math.round(Number(props[`b${d}`]) + seasonShare) : null),
+    speciesBase: engine
+      ? (sp, d) => (props[`${sp.code}${d}`] === undefined || props.closed ? null : Number(props[`${sp.code}${d}`]))
+      : (sp, d) => (sp.trees.includes(Number(props.tree)) && sp.bands.includes(Number(props.band)) && !props.closed
+        ? Math.round(Number(props[`b${d}`]) + seasonShare) : null),
     clock: (d) => Number(props[`p${d}`]),
-    factors: (d) => info?.factors(i, d) ?? null,
-    inputs: (d) => info?.inputs(i, d) ?? null,
+    // A picked v0.3 species has its own parts file; else the general one (best species here).
+    factors: (d) => (spInfo ?? info)?.factors(i, d) ?? null,
+    inputs: (d) => (spInfo ?? info)?.inputs(i, d) ?? null,
     where: `250 m square · ${lngLat.lat.toFixed(4)}, ${lngLat.lng.toFixed(4)}`,
     trees: TREES[Number(props.tree)] ?? "Forest",
     soil: props.awc === undefined ? undefined

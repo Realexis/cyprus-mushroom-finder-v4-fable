@@ -74,7 +74,44 @@ def reasons(inp: dict, fac: dict) -> str:
     return s
 
 
-def build(zones: list, days: list, meta: dict, specs: list) -> dict:
+STATE_TEXT = {
+    0: "Soil too warm or too cold: the mushroom clock is paused.",
+    1: "Waiting for a soaking rain to start the mushroom clock.",
+    2: "Soaking rain fell. The mushroom clock is running.",
+    3: "Window open.",
+    4: "A window just ended. It needs rest and a new soaking rain.",
+    5: "Resting after a window. It needs a new soaking rain later.",
+}
+
+
+def engine_clock(inp: dict) -> str:
+    """Plain words for the v0.3 cycle state (inputs: state, left_days)."""
+    st, left = int(round(inp["state"])), int(round(inp["left_days"]))
+    if st == 3 and left > 0:
+        return f"Window open, about {left} more day{'s' if left != 1 else ''}."
+    if st == 2 and left > 0:
+        return f"Soaking rain fell. Window opens in about {left} day{'s' if left != 1 else ''}."
+    return STATE_TEXT.get(st, "")
+
+
+def engine_reasons(inp: dict, fac: dict) -> str:
+    """v0.3 'why': the parts that multiply into the score, strongest first."""
+    parts = [
+        (fac["habitat"], "partner trees and tree cover"),
+        (fac["water"], f"ground {inp['fill_pct']:.0f}% wet"),
+        (fac["temperature"], f"soil about {inp['soil_temp_c']:.0f} °C"),
+        (fac["cycle"], "mushroom clock"),
+        (fac["prior"], "season"),
+    ]
+    good = [t for v, t in sorted(parts, key=lambda x: -x[0]) if v >= 0.6]
+    weak = [t for v, t in sorted(parts, key=lambda x: x[0]) if v < 0.4]
+    s = ("Good: " + "; ".join(good) + ".") if good else ""
+    if weak:
+        s += (" " if s else "") + "Holding it back: " + "; ".join(weak[:2]) + "."
+    return s
+
+
+def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False) -> dict:
     c = meta["clock"]
     general = [z for z in zones if z["score"] is not None]
     out_days = []
@@ -94,8 +131,8 @@ def build(zones: list, days: list, meta: dict, specs: list) -> dict:
                 "spot": z.get("spot"),             # index into spots.json (the site opens this zone)
                 "lat": round(z["lat"], 4), "lon": round(z["lon"], 4),
                 "score": int(round(z["score"][k])),
-                "why": reasons(inp, fac),
-                "mushroom_clock": clock.sentence(int(z["clock"][k]), c["opens"], c["closes"]),
+                "why": engine_reasons(inp, fac) if engine else reasons(inp, fac),
+                "mushroom_clock": engine_clock(inp) if engine else clock.sentence(int(z["clock"][k]), c["opens"], c["closes"]),
                 "trees": trees,
                 "altitude_m": [int(z["alt"][0]), int(z["alt"][1])],
                 "inputs": {n: round(v, 1) for n, v in inp.items()},
@@ -109,7 +146,7 @@ def build(zones: list, days: list, meta: dict, specs: list) -> dict:
                                      "season": SP.months_text(s["months"]), "top_zones": []}
                 continue
             have = [z for z in zones if s["code"] in z["species"]]
-            sp_out[s["code"]] = {"label": label, "in_season": True, "season": SP.months_text(s["months"]),
+            sp_out[s["code"]] = {"label": label, "in_season": True, "season": s.get("season_text") or SP.months_text(s["months"]),
                                  "top_zones": [{"where": z["where"], "spot": z.get("spot"), "lat": round(z["lat"], 4),
                                                 "lon": round(z["lon"], 4),
                                                 "score": int(round(z["species"][s["code"]][k]))}
@@ -122,12 +159,24 @@ def build(zones: list, days: list, meta: dict, specs: list) -> dict:
             "top_zones": top,
             "species": sp_out,
         })
+    how = (
+        "Scores 0-100 = how good GROWING CONDITIONS are in ~2 km forest zones. v0.3: for each species, "
+        "habitat x water x temperature x mushroom clock x a soft season factor, multiplied, so one poor "
+        "part makes the score poor. The general score is the best species here. "
+        if engine else
+        "Scores 0-100 = how good GROWING CONDITIONS are (rain, temperature, soil moisture, "
+        "season for the altitude, shade) in ~2 km forest zones. ")
+    sp_note = ("Species scores say 'good conditions for [species] habitat', never that the species is there. "
+               "Out of its usual season a species scores lower, not zero."
+               if engine else
+               "Species scores change only the habitat filter (trees, altitude) and the season "
+               "window. They say 'good conditions for [species] habitat', never that the "
+               "species is there. Out of season = no score.")
     return {
         "title": "Cyprus Mushroom Finder — growing conditions summary",
         "safety": meta["safety"],
         "how_to_read": (
-            "Scores 0-100 = how good GROWING CONDITIONS are (rain, temperature, soil moisture, "
-            "season for the altitude, shade) in ~2 km forest zones. It never says a mushroom is "
+            how + "It never says a mushroom is "
             "there, and never says anything about eating one. Nature reserves are closed and "
             "never listed. Confidence: high = days 0-2, medium = 3-4, low = 5+ (forecast). "
             "Picking rules: no rakes or tools; pick by hand or knife; put the leaf litter back."),
@@ -135,7 +184,5 @@ def build(zones: list, days: list, meta: dict, specs: list) -> dict:
         "weather_run": meta["weather_run"], "generated_utc": meta["generated_utc"],
         "site": "https://realexis.github.io/cyprus-mushroom-finder/",
         "days": out_days,
-        "species_note": ("Species scores change only the habitat filter (trees, altitude) and the season "
-                         "window. They say 'good conditions for [species] habitat', never that the "
-                         "species is there. Out of season = no score."),
+        "species_note": sp_note,
     }

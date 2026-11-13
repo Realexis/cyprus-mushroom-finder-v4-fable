@@ -274,3 +274,36 @@ def test_runner_end_to_end():
     assert r["score"][0].max() > 5 * r["score"][3].max() + 1e-9
     best, idx = general_map([r, r])
     assert np.array_equal(best, r["score"]) and idx.max() == 0
+
+
+# ------------------------------------------------------------------ step 5: profiles + map run
+def test_real_profiles_load():
+    from shroomy.engine.profile import load_all
+    codes = {p["code"] for p in load_all()}
+    assert {"lde", "lsa"} <= codes
+
+
+def test_season_text():
+    from shroomy.engine.daily import season_text
+    assert season_text({"sep": 0.3, "oct": 1, "nov": 1, "dec": 1, "jan": 1}) == "Oct-Jan"
+    assert season_text({"sep": 1, "oct": 1, "nov": 0.3}) == "Sep-Oct"
+    assert season_text({}) == "all year"
+
+
+def test_left_days_reads_the_run():
+    from shroomy.engine.daily import _left_days
+    # square 0: triggered on days 0-2, open 3-5, then spent; square 1: open from day 0 to the end
+    state = np.array([[C.TRIGGERED] * 3 + [C.OPEN] * 3 + [C.SPENT] * 4,
+                      [C.OPEN] * 10], "int8")
+    days = np.array([[0] * 3 + [0, 1, 2] + [0] * 4, list(range(10))], "int16")
+    left = _left_days(state, 0, 10, days)
+    assert left[0, 0] == 3 and left[0, 3] == 3 and left[0, 5] == 1   # opens in 3; open 3 / 1 more days
+    assert left[0, 6] == -1                                           # spent: nothing to count
+    assert left[1, 7] == 3                                            # open to the end: 10 - 7 days
+
+
+def test_summary_clock_words():
+    from shroomy.export.summary import engine_clock
+    assert engine_clock({"state": 3, "left_days": 4}) == "Window open, about 4 more days."
+    assert "opens in about 1 day." in engine_clock({"state": 2, "left_days": 1})
+    assert "soaking rain" in engine_clock({"state": 1, "left_days": -1})

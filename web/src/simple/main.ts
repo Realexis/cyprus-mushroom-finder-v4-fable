@@ -74,7 +74,7 @@ async function main() {
   };
   const basemap = abs("tiles/basemap.pmtiles");
   const view = (): View => ({ day, mode: "conditions", priv: false, replayIndex: 0,
-    filter: { code: null, trees: [], bands: [], inSeason: true, seasonShare: meta.season_share } });
+    filter: { code: null, trees: [], bands: [], inSeason: true, seasonShare: meta.season_share, engine: false } });
 
   const map = new maplibregl.Map({
     container: "map",

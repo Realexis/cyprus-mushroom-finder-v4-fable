@@ -74,6 +74,9 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | E14 | pH acid below 6.5, alkaline above 7.5, ramp 1 unit | | `habitat.ph_*` |
 | P2 | **Fetch Open-Meteo soil temperature** (`soil_temperature_0_to_7cm`). Check the call budget first | proxy from air temperature | `config/weather.yaml` |
 
+| L5 | **Species-specific lookalikes** for each profile (spec wants 2-3, sourced). Now: red pine mushroom and bloody milk cap list only *Lactarius chrysorrheus* (the brief's milk-colour note; for the bloody milk cap it is our guess) | 1 each | `species/*.yaml` |
+| S12 | Profile numbers for red pine mushroom and bloody milk cap (wait 72 degree-days above 4 C, soil 3-24 C best 8-18, window 10 days, recovery 21 days, season edges) are guesses; calibrate in step 9 | guesses | `species/lde.yaml`, `lsa.yaml` |
+
 Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure in Cyprus that today every forest bucket is the island median (26.9 mm); drainage class and slope still differ.
 
 ## Data and legal

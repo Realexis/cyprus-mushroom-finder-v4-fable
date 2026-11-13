@@ -29,6 +29,8 @@ from ..score import clock
 from ..score import species as SP
 from ..score.factors import FACTORS
 from ..score.today import latest_run, load_habitat, score_day
+from ..engine import daily as engine_daily
+from ..engine.cycle import STATE_NAMES
 from . import roads, summary
 
 PUBLIC = config.ROOT / "web" / "public" / "data"
@@ -99,6 +101,28 @@ def clock_days(w, t0):
                      for k in range(N_DAYS)], axis=1)                      # (points, 8)
 
 
+def engine_index(eng, shape):
+    """Grid (rows, cols) -> index into the engine's square arrays (-1 = not scored)."""
+    idx = np.full(shape, -1, "int64")
+    idx[eng["rows"], eng["cols"]] = np.arange(len(eng["rows"]))
+    return idx
+
+
+def engine_specs(eng):
+    """The profiled species in the shape summary.build expects (season is a soft prior: always shown)."""
+    return [{"code": c, "latin": p["latin_name"], "common": p["english_name"], "months": list(range(1, 13)),
+             "season_text": p["season_text"]} for c, p in eng["profiles"].items()]
+
+
+def _mode(a, axis=0):
+    """Most common whole value along `axis` (for states and day counts in a zone)."""
+    a = np.nan_to_num(np.asarray(a), nan=-1).astype(int)
+    if a.size == 0:
+        return np.full(a.shape[1:], -1)
+    off = a.min()
+    return np.apply_along_axis(lambda v: np.bincount(v - off).argmax() + off, axis, a)
+
+
 def species_scores(base, months, specs, share):
     """Per-cell species score for each day (habitat mask applied by the caller)."""
     return {s["code"]: (base + share) * np.array([SP.in_season(m, s) for m in months], float)[None, :]
@@ -145,6 +169,23 @@ def build(run, private=True):            # `private` is kept for old callers; ev
     share = SP.season_share(W)
     sp_mask = {s["code"]: SP.species_habitat(np.ones_like(tree), tree, band, s) for s in specs}
     sp_score = species_scores(base, months, specs, share)
+    fnames, inames = FACTORS, INPUTS
+
+    # v0.3 species engine (when species/*.yaml profiles exist): the map shows the multiplied score.
+    print("Running the species engine")
+    eng = engine_daily.run(run, hab["forest_type"] > 0)
+    if eng:
+        eidx = engine_index(eng, hab["forest_type"].shape)
+        ei = eidx[rows, cols]
+        ge = eng["general"]
+        gen = ge["habitat"][ei] > 0
+        score = np.where(gen[:, None], ge["score"][ei], np.nan)
+        fnames, inames = engine_daily.PARTS, engine_daily.INPUTS
+        fac = {k: ge["parts"][ei, :, j] for j, k in enumerate(fnames)}
+        inp = {k: ge["inputs"][ei, :, j] for j, k in enumerate(inames)}
+        sp_mask = {c: eng["habitat"][c][ei] > 0 for c in eng["codes"]}
+        sp_score = {c: eng["score"][c][ei] for c in eng["codes"]}
+        specs = engine_specs(eng)
 
     # ---------------------------------------------------------- hexagons (public)
     hexes = np.array([h3.latlng_to_cell(la, lo, pv["h3_resolution"]) for la, lo in zip(lat, lon)])
@@ -177,8 +218,8 @@ def build(run, private=True):            # `private` is kept for old callers; ev
                       "geometry": {"type": "Polygon", "coordinates": [ring]}})
 
         sel = mg if has_gen else m                       # cells behind the "why" bars
-        fm = {k: _nanmean(fac[k][sel]) for k in FACTORS}
-        im = {k: _nanmean(inp[k][sel]) for k in INPUTS}
+        fm = {k: _nanmean(fac[k][sel]) for k in fnames}
+        im = {k: (_mode(inp[k][sel]) if k in ("state", "left_days") else _nanmean(inp[k][sel])) for k in inames}
         clat, clon = h3.cell_to_latlng(hx)
         counts = np.bincount(tree[m], minlength=6)[1:5]
         alt = (float(np.nanmin(elev[m])), float(np.nanmax(elev[m])))
@@ -186,8 +227,8 @@ def build(run, private=True):            # `private` is kept for old callers; ev
             "where": summary.near(clat, clon, places),
             "alt": [int(alt[0]), int(alt[1])],
             "trees": {str(i + 1): round(float(n) / len(m), 2) for i, n in enumerate(counts) if n},
-            "f": [[int(round(float(np.nan_to_num(fm[k][d])) * 100)) for k in FACTORS] for d in range(N_DAYS)],
-            "in": [[round(float(np.nan_to_num(im[k][d])), 1) for k in INPUTS] for d in range(N_DAYS)],
+            "f": [[int(round(float(np.nan_to_num(fm[k][d])) * 100)) for k in fnames] for d in range(N_DAYS)],
+            "in": [[round(float(np.nan_to_num(im[k][d])), 1) for k in inames] for d in range(N_DAYS)],
             "road": rd.describe(float(cx[m].mean()), float(cy[m].mean())) if rd else None,
         })
         zones.append({
@@ -199,7 +240,7 @@ def build(run, private=True):            # `private` is kept for old callers; ev
             "spot": len(spots) - 1,                           # index into spots.json (zone details)
         })
     _write_geojson(PUBLIC / "hexes.geojson", feats)
-    (PUBLIC / "spots.json").write_text(json.dumps({"factors": FACTORS, "inputs": INPUTS, "spots": spots},
+    (PUBLIC / "spots.json").write_text(json.dumps({"factors": fnames, "inputs": inames, "spots": spots},
                                                   separators=(",", ":"), ensure_ascii=False))
     print(f" - {len(feats)} public hexagons ({sum(z['score'] is not None for z in zones)} on the general map)")
 
@@ -241,17 +282,27 @@ def build(run, private=True):            # `private` is kept for old callers; ev
                     for v in sources.values() if isinstance(v, dict) and "credit" in v],
         "safety": "Conditions only. Never eat a wild mushroom based on this map, an app or an AI.",
     }
+    if eng:                                   # v0.3: multiplied score, no weights
+        meta["engine"] = {"parts": fnames, "inputs": inames, "codes": eng["codes"], "species": eng["profiles"],
+                          "states": STATE_NAMES}
     (PUBLIC / "meta.json").write_text(json.dumps(meta, indent=1))
-    summ = summary.build(zones, day_info, meta, specs)
+    summ = summary.build(zones, day_info, meta, specs, engine=bool(eng))
     (PUBLIC / "summary.json").write_text(json.dumps(summ, indent=1, ensure_ascii=False))
     print(f" - summary.json: top {len(summ['days'][0]['top_zones'])} zones per day + species")
 
-    export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of)
+    export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of, eng)
     from . import hotspots
     hotspots.build(summ, g)
 
 
-def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
+def _pack(fac, inp):
+    """[cells, days, parts] x100 and [cells, days, inputs] x10 -> int16 rows (-1 = none)."""
+    f100 = np.where(np.isfinite(fac), np.round(fac * 100), -1)
+    i10 = np.where(np.isfinite(inp), np.round(inp * 10), -1)
+    return np.clip(np.concatenate([f100, i10], axis=2).reshape(len(fac), -1), -32000, 32000).astype("<i2")
+
+
+def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of, eng=None):
     """Every 250 m forest square -> PMTiles + details files (public)."""
     OUT = PUBLIC
     S = config.load("scoring")["score"]
@@ -281,12 +332,24 @@ def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
     inp = np.stack([np.stack([d[k][rows, cols] for k in INPUTS], axis=1) for d in days], axis=1)
     base = np.stack([SP.base_score({k: fac[:, i, j] for j, k in enumerate(FACTORS)}, W)
                      for i in range(N_DAYS)], axis=1)
+    fnames, inames = FACTORS, INPUTS
+    sp_cell = {}                                                   # species code -> (n, 8) score or None
+    if eng:                                                        # v0.3: the multiplied score
+        ei = engine_index(eng, hab["forest_type"].shape)[rows, cols]
+        ge = eng["general"]
+        gen = open_ & (ge["habitat"][ei] > 0)
+        fnames, inames = engine_daily.PARTS, engine_daily.INPUTS
+        fac, inp = ge["parts"][ei], ge["inputs"][ei]
+        gscore = np.where(gen[:, None], ge["score"][ei], np.nan)
+        for c in eng["codes"]:
+            ok = open_ & (eng["habitat"][c][ei] > 0)
+            sp_cell[c] = np.where(ok[:, None], eng["score"][c][ei], np.nan)
+            # One details file per species (loaded only when that species is picked and a square tapped).
+            (OUT / f"cells_sp_{c}.bin").write_bytes(_pack(eng["parts"][c][ei], eng["inputs"][c][ei]).tobytes())
 
-    # Details file: int16 [cells, 8 days, 6 factors x100 + 5 inputs x10] + [track m, road m]
-    info = np.full((len(rows), N_DAYS * (len(FACTORS) + len(INPUTS)) + 2), -1, "int16")
-    f100 = np.where(np.isfinite(fac), np.round(fac * 100), -1)
-    i10 = np.where(np.isfinite(inp), np.round(inp * 10), -1)
-    info[:, : N_DAYS * (len(FACTORS) + len(INPUTS))] = np.concatenate([f100, i10], axis=2).reshape(len(rows), -1)
+    # Details file: int16 [cells, 8 days, factors x100 + inputs x10] + [track m, road m]
+    info = np.full((len(rows), N_DAYS * (len(fnames) + len(inames)) + 2), -1, "int16")
+    info[:, : N_DAYS * (len(fnames) + len(inames))] = _pack(fac, inp)
     if rd:
         dt, dr, _ = rd.distances(x, y)
         info[:, -2] = np.clip(np.nan_to_num(dt, nan=-1), -1, 32000)
@@ -298,7 +361,9 @@ def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
     pins = roads.square_pins(cla, clo, hab["reserve_id"][rows, cols])
     (OUT / "cells_road.bin").write_bytes(pins.astype("<f4").tobytes())
     (OUT / "cells_info.json").write_text(json.dumps({
-        "cells": len(rows), "days": N_DAYS, "factors": FACTORS, "inputs": INPUTS,
+        "cells": len(rows), "days": N_DAYS, "factors": fnames, "inputs": inames,
+        "species_files": [f"cells_sp_{c}.bin" for c in sp_cell],
+        "species_layout": "cells_sp_<code>.bin: like cells_info.bin without track_m, road_m",
         "layout": "int16 little-endian; per cell: days x (factors x100, inputs x10), then track_m, road_m; -1 = none",
         "road_layout": "cells_road.bin: float32 little-endian; per cell: lat, lon of the square's centre (Drive there pin); NaN = in/touching a nature reserve"}))
 
@@ -306,9 +371,15 @@ def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
     for n, (r, c) in enumerate(zip(rows, cols)):
         x0 = g.west + c * g.res; y1 = g.north - r * g.res
         xs, ys = to_ll.transform([x0, x0 + g.res, x0 + g.res, x0, x0], [y1, y1, y1 - g.res, y1 - g.res, y1])
-        props = {f"s{i}": (int(round(d["score"][r, c])) if np.isfinite(d["score"][r, c]) else None)
-                 for i, d in enumerate(days)}
-        props.update({f"b{i}": int(round(base[n, i])) for i in range(N_DAYS)})
+        if eng:
+            props = {f"s{i}": (int(round(v)) if np.isfinite(v) else None) for i, v in enumerate(gscore[n])}
+            for code, v in sp_cell.items():
+                if np.isfinite(v[n, 0]):
+                    props.update({f"{code}{i}": int(round(x)) for i, x in enumerate(v[n])})
+        else:
+            props = {f"s{i}": (int(round(d["score"][r, c])) if np.isfinite(d["score"][r, c]) else None)
+                     for i, d in enumerate(days)}
+            props.update({f"b{i}": int(round(base[n, i])) for i in range(N_DAYS)})
         props.update({f"p{i}": int(clk_pt[near_pt[n], i]) for i in range(N_DAYS)})
         props.update({"i": n, "tree": int(tree[n]), "band": int(band[n]), "g": int(gen[n]),
                       "elev": int(round(float(np.nan_to_num(hab["elevation_m"][r, c])))),

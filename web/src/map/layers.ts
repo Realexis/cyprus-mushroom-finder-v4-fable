@@ -12,6 +12,7 @@ export interface Filter {
   trees: number[]; bands: number[];  // species habitat (private 250 m cells)
   inSeason: boolean;                 // species season window on the chosen day
   seasonShare: number;               // points the season factor is worth (species: full)
+  engine: boolean;                   // v0.3: species score is stored per square (code + day), never grey
 }
 
 export interface View { day: number; mode: Mode; priv: boolean; filter: Filter; replayIndex: number; }
@@ -44,7 +45,7 @@ function ramp(prop: ExpressionSpecification, stops: [number, string][]): Express
 export const hexProp = (day: number, f: Filter) => (f.code ? `${f.code}${day}` : `s${day}`);
 
 function hexColor(v: View): ExpressionSpecification | string {
-  if (v.filter.code && !v.filter.inSeason) return OUT_OF_SEASON;
+  if (v.filter.code && !v.filter.inSeason && !v.filter.engine) return OUT_OF_SEASON;
   return ramp(["to-number", ["get", hexProp(v.day, v.filter)], 0], SCORE_STOPS);
 }
 
@@ -54,12 +55,14 @@ function hexFilter(v: View): FilterSpecification {
 
 function cellColor(v: View): ExpressionSpecification | string {
   if (!v.filter.code) return ramp(["to-number", ["get", `s${v.day}`], 0], SCORE_STOPS);
+  if (v.filter.engine) return ramp(["to-number", ["get", `${v.filter.code}${v.day}`], 0], SCORE_STOPS);
   if (!v.filter.inSeason) return OUT_OF_SEASON;
   return ramp(["+", ["to-number", ["get", `b${v.day}`], 0], v.filter.seasonShare], SCORE_STOPS);
 }
 
 function cellFilter(v: View): FilterSpecification {
   if (!v.filter.code) return ["all", ["==", ["get", "closed"], 0], ["==", ["get", "g"], 1]];
+  if (v.filter.engine) return ["all", ["==", ["get", "closed"], 0], ["has", `${v.filter.code}${v.day}`]];
   return ["all", ["==", ["get", "closed"], 0],
     ["in", ["get", "tree"], ["literal", v.filter.trees]],
     ["in", ["get", "band"], ["literal", v.filter.bands]]];
