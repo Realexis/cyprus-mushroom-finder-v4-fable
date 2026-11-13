@@ -15,7 +15,7 @@ import { mountEmergency, mountSafetyToggle } from "./ui/safety";
 import { mountSpecies, speciesByCode, type SpeciesNow } from "./ui/species";
 import { CellInfo, cellSpot, fmtDay, hexSpot, type SpotData, type Spots } from "./ui/spot";
 import { applyTheme, currentTheme, toggleTheme } from "./ui/theme";
-import { PREVIEW_BADGE, VERSION } from "./version";
+import { BADGE_TEXT, PREVIEW_BADGE, VERSION } from "./version";
 import { hideMapTip as hideTip, mountTips, showAt } from "./ui/tips";
 import { mountGuide } from "./ui/guide";
 import { renderLegend } from "./ui/legend";
@@ -116,7 +116,7 @@ async function main() {
   applyTheme(sw.theme ?? currentTheme());
   if (PREVIEW_BADGE) {
     const sub = document.querySelector(".brand-sub");
-    sub?.insertAdjacentHTML("afterend", ` <span class="ver-badge" data-tip="Test version ${VERSION}. Not the live site.">v${VERSION.split(".").slice(0, 2).join(".")} preview</span>`);
+    sub?.insertAdjacentHTML("afterend", ` <span class="ver-badge" data-tip="Test version: ${BADGE_TEXT} (${VERSION}). Not the live site.">${BADGE_TEXT}</span>`);
   }
   mountTips();
   mountSafetyToggle();
