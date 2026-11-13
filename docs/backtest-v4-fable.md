@@ -132,3 +132,23 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
 - Backtest (same weather): both fennel king oyster finds (25 Jan, 12 Feb 2026) are still inside open windows.
   **But neither is within 2 km of a fennel record**: they hit through the grassland stand-in.
   Records show where people looked, not everywhere fennel grows.
+
+### Step 11: the bucket against the model's own soil moisture
+
+`uv run python -m shroomy.engine.check_bucket <run file>` compares, on forest squares (every 8th), the bucket fill
+with ECMWF soil moisture (top 7 cm) interpolated to the square, observed days only, first week skipped (spin-up).
+
+| Run | Days | Squares | r (level, median) | r (day-to-day change) | Best lag |
+|---|---|---|---|---|---|
+| `run_2026-11-13` (31 past days) | 25 | 5,521 | 0.85 (p10-p90 0.63-0.95) | 0.79 | 0 days |
+| `season_2026-11-13` (from 12 Oct) | 26 | 5,521 | 0.84 (0.64-0.94) | 0.80 | 0 days |
+
+- **They move together**, on the same days. By Fable's rule the 12 bucket guesses are **good enough for now**,
+  so they are not tuned. This is only one month of autumn; the full 2025-26 season is checked below.
+
+### Step 12: confidence note for users
+
+- New About section **"How sure is this map?"** (Fable's draft), with the hit numbers from this log.
+- Also corrected About lines made wrong by these steps: the mushroom clock (19 days, 2-day re-wet, open while wet),
+  soil temperature (now from Open-Meteo), burned areas (EFFIS with fire dates), giant fennel (GBIF records),
+  desert truffle host. Checked at 375 px and desktop: no sideways scroll.
