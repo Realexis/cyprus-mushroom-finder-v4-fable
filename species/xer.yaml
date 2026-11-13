@@ -13,11 +13,11 @@ confidence: low
 host_trees: {golden_oak: 1.0, kermes_oak: 1.0}          # [SPEC] oaks
 altitude_range: [0, 1950]                               # [GUESS]
 trigger_mm: 20                                          # [GUESS]
-wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+wait_degree_days: {total: 150, base_c: 4}               # [LOI19 + backtest weather; base 4 C still a GUESS] first flush 18-20 days after >20 mm: 19 days x (12.2 - 4) C = 156
 soil_temp_window: {min: 6, best: [12, 20], max: 26}     # [GUESS] oak group, warmer end
 extra_cues: {}
 window_length_days: 10                                  # [GUESS]
-recovery_days: 21                                       # [GUESS]
+recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
 season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 0.3}  # [SPEC] autumn
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)

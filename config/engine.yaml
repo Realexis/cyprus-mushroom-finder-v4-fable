@@ -58,8 +58,13 @@ cycle:
   # An open window closes early when the bucket falls below this, or on a frost night.
   close_below_fill: 0.15           # [DRAFT] E9
   # A window cut short by dryness or frost is not "used up": back to Primed.
-  # A window that runs its full length goes to Spent, then Recovering. [DRAFT] E10
+  # A window that runs its full length: species with recovery_days 0 go on as a "late window"
+  # while the soil stays wet (factor.late_open); the others go to Spent, then Recovering. [DRAFT] E10
   spent_days: 3                    # [DRAFT] E10: part of recovery_days shown as "Spent"
+  # Once a window has opened this season (since 1 September), a new soaking rain re-opens it
+  # after this many days instead of the full degree-day wait. [LOI19] "usually 1-2 days
+  # following subsequent rainfall episodes".
+  rewet_wait_days: 2
   # Cycle factor per state (multiplies the score).
   factor:                          # [DRAFT] E11
     dormant: 0.05
@@ -67,6 +72,7 @@ cycle:
     triggered_start: 0.3           # rises with degree-day progress ...
     triggered_end: 0.8             # ... to this just before the window opens
     open: 1.0
+    late_open: 0.6                 # [GUESS] open past its full length, soil still wet (audit step 3)
     spent: 0.1
     recovering: 0.2
 

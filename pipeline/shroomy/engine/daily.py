@@ -65,7 +65,8 @@ def _left_days(state, t0, window_days, days):
                 found |= hit
             if want == OPEN:                       # still open at the end of the run: estimate
                 rest = m & ~found
-                out[rest, k] = np.maximum(window_days - days[rest, t], 1)
+                out[rest, k] = np.where(days[rest, t] < window_days, np.maximum(window_days - days[rest, t], 1),
+                                        -1)        # late window: lasts while the soil stays wet, unknown
     return out
 
 

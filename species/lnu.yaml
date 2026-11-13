@@ -13,11 +13,11 @@ confidence: medium                                      # [SPEC]
 host_trees: {calabrian_pine: 1.0, black_pine: 1.0, golden_oak: 1.0}   # [SPEC] all forest; [S7] other broadleaf only for morels
 altitude_range: [0, 1950]                               # [GUESS]
 trigger_mm: 20                                          # [GUESS]
-wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+wait_degree_days: {total: 150, base_c: 4}               # [LOI19 + backtest weather; base 4 C still a GUESS] first flush 18-20 days after >20 mm: 19 days x (12.2 - 4) C = 156
 soil_temp_window: {min: 2, best: [6, 14], max: 20}      # [GUESS] "rain + cool weather" [SPEC]
 extra_cues: {}
 window_length_days: 14                                  # [GUESS] "long season into winter"
-recovery_days: 21                                       # [GUESS]
+recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
 season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 0.3}   # [SPEC] autumn-winter
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)

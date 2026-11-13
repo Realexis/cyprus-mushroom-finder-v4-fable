@@ -37,3 +37,21 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
   most in "triggered" or "recovering".
 - Morels, 28 Feb (Karpas): the nearest morel habitat is **126 km** away (only burnt squares count).
 - This file stops at 28 Feb, so March-April finds are not tested yet.
+
+### Steps 2+3: wait about 19 days, no lock-out (same Sep-Feb weather)
+
+| | Find events | Hit | Base rate | Gap |
+|---|---|---|---|---|
+| Species-level | 10 | **90 %** (was 0 %) | 37 % (was 16 %) | **+53 %** (was −16 %) |
+| Genus only (weak) | 7 | 57 % (was 14 %) | 38 % | +19 % |
+
+- **Dry autumn still zero.** September to November 2025: 0 % open for every species.
+- **First windows later.** Red pine mushroom: first open squares 14 Dec (was 7 Dec), 28 % open on 26 Dec.
+  The 18-20 day field rule (LOI19) from 7 Dec gives about 26 Dec.
+- **No January gap.** Red pine open share by month: Dec 11 %, Jan 63 %, Feb 88 % (was 25 %, 2 %, 33 %).
+- **Finds now inside windows:** slippery Jack 27 Dec (×2), 10 Jan, 28 Feb; red pine 29 Jan; shaggy ink cap
+  11 Jan, 19 Feb; fennel king oyster 25 Jan, 12 Feb.
+- **Still missed:** slippery Jack on 2 Dec (Troodos, before the first island-wide soaking rain).
+  Morels 28 Feb: no morel habitat within 126 km (step 8).
+- **Honest note:** the base rate rose too. Once wet, the winter stays open almost everywhere
+  (shaggy ink cap 96-99 % in Jan-Feb). The gap, not the hit rate, is the result.

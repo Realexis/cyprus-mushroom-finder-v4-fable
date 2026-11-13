@@ -108,14 +108,18 @@ def test_degree_days():
 
 
 # ------------------------------------------------------------------ cycle
-def _run(rain, fill, tsoil, frost=None, prof=P):
+def _run(rain, fill, tsoil, frost=None, prof=P, new_season=None):
     n = len(rain)
     rw = np.array(rain, float)[None, :]
     f = np.array(fill, float)[None, :]
     ts = np.array(tsoil, float)[None, :]
     fr = np.zeros((1, n), bool) if frost is None else np.array(frost, bool)[None, :]
     tok = temperature_fit(ts, prof["temp"]) > 0
-    return C.run_cycle(rw, f, ts, tok, fr, prof, E["cycle"])
+    return C.run_cycle(rw, f, ts, tok, fr, prof, E["cycle"], new_season)
+
+
+P0 = engine_params({**TEST_PROFILE, "recovery_days": 0}, E)     # forest species after audit step 3
+REWET = E["cycle"]["rewet_wait_days"]
 
 
 def test_full_cycle():
@@ -174,6 +178,51 @@ def test_cycle_factor_rises_while_triggered():
     out = _run([30] + [0] * 11, [0.9] * 12, [11] * 12)
     f = out["factor"][0]
     assert f[0] < f[5] < f[9] < f[10] == E["cycle"]["factor"]["open"]
+
+
+def test_new_rain_reopens_after_two_days_once_the_season_started():
+    """LOI19: after the first flush, surveys go out 1-2 days after each new rain. No 21-day rest."""
+    n = 60
+    rain = [30] + [0] * 29 + [30] + [0] * (n - 31)
+    fill = [0.9] * 14 + [0.05] * 6 + [0.9] * (n - 20)   # window opens day 10, dry soil closes it day 14
+    s = _run(rain, fill, [11] * n, prof=P0)["state"][0]
+    assert s[10] == C.OPEN and s[14] == C.PRIMED
+    assert s[30] == C.TRIGGERED
+    assert s[30 + REWET] == C.OPEN                      # 2 days, not another 10-day degree-day wait
+
+
+def test_first_flush_still_needs_the_full_wait():
+    n = 30
+    s = _run([30] + [0] * (n - 1), [0.9] * n, [11] * n, prof=P0)["state"][0]
+    assert int(np.argmax(s == C.OPEN)) == 10             # 60 dd at 6 a day
+
+
+def test_wet_window_goes_on_as_late_window():
+    n = 40
+    fill = [0.9] * 30 + [0.05] * (n - 30)
+    out = _run([30] + [0] * (n - 1), fill, [11] * n, prof=P0)
+    s, f = out["state"][0], out["factor"][0]
+    assert np.all(s[10:30] == C.OPEN)                    # past its 10 days while the soil stays wet
+    assert f[15] == E["cycle"]["factor"]["open"]
+    assert f[25] == E["cycle"]["factor"]["late_open"]
+    assert s[30] == C.PRIMED                             # dry soil closes it
+    assert not np.any(s == C.SPENT)
+
+
+def test_species_with_recovery_still_rest():
+    n = 50
+    s = _run([30] + [0] * (n - 1), [0.9] * n, [11] * n)["state"][0]   # recovery_days 20
+    assert s[20] == C.SPENT
+
+
+def test_1_september_resets_the_season():
+    n = 40
+    rain = [30] + [0] * 24 + [30] + [0] * (n - 26)
+    fill = [0.9] * 14 + [0.05] * 6 + [0.9] * (n - 20)
+    ns = [False] * 20 + [True] + [False] * (n - 21)     # new season starts on day 20
+    s = _run(rain, fill, [11] * n, prof=P0, new_season=ns)["state"][0]
+    assert s[25] == C.TRIGGERED and s[25 + REWET] != C.OPEN   # full degree-day wait again
+    assert s[35] == C.OPEN
 
 
 # ------------------------------------------------------------------ score

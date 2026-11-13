@@ -50,13 +50,14 @@ def run_species(prof, inp, water, ecfg=None, scfg=None):
     wfit = water_fit(water["fill"], *p["water"])
     tfit = temperature_fit(water["tsoil"], p["temp"])
     rain_win = rolling_sum(inp["precip"], p["trigger_days"])
-    cyc = run_cycle(rain_win, water["fill"], water["tsoil"], tfit > 0, water["frost"], p, ecfg["cycle"])
+    new_season = [str(d)[5:] == "09-01" for d in inp["dates"]] if inp.get("dates") is not None else None
+    cyc = run_cycle(rain_win, water["fill"], water["tsoil"], tfit > 0, water["frost"], p, ecfg["cycle"], new_season)
     prior = season_prior(inp["month"], p["season"], ecfg["season_prior"]["floor"])[None, :]
     score = combine(hab[:, None], wfit, tfit, cyc["factor"], prior)
     return {"score": score.astype("float32"), "habitat": hab.astype("float32"),
             "water": wfit.astype("float32"), "temperature": tfit.astype("float32"),
             "cycle": cyc["factor"], "state": cyc["state"], "dd": cyc["dd"], "days": cyc["days"],
-            "trigger_t": cyc["trigger_t"], "prior": np.broadcast_to(prior, score.shape),
+            "trigger_t": cyc["trigger_t"], "late": cyc["late"], "prior": np.broadcast_to(prior, score.shape),
             "unused_cues": p["unused_cues"]}
 
 

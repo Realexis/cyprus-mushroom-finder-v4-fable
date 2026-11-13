@@ -13,11 +13,11 @@ confidence: low                                         # [SPEC]
 host_trees: {calabrian_pine: 1.0, black_pine: 1.0, golden_oak: 0.5}   # [SPEC] pine, golden oak; oak weight [GUESS]
 altitude_range: [600, 1950]                             # [BRIEF] mid and high; 600 m edge [GUESS]
 trigger_mm: 20                                          # [GROUP]
-wait_degree_days: {total: 72, base_c: 4}                # [GROUP]
+wait_degree_days: {total: 150, base_c: 4}               # [LOI19 + backtest weather; base 4 C still a GUESS] first flush 18-20 days after >20 mm: 19 days x (12.2 - 4) C = 156
 soil_temp_window: {min: 2, best: [6, 14], max: 20}      # [GUESS] Nov-Jan species: cooler than the group
 extra_cues: {temperature_drop: true}                    # [SPEC] cold cue, not modelled yet
 window_length_days: 10                                  # [GROUP]
-recovery_days: 21                                       # [GROUP]
+recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
 season_prior: {oct: 0.3, nov: 1.0, dec: 1.0, jan: 1.0, feb: 0.3}   # [SPEC] Nov-Jan
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)

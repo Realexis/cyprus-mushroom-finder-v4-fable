@@ -67,15 +67,15 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | E7 | Bucket fill for zero / full water fit | 0.15 / 0.60 | `water_fit` |
 | E8 | Soil temperature = air running mean, lag | 4 days (until P2) | `soil_temperature.proxy_days` |
 | E9 | Trigger needs bucket 50% full; wait cancelled / window closed below 15% | 0.5 / 0.15 | `cycle` |
-| E10 | Window cut short by dry soil or frost goes back to Primed (not Spent); Spent = first 3 recovery days | our reading of the spec | `cycle.spent_days` |
-| E11 | Score multiplier per cycle state | dormant 0.05, primed 0.2, triggered 0.3-0.8, open 1, spent 0.1, recovering 0.2 | `cycle.factor` |
+| E10 | Window cut short by dry soil or frost goes back to Primed (not Spent); Spent = first 3 recovery days. **Audit step 3:** species with `recovery_days: 0` go on as a late window while wet; once a window has opened since 1 Sep, new soaking rain re-opens it after 2 days `[LOI19]` | our reading of the spec + LOI19 | `cycle.spent_days`, `cycle.rewet_wait_days` |
+| E11 | Score multiplier per cycle state | dormant 0.05, primed 0.2, triggered 0.3-0.8, open 1, **late window 0.6 [GUESS]**, spent 0.1, recovering 0.2 | `cycle.factor` |
 | E12 | Soft edges: tree cover 15 points, altitude 150 m | | `habitat` |
 | E13 | Burnt share for full morel habitat | 0.5 | `habitat.burn_full_at_frac` |
 | E14 | pH acid below 6.5, alkaline above 7.5, ramp 1 unit | | `habitat.ph_*` |
 | P2 | **Fetch Open-Meteo soil temperature** (`soil_temperature_0_to_7cm`). Check the call budget first | proxy from air temperature | `config/weather.yaml` |
 
 | L5 | **Species-specific lookalikes** for each profile (spec wants 2-3, sourced). Now: red pine mushroom and bloody milk cap list only *Lactarius chrysorrheus* (the brief's milk-colour note; for the bloody milk cap it is our guess) | 1 each | `species/*.yaml` |
-| S12 | Profile numbers for red pine mushroom and bloody milk cap (wait 72 degree-days above 4 C, soil 3-24 C best 8-18, window 10 days, recovery 21 days, season edges) are guesses; calibrate in step 9 | guesses | `species/lde.yaml`, `lsa.yaml` |
+| S12 | Profile numbers for red pine mushroom and bloody milk cap (wait **150** degree-days above 4 C [LOI19 + backtest weather, audit step 2; base 4 C a guess], recovery **0** [LOI19, step 3]; soil 3-24 C best 8-18, window 10 days, season edges) are guesses | guesses | `species/lde.yaml`, `lsa.yaml` |
 | E15 | Land cover counts from a 20% share of the square, full weight from 50% | 0.2 / 0.5 | `config/engine.yaml` `habitat.land_cover_*` |
 | S13 | Step 6 profiles (12 species): most numbers are group defaults copied from the red pine mushroom, marked [GROUP] or [GUESS] in each file. Not modelled yet: warm spells (white brittlegill), cold cue (matsutake), humidity (fennel king oyster), fire year (morels), Oct-Dec rain memory (desert truffle) | guesses | `species/*.yaml` |
 | S14 | Fennel king oyster: no giant fennel map. Fields and grassland stand in at half weight. No photo with an allowed licence on iNaturalist yet | stand-in | `species/pfe.yaml` |
@@ -94,3 +94,10 @@ Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure
 | D5 | Burned ground source for morels | not chosen |
 | D6 | Rare species list for the public view | not given |
 | D7 | Local Greek names (except kokkinomanitaro) | "to confirm with the Cyprus Mycological Association" |
+
+## Audit steps (V4 Fable feedback branch, 2026-11-13)
+| # | What | Now | Where |
+|---|---|---|---|
+| A1 | Wait for the first flush: 150 degree-days above 4 C for forest and fennel species `[LOI19 + backtest weather]`. Shaggy ink cap and field mushroom kept at 72 (fast recyclers, no source). Morels and desert truffle kept at 72: LOI19 is an autumn woodland rule | 150 / 72 | `species/*.yaml` |
+| A2 | Late window factor (open past its full length, soil still wet) | 0.6 [GUESS] | `engine.yaml cycle.factor.late_open` |
+| A3 | Morels 30 and desert truffle 60 recovery days kept: nothing found either way | [GUESS] | `species/mor.yaml`, `ter.yaml` |

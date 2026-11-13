@@ -16,11 +16,11 @@ land_cover: {clc_burnt: 1.0}                            # CORINE 2018 burnt area
 min_tree_cover_pct: 0
 altitude_range: [300, 1950]                             # [BRIEF] mid-high; 300 m edge [GUESS]
 trigger_mm: 15                                          # [GUESS]
-wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS] kept: the 18-20 day rule (LOI19) is for autumn woodland fungi, not spring species
 soil_temp_window: {min: 4, best: [8, 14], max: 20}      # [SPEC] spring soil warming (~10 C); range [GUESS]
 extra_cues: {needs_burn: true, one_spring_after_fire: true}   # needs_burn is used; fire year not yet (V4)
 window_length_days: 14                                  # [GUESS]
-recovery_days: 30                                       # [GUESS]
+recovery_days: 30                                   # [GUESS] kept long: nothing found either way (audit step 3)
 season_prior: {feb: 0.3, mar: 1.0, apr: 1.0, may: 0.3}  # [SPEC] Mar-Apr
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)

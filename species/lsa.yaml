@@ -14,11 +14,11 @@ host_trees:
 altitude_range: [1200, 1950]                            # [SPEC] above 1,200 m; top = black pine top [BRIEF]
 trigger_mm: 20                                          # [GUESS] same as the red pine mushroom (same group)
 # [GUESS] same group and genus as the red pine mushroom: same 7-20 day rule.
-wait_degree_days: {total: 72, base_c: 4}
+wait_degree_days: {total: 150, base_c: 4}               # [LOI19 + backtest weather; base 4 C still a GUESS] first flush 18-20 days after >20 mm: 19 days x (12.2 - 4) C = 156
 soil_temp_window: {min: 3, best: [8, 18], max: 24}      # [GUESS] as the red pine mushroom
 extra_cues: {}
 window_length_days: 10                                  # [GUESS] as the red pine mushroom
-recovery_days: 21                                       # [GUESS]
+recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
 season_prior: {aug: 0.3, sep: 1.0, oct: 1.0, nov: 0.3}  # [SPEC] Sep-Oct; Aug/Nov edges [GUESS]
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}  # [SPEC] 3.9
 lookalikes:
