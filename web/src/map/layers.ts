@@ -2,7 +2,9 @@
 import type { ExpressionSpecification, FilterSpecification, Map as MlMap } from "maplibre-gl";
 import type { Theme } from "./style";
 
-export type Mode = "conditions" | "rain7" | "rain30" | "replay";
+export type Mode = "conditions" | "rain7" | "rain30" | "replay" | "soilw" | "soilph";
+export const isRain = (m: Mode) => m === "rain7" || m === "rain30" || m === "replay";
+export const isSoil = (m: Mode) => m === "soilw" || m === "soilph";
 
 /** What the map is coloured for: the general map or one species' habitat. */
 export interface Filter {
@@ -24,6 +26,13 @@ export const RAIN1_STOPS: [number, string][] = [[0, "rgba(217,232,242,0)"], [0.5
 // Shade (50 m hotspot zoom): sunny = pale sand, deep shade = deep teal.
 export const SHADE_STOPS: [number, string][] = [[0, "#f1e3b5"], [35, "#b9c98f"], [55, "#5f9e86"], [75, "#2f6f78"], [100, "#183a5a"]];
 const OUT_OF_SEASON = "#8c928f";
+// Soil views (v0.3): water held in the top 30 cm (mm) and soil pH. Estimates from SoilGrids.
+export const SOILW_STOPS: [number, string][] = [[15, "#efe0b4"], [22, "#c9d98f"], [27, "#7fbf8e"], [32, "#3f9a8a"], [40, "#1d5f7a"]];   // Cyprus forest soils: p10 20 mm, p90 34 mm
+export const SOILPH_STOPS: [number, string][] = [[5.0, "#d7642c"], [6.0, "#ebb76c"], [7.0, "#f2ede0"], [7.6, "#a9a9dc"], [8.3, "#5e56a8"]];
+function soilColor(v: View): ExpressionSpecification {
+  return v.mode === "soilph" ? ramp(["/", ["to-number", ["get", "ph"], 70], 10], SOILPH_STOPS)
+    : ramp(["to-number", ["get", "awc"], 0], SOILW_STOPS);
+}
 
 function ramp(prop: ExpressionSpecification, stops: [number, string][]): ExpressionSpecification {
   return ["interpolate", ["linear"], prop, ...stops.flat()] as unknown as ExpressionSpecification;
@@ -99,7 +108,7 @@ export function addOverlays(map: MlMap, theme: Theme, urls: LayerUrls, v: View) 
   map.addSource("rain", { type: "geojson", data: urls.rain, attribution: "Weather: Open-Meteo.com (CC BY 4.0)" });
   map.addLayer({
     id: "rain-fill", type: "fill", source: "rain",
-    layout: { visibility: v.mode === "conditions" ? "none" : "visible" },
+    layout: { visibility: isRain(v.mode) ? "visible" : "none" },
     paint: { "fill-color": rainColor(v), "fill-opacity": 0.72, "fill-antialias": false },
   }, firstSymbol);
 
@@ -131,6 +140,12 @@ export function addOverlays(map: MlMap, theme: Theme, urls: LayerUrls, v: View) 
       id: "cells-fill", type: "fill", source: "cells", "source-layer": "cells", filter: cellFilter(v),
       layout: { visibility: v.mode === "conditions" && v.priv ? "visible" : "none" },
       paint: { "fill-color": cellColor(v), "fill-opacity": 0.72, "fill-antialias": false },
+    }, firstSymbol);
+    map.addLayer({
+      id: "soil-fill", type: "fill", source: "cells", "source-layer": "cells",
+      filter: ["all", ["==", ["get", "closed"], 0], ["has", "awc"]],
+      layout: { visibility: isSoil(v.mode) ? "visible" : "none" },
+      paint: { "fill-color": soilColor(v), "fill-opacity": 0.85, "fill-antialias": false },
     }, firstSymbol);
     map.addLayer({ id: "cells-selected-halo", type: "line", source: "cells", "source-layer": "cells",
       filter: ["==", ["get", "i"], -1], paint: { "line-color": SEL_HALO, "line-width": selW(5, 8) } }, firstSymbol);
@@ -184,8 +199,12 @@ export function addOverlays(map: MlMap, theme: Theme, urls: LayerUrls, v: View) 
 export function applyView(map: MlMap, v: View) {
   const vis = (on: boolean) => (on ? "visible" : "none");
   const cond = v.mode === "conditions";
-  map.setLayoutProperty("rain-fill", "visibility", vis(!cond));
-  if (!cond) map.setPaintProperty("rain-fill", "fill-color", rainColor(v));
+  map.setLayoutProperty("rain-fill", "visibility", vis(isRain(v.mode)));
+  if (isRain(v.mode)) map.setPaintProperty("rain-fill", "fill-color", rainColor(v));
+  if (map.getLayer("soil-fill")) {
+    map.setLayoutProperty("soil-fill", "visibility", vis(isSoil(v.mode)));
+    if (isSoil(v.mode)) map.setPaintProperty("soil-fill", "fill-color", soilColor(v));
+  }
   for (const id of ["hex-fill", "hex-line"]) {
     map.setLayoutProperty(id, "visibility", vis(cond && !v.priv));
     map.setFilter(id, hexFilter(v));

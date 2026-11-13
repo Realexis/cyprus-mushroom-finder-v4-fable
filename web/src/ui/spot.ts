@@ -83,7 +83,7 @@ export interface SpotData {
   clock?: (day: number) => number;
   factors?: (day: number) => number[] | null;  // 0..1, in meta factor order
   inputs?: (day: number) => number[] | null;
-  where?: string; trees?: string; altitude?: string; road?: string; note?: string;
+  where?: string; trees?: string; altitude?: string; road?: string; note?: string; soil?: string;
   hot?: Record<string, number>;
   /** Pin for "Drive there" / "Share location". road = nearest road point outside nature reserves
    *  (2 km zones); centre = the middle of a 250 m square (none for squares in or by a reserve). */
@@ -257,6 +257,7 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
   const facts = [
     s.trees ? `<li data-tip="The likely trees, worked out from satellite forest maps, height and rock type. Not a tree survey."><span aria-hidden="true">🌲</span> <b>Trees:</b> ${s.trees}</li>` : "",
     s.altitude ? `<li data-tip="Height above sea level. Higher forest is cooler and its season starts earlier."><span aria-hidden="true">⛰</span> <b>Altitude:</b> ${s.altitude}</li>` : "",
+    s.soil ? `<li data-tip="From SoilGrids (a computer estimate, few Cyprus samples). 'Holds water' compares this square with other Cyprus forest squares."><span aria-hidden="true">🟫</span> <b>Soil:</b> ${s.soil}</li>` : "",
     s.road ? `<li data-tip="Straight-line distance to the nearest forest track and drivable road, from OpenStreetMap. Not a driving route."><span aria-hidden="true">🚙</span> <b>Nearest:</b> ${s.road}</li>` : "",
   ].join("");
   return `
@@ -368,6 +369,8 @@ export function cellSpot(props: Record<string, number>, info: CellInfo | null, s
     inputs: (d) => info?.inputs(i, d) ?? null,
     where: `250 m square · ${lngLat.lat.toFixed(4)}, ${lngLat.lng.toFixed(4)}`,
     trees: TREES[Number(props.tree)] ?? "Forest",
+    soil: props.awc === undefined ? undefined
+      : `holds water ${["", "poorly", "average", "well"][Number(props.hold)] ?? "–"} · pH ${(Number(props.ph) / 10).toFixed(1)}${props.su ? " · <span class=\"muted\">uncertain estimate</span>" : " · <span class=\"muted\">estimate</span>"}${props.tc !== undefined ? ` · tree cover ${props.tc}%` : ""}`,
     altitude: `${Number(props.elev).toLocaleString("en-GB")} m · ${BANDS[Number(props.band)] ?? ""} band`,
     road: rd ? `forest track ${m(rd[0])} · road ${m(rd[1])}` : undefined,
     access: acc ? { ...acc, kind: "centre" } : undefined,

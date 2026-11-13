@@ -43,6 +43,17 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | S11 | **More target species**: public Cyprus records are too few (max ~15 per mushroom on GBIF) to derive trees or seasons | waiting for a source (user / Cyprus Mycological Association) | `config/species.yaml` |
 | P1 | ~~50 m hotspot zoom private?~~ **Answered 2026-11-12: the public site shows the 250 m squares and the hotspot zoom** (overrides the brief's ~2 km rule; finds stay private). 50 m shade is now one fixed island-wide file, `web/public/tiles/shade50.pmtiles` (`shroomy.export.shade50`). **Before merging to `main`, upload it to the `static-v1` release** (the daily robot copies `*.pmtiles` from there) | public | `pipeline/shroomy/export/shade50.py` |
 
+## v0.3 habitat + soil (step 3)
+| # | What | Draft value now | Where |
+|---|---|---|---|
+| V1 | Minimum tree cover for tree-partner species | 30% | `config/soil.yaml -> habitat_v03` |
+| V2 | **Formation -> rock grouping** for "calcareous" (Lefkara, Pakhna, Nicosia, Lapithos, Kyrenia limestones…) | see list | `config/soil.yaml -> geology` |
+| V3 | Drainage classes from texture (fast: sand ≥ 60% or clay < 15%; slow: clay ≥ 35%) | rule of thumb | `config/soil.yaml -> drainage` |
+| V4 | **Burn scars with fire year (EFFIS)**: services did not answer on 2026-11-13. Using CORINE 2018 "burnt areas" (no year) meanwhile | to retry | `pipeline/shroomy/habitat/v03.py` |
+| V5 | Kermes oak (Quercus coccifera) has no map. Golden oak = broadleaf on Troodos rock (approximate) | approximate | habitat layer |
+| V6 | Dept of Forests tree-species map (INSPIRE) not obtained; tree zones stay rule-based (approximate) | approximate | habitat layer |
+| V7 | Clay Atlas geochemical grids (e.g. calcium) could refine "calcareous" | ask the user | — |
+
 ## Data and legal
 | # | What | Status |
 |---|---|---|

@@ -264,6 +264,19 @@ def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
     open_ = hab["habitat_filter"][rows, cols] > 0
     gen = open_ & np.isin(tree, S["general_map_trees"])
 
+    # v0.3 soil layer (if built): water-holding (mm, 0-30 cm), pH, tree cover. Missing = no soil props.
+    soil = {}
+    v03 = config.PROCESSED / "habitat_v03_250m.tif"
+    if v03.exists():
+        with rasterio.open(v03) as src:
+            b = {src.descriptions[i]: src.read(i + 1) for i in range(src.count)}
+        awc = b["awc_mm"][rows, cols]
+        lo, hi = np.nanpercentile(awc, [33.3, 66.7])                 # "holds water" relative to Cyprus forests
+        rel_band = (b["awc_q95_mm"] - b["awc_q05_mm"])[rows, cols] / np.where(awc > 0, awc, np.nan)
+        soil = {"awc": awc, "hold": np.where(awc <= lo, 1, np.where(awc <= hi, 2, 3)),
+                "ph": b["ph"][rows, cols], "tc": b["tree_cover_pct"][rows, cols],
+                "unsure": (rel_band > config.load("soil")["soil_effect"]["neutral_at_rel_band"]) | ~np.isfinite(rel_band)}
+
     fac = np.stack([np.stack([d[f"f_{k}"][rows, cols] for k in FACTORS], axis=1) for d in days], axis=1)
     inp = np.stack([np.stack([d[k][rows, cols] for k in INPUTS], axis=1) for d in days], axis=1)
     base = np.stack([SP.base_score({k: fac[:, i, j] for j, k in enumerate(FACTORS)}, W)
@@ -302,6 +315,11 @@ def export_cells(days, hab, g, to_ll, clk_pt, pt_tree, rd, W, zone_of):
                       "closed": int(not open_[n])})
         if zone_of[r, c] >= 0:
             props["h"] = int(zone_of[r, c])                       # its ~2 km zone in spots.json
+        if soil and np.isfinite(soil["awc"][n]):
+            props.update({"awc": int(round(float(soil["awc"][n]))), "hold": int(soil["hold"][n]),
+                          "ph": int(round(float(soil["ph"][n]) * 10)), "su": int(bool(soil["unsure"][n]))})
+        if soil and np.isfinite(soil["tc"][n]):
+            props["tc"] = int(round(float(soil["tc"][n])))
         feats.append({"type": "Feature", "properties": props,
                       "geometry": {"type": "Polygon", "coordinates": [list(zip(xs, ys))]}})
     gj = OUT / "cells.geojson"

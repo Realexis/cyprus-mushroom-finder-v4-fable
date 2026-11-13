@@ -73,3 +73,31 @@ gbif:
   licence_status: verified
   credit: "Record counts from GBIF.org (Global Biodiversity Information Facility) and iNaturalist."
   use: The "Public records in Cyprus" part of each species card. Never used for the score or the map.
+tree_cover:
+  name: Copernicus HRL Tree Cover Density 2018 (10 m)
+  url: https://image.discomap.eea.europa.eu/arcgis/rest/services/GioLandPublic/HRL_TreeCoverDensity_2018/ImageServer
+  licence: Copernicus full, free and open data policy
+  licence_status: verified
+  credit: "© European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)"
+  use: v0.3 habitat — minimum tree cover for tree-partner species.
+grassland:
+  name: Copernicus HRL Grassland 2018 (10 m)
+  url: https://image.discomap.eea.europa.eu/arcgis/rest/services/GioLandPublic/HRL_Grassland_2018/ImageServer
+  licence: Copernicus full, free and open data policy
+  licence_status: verified
+  credit: "© European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)"
+  use: v0.3 habitat — fields and grassland species.
+corine:
+  name: CORINE Land Cover 2018
+  url: https://image.discomap.eea.europa.eu/arcgis/rest/services/Corine/CLC2018_WM/MapServer
+  licence: Copernicus full, free and open data policy
+  licence_status: verified
+  credit: "© European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)"
+  use: v0.3 habitat — fields, pasture, sclerophyllous scrub (rock-rose), burnt areas (around 2018).
+soilgrids:
+  name: SoilGrids 2.0 (ISRIC) — water retention, texture, pH, organic carbon
+  url: https://maps.isric.org/
+  licence: CC BY 4.0
+  licence_status: verified
+  credit: "SoilGrids 2.0, ISRIC — World Soil Information (CC BY 4.0)"
+  use: v0.3 soil layer — water bucket size, drainage, pH. A machine-learning estimate with few Cyprus profiles.

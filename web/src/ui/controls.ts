@@ -1,6 +1,6 @@
 // Bottom sheet (mobile) / side panel (desktop): days, layer switch, species filter,
 // rain replay, legend, hotspot zoom list and the spot panel.
-import { RAIN1_STOPS, RAIN30_STOPS, RAIN7_STOPS, SCORE_STOPS, SHADE_STOPS, type Filter, type Mode, type View } from "../map/layers";
+import { RAIN1_STOPS, RAIN30_STOPS, RAIN7_STOPS, SCORE_STOPS, SHADE_STOPS, SOILPH_STOPS, SOILW_STOPS, isSoil, type Filter, type Mode, type View } from "../map/layers";
 import { SPECIES, speciesByCode } from "./species";
 import { esc, fmtDay, scoreColour, spotHTML, type SpotData } from "./spot";
 
@@ -254,6 +254,10 @@ export class Panel {
           data-tip="All the rain of the last 30 days. The score gives full points from 80 mm.">Rain 30 days</button>
         <button data-mode="replay" aria-pressed="${this.mode === "replay"}"
           data-tip="Watch the last 30 days of rain move over the island, day by day.">Rain replay</button>
+        <button data-mode="soilw" aria-pressed="${this.mode === "soilw"}"
+          data-tip="How much water the top 30 cm of soil can hold. More water held = good conditions last longer after rain. An estimate.">Soil water</button>
+        <button data-mode="soilph" aria-pressed="${this.mode === "soilph"}"
+          data-tip="Soil pH: acid (orange), neutral (pale) or alkaline (purple). An estimate.">Soil pH</button>
       </div>
       ${rainNote}
       ${this.mode === "replay" ? this.replayHTML() : ""}
@@ -327,6 +331,17 @@ export class Panel {
   }
 
   private legend() {
+    if (isSoil(this.mode)) {
+      const ph = this.mode === "soilph", st = ph ? SOILPH_STOPS : SOILW_STOPS;
+      const lo = st[0][0], hi = st[st.length - 1][0];
+      const bar = `linear-gradient(90deg, ${st.map(([v, c]) => `${c} ${((v - lo) / (hi - lo)) * 100}%`).join(", ")})`;
+      return `<div class="legend" aria-label="${ph ? "Soil pH colours" : "Soil water colours"}">
+        <div class="legend-bar" style="background:${bar}"></div>
+        <div class="legend-scale">${ph ? "<span>acid (5)</span><span>neutral (7)</span><span>alkaline (8+)</span>"
+          : "<span>holds little (15 mm)</span><span>holds a lot (40+ mm)</span>"}</div>
+        <div class="legend-row muted">${ph ? "Soil pH, top 30 cm." : "Water the top 30 cm can hold for plants and fungi."}
+          An estimate from SoilGrids (few Cyprus samples).</div></div>`;
+    }
     if (this.mode === "conditions") {
       const sp = speciesByCode(this.species);
       return `<div class="legend" aria-label="Score colours from 0 to 100">

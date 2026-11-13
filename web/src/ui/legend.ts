@@ -1,6 +1,6 @@
 // The small colour key that always sits on the map. It follows what the map shows:
 // growing-conditions scores, rain, or (when zoomed in) the 50 m shade squares.
-import { RAIN1_STOPS, RAIN30_STOPS, RAIN7_STOPS, SCORE_STOPS, SHADE_STOPS, type View } from "../map/layers";
+import { RAIN1_STOPS, RAIN30_STOPS, RAIN7_STOPS, SCORE_STOPS, SHADE_STOPS, SOILPH_STOPS, SOILW_STOPS, type View } from "../map/layers";
 
 /** Zoom from which the 50 m shade squares cover the forest (see the hot-fill layer). */
 export const SHADE_ZOOM = 12;
@@ -13,6 +13,10 @@ function gradient(stops: [number, string][]) {
 interface Key { title: string; stops: [number, string][]; left: string; right: string; note?: string; tip: string; }
 
 function keyFor(v: View, zoom: number, hasShade: boolean): Key {
+  if (v.mode === "soilw") return { title: "Soil holds water", stops: SOILW_STOPS, left: "Little", right: "A lot",
+    note: "Estimate (SoilGrids)", tip: "How much water the top 30 cm of soil can hold. More = good conditions last longer after rain. A computer estimate with few Cyprus samples." };
+  if (v.mode === "soilph") return { title: "Soil pH", stops: SOILPH_STOPS, left: "Acid", right: "Alkaline",
+    note: "Estimate (SoilGrids)", tip: "Soil pH in the top 30 cm: acid (orange), neutral (pale), alkaline (purple). A computer estimate." };
   if (v.mode === "rain7") return { title: "Rain, last 7 days", stops: RAIN7_STOPS, left: "0 mm", right: "80+ mm",
     tip: "Total rain over the last 7 days. Pale = dry, dark blue = a lot of rain." };
   if (v.mode === "rain30") return { title: "Rain, last 30 days", stops: RAIN30_STOPS, left: "0 mm", right: "120+ mm",

@@ -1,0 +1,54 @@
+# =====================================================================
+# v0.3 habitat + soil layer settings. Tags:
+#   [SPEC]  = from docs/methodology-v0.3.md
+#   [DRAFT] = our reading or a guess; listed in docs/TODO-facts.md. Please check.
+# =====================================================================
+
+soilgrids:
+  # SoilGrids 2.0 (ISRIC), 250 m, CC BY 4.0. REST API is paused -> WCS. [SPEC]
+  wcs: https://maps.isric.org/mapserv
+  depths: ["0-5cm", "5-15cm", "15-30cm"]           # [SPEC] average 0-30 cm
+  thickness_mm: [50, 100, 150]
+  # Units in the files (SoilGrids conversion table):
+  #   wv0033, wv1500: 10^-3 cm3/cm3 · cfvo: cm3/dm3 · sand, clay: g/kg · phh2o: pH x10 · soc: dg/kg
+  properties: [wv0033, wv1500, cfvo, sand, clay, phh2o, soc]
+  uncertainty: [wv0033, wv1500, phh2o]             # also fetch Q0.05 and Q0.95 [SPEC]
+
+soil_effect:
+  # Soil is a SOFT modifier, never a yes/no filter. [SPEC]
+  min_factor: 0.8                                   # [SPEC] 0.8-1.0
+  # Where the uncertainty band is wide, pull the soil effect towards 1.0 (neutral). [SPEC]
+  # Relative band width (Q95-Q05)/mean at which the effect is fully neutral. [DRAFT]
+  neutral_at_rel_band: 1.0
+
+drainage:
+  # Drainage speed from texture. [DRAFT] simple rule:
+  # fast = sand >= 60% or clay < 15%; slow = clay >= 35%; else medium.
+  fast_sand_pct: 60
+  fast_clay_below_pct: 15
+  slow_clay_pct: 35
+
+geology:
+  # Calcareous vs not, from the Geological Survey map (formation names). [SPEC] idea,
+  # the formation -> rock grouping below is [DRAFT]: please check with a geologist.
+  calcareous_units:        # chalks, marls, limestones, calcarenites
+    - Lefkara
+    - Pakhna
+    - Pakhna (Tera Member)
+    - Pakhna (Koronia Member)
+    - Nicosia
+    - Apalos - Athalassa - Kakkaristra
+    - Lapithos
+    - Lapithos (b)
+    - Lapithos (R)
+    - Hilarion
+    - Sykhari
+    - Kantara
+    - Dhikomo
+  # Troodos igneous rocks = the existing habitat list (scoring.yaml -> troodos_igneous_units).
+  # Everything else (alluvium, terraces, fanglomerate, flysch, melanges, gypsum) = mixed/unknown.
+
+habitat_v03:
+  # Minimum tree cover for tree-partner species (Copernicus Tree Cover Density). [SPEC] idea,
+  # value [DRAFT]: the profiles use it as a soft ramp, see each species profile.
+  tree_cover_min_pct: 30
