@@ -213,3 +213,12 @@ The base rate is now also counted **only from the first window near each find** 
 - Odou square (34.897 N, 33.166 E), saved 13 Nov data: key-species map **not drawn, "No species in season here"**
   (only morels and wood blewit have habitat; morels are out of season); all-species map: wood blewit.
 - Morels on a 3-5-year-old burn still count as unburned host trees at 0.3: **no source**, tagged, TODO-facts A12.
+
+### Phone note: tapping the island did nothing until zoomed in
+
+- Cause: at island zoom the 250 m squares are too small to be in the map tiles, and the 2 km zones are
+  switched off in squares mode, so a tap hit nothing.
+- Fix: a tap on the island that hits nothing (zoom under 11.5) zooms in to zoom 12 on that place and then
+  opens the square there. Taps on the sea do nothing, as before.
+- **Not yet checked by eye:** the app window was hidden during this session, so the map could not render.
+  Check on the preview: tap the island once at the start view.

@@ -234,6 +234,8 @@ async function main() {
   // ------------------------------------------------------------ the tapped spot
   type Pick = { f: MapGeoJSONFeature; lngLat: maplibregl.LngLat };
   let lastPick: Pick | null = null;
+  type Pick_Event = { point: maplibregl.PointLike & { x: number; y: number }; lngLat: maplibregl.LngLat };
+  const PICK_ZOOM = 12;                       // a tap at island zoom zooms in to here, then opens the square
   const buildSpot = (p: Pick): SpotData => {
     const props = p.f.properties as Record<string, number>;
     if (p.f.layer.id === "hot-fill") return { kind: "hot", score: () => null, hot: props };
@@ -401,10 +403,20 @@ async function main() {
     map.once("style.load", onStyle);
   });
 
-  const pick = (e: maplibregl.MapMouseEvent) => {
+  const pick = (e: Pick_Event) => {
     const layersToHit = ["hot-fill", "cells-fill", "hex-fill"].filter((id) => map.getLayer(id) &&
       map.getLayoutProperty(id, "visibility") !== "none");
     const f: MapGeoJSONFeature | undefined = map.queryRenderedFeatures(e.point, { layers: layersToHit })[0];
+    // At island zoom the 250 m squares are too small to be in the map tiles, so a tap hits nothing.
+    // Then zoom in on the tapped place and open the square there (phone note, audit round 2).
+    const onIsland = e.lngLat.lng > 32.2 && e.lngLat.lng < 34.65 && e.lngLat.lat > 34.55 && e.lngLat.lat < 35.72;
+    if (!f && onIsland && panel.mode === "conditions" && map.getZoom() < PICK_ZOOM - 0.5) {
+      const pad = phone.matches ? { bottom: sheet.offsetHeight, top: 0, left: 0, right: 0 }
+        : { left: sheet.offsetWidth + 32, top: 0, bottom: 0, right: 0 };
+      map.easeTo({ center: e.lngLat, zoom: PICK_ZOOM, padding: pad, duration: 600 });
+      map.once("idle", () => pick({ point: map.project(e.lngLat), lngLat: e.lngLat }));
+      return;
+    }
     lastPick = f ? { f, lngLat: e.lngLat } : null;
     applySelection();
     panel.showSpot(lastPick ? buildSpot(lastPick) : null);
@@ -415,7 +427,7 @@ async function main() {
       map.easeTo({ center: e.lngLat, padding: pad, duration: 400 });
     }
   };
-  map.on("click", pick);
+  map.on("click", (e) => pick(e));
   document.addEventListener("spot-closed", () => {
     lastPick = null;
     applySelection();
