@@ -130,6 +130,7 @@ species:
     local: ""
     local_confirmed: false
     tier: more
+    rare: true                                      # [LOI16] "surprisingly rare in Cyprus" (Real, 2026-11-13)
     trees: [3]
     trees_text: "Golden oak and kermes oak"
     bands: [1, 2, 3]

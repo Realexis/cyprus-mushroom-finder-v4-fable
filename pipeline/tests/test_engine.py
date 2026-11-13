@@ -451,7 +451,7 @@ def test_all_profiles_valid_and_tiers():
     tiers = {p["code"]: p["tier"] for p in ps}
     assert len(ps) == 14
     assert sum(t == "key" for t in tiers.values()) == 7 and sum(t == "more" for t in tiers.values()) == 7
-    assert {p["code"] for p in ps if p["rare"]} == {"cci", "ter"}
+    assert {p["code"] for p in ps if p["rare"]} == {"bae", "cci", "ter"}
 
 
 def test_land_cover_needs_a_real_share():

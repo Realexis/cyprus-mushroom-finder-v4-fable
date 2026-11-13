@@ -638,7 +638,7 @@
     "Kermes oak is not on our tree map yet, so those areas are not counted."
    ],
    "tier": "more",
-   "rare": false,
+   "rare": true,
    "warn": "",
    "look": [],
    "season_text": "Oct-Nov",

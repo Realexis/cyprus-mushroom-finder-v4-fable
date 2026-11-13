@@ -8,7 +8,7 @@ latin_name: Boletus aereus / edulis
 local_name: {name: "", confirmed: false}
 group: oak_partner                                      # [SPEC]
 tier: more                                              # [SPEC]
-rare: false
+rare: true                                              # [LOI16] "surprisingly rare in Cyprus" (Real, 2026-11-13)
 confidence: low                                         # [SPEC]
 host_trees: {golden_oak: 1.0, kermes_oak: 1.0}          # [SPEC] golden and kermes oak (kermes: no map layer yet)
 altitude_range: [0, 1950]                               # [GUESS] no limit known
