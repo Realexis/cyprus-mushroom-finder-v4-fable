@@ -97,7 +97,9 @@ habitat:
   tree_cover_soft_pct: 15          # [DRAFT] E12: tree cover ramps from (min - this) to min
   altitude_soft_m: 150             # [DRAFT] E12: altitude range edges ramp over this many metres
   # Land-cover names a profile may weight (habitat_v03_250m.tif bands, 0..1 shares).
-  land_cover: [grass_frac, clc_arable, clc_pasture, clc_grassland, clc_sclerophyll, clc_transitional, clc_burnt]
+  # fennel_near: 0/1, a GBIF giant fennel record within 500 m (habitat/fennel.py, audit step 10).
+  land_cover: [grass_frac, clc_arable, clc_pasture, clc_grassland, clc_sclerophyll, clc_transitional, clc_burnt,
+               fennel_near]
   # A land cover counts only where it covers a real part of the square:
   # nothing below `land_cover_zero_share`, full weight from `land_cover_full_share`. [DRAFT] E15
   land_cover_zero_share: 0.2

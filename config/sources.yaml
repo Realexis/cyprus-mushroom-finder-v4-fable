@@ -101,6 +101,24 @@ effis:
   licence_status: to_verify       # check the EFFIS data policy page before relying on it
   credit: "© European Union, EFFIS, Copernicus Emergency Management Service"
   use: v0.3 habitat (audit step 8) — burnt areas with fire dates, 2016-2026; recent burns for morels, burnt squares removed for tree partners.
+gbif_fennel:
+  name: GBIF occurrence records of giant fennel (Ferula communis) in Cyprus
+  url: https://www.gbif.org/species/8048981
+  licence: per dataset, only CC0, CC BY 4.0 and CC BY-NC 4.0 used (non-commercial site)
+  licence_status: verified        # licence read from each record (GBIF API, 2026-11-13)
+  credit: "GBIF.org (13 November 2026), Ferula communis occurrences in Cyprus; datasets listed below"
+  use: v0.3 habitat (audit step 10) — squares within 500 m of a record get full weight for the fennel king oyster.
+  datasets:
+    - {title: "Phanerogamic Botanical Collections (S)", licence: "CC BY 4.0", records: 1, url: "https://www.gbif.org/dataset/0943f690-fde5-11dd-83f4-b8a03c50a862"}
+    - {title: "Pl@ntNet automatically identified occurrences", licence: "CC BY 4.0", records: 8, url: "https://www.gbif.org/dataset/14d5676a-2c54-4f94-9023-1e8dcd822aa0"}
+    - {title: "UKSBA Cyprus Plant Records 2018", licence: "CC BY 4.0", records: 1, url: "https://www.gbif.org/dataset/2ae2997e-c6ff-40b1-917f-93227768da6f"}
+    - {title: "iNaturalist Research-grade Observations", licence: "CC BY 4.0, CC BY-NC 4.0, CC0", records: 144, url: "https://www.gbif.org/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7"}
+    - {title: "NABU|naturgucker", licence: "CC BY 4.0", records: 29, url: "https://www.gbif.org/dataset/6ac3f774-d9fb-4796-b3e9-92bf6c81c084"}
+    - {title: "UKSBA Cyprus - Quadrats 2015-2017", licence: "CC BY 4.0", records: 5, url: "https://www.gbif.org/dataset/6b3902aa-7819-47d2-83b2-bb021611b900"}
+    - {title: "Pl@ntNet observations", licence: "CC BY 4.0", records: 20, url: "https://www.gbif.org/dataset/7a3679ef-5582-4aaa-81f0-8c2545cafc81"}
+    - {title: "Observation.org, Nature data from around the World", licence: "CC BY-NC 4.0", records: 25, url: "https://www.gbif.org/dataset/8a863029-f435-446a-821e-275f4f641165"}
+    - {title: "Moscow University Herbarium (MW)", licence: "CC BY 4.0", records: 2, url: "https://www.gbif.org/dataset/902c8fe7-8f38-45b0-854e-c324fed36303"}
+    - {title: "Additional data to the Akrotiri Bioblitz, Cyprus", licence: "CC0", records: 1, url: "https://www.gbif.org/dataset/c4bd0284-6f76-4af1-a638-e5f6c4594201"}
 soilgrids:
   name: SoilGrids 2.0 (ISRIC) — water retention, texture, pH, organic carbon
   url: https://maps.isric.org/

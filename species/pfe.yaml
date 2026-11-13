@@ -11,9 +11,10 @@ tier: key
 rare: false
 confidence: low                                         # [SPEC]
 host_trees: {}
-# [SPEC] fields with giant fennel. We have NO giant fennel map: fields and grassland are a
-# stand-in, kept at half weight so the map does not over-promise [GUESS].
-land_cover: {clc_pasture: 0.5, clc_grassland: 0.5, grass_frac: 0.5}
+# [SPEC] fields with giant fennel. There is no fennel map. Squares within 500 m of a GBIF giant fennel
+# record get full weight (audit step 10; 500 m [GUESS]; records show where people looked, not
+# everywhere fennel grows). Elsewhere fields and grassland stay a half-weight stand-in [GUESS].
+land_cover: {fennel_near: 1.0, clc_pasture: 0.5, clc_grassland: 0.5, grass_frac: 0.5}
 altitude_range: [0, 1500]                               # [GUESS]
 trigger_mm: 15                                          # [GUESS] "rain and humidity weigh more" [SPEC]
 wait_degree_days: {total: 150, base_c: 4}               # [LOI19 + backtest weather; base 4 C still a GUESS] first flush 18-20 days after >20 mm: 19 days x (12.2 - 4) C = 156

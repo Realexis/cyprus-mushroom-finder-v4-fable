@@ -510,3 +510,29 @@ def test_real_soil_temperature_is_used_and_gaps_use_the_estimate():
     assert np.allclose(w["tsoil"][0], 9.0)
     assert np.allclose(w["tsoil"][1, :4], 9.0) and np.allclose(w["tsoil"][1, 4:], 15.0)
     assert np.isfinite(w["tsoil"]).all()
+
+
+def test_fennel_records_give_full_weight():
+    """Audit step 10: within 500 m of a giant fennel record = full weight; grassland stays half."""
+    p = copy.deepcopy(TEST_PROFILE)
+    p["host_trees"] = {}
+    p["land_cover"] = {"fennel_near": 1.0, "grass_frac": 0.5}
+    sq = {**_squares(), "grass_frac": np.array([1.0, 1.0, 0, 0, 0, 1.0]),
+          "fennel_near": np.array([0, 1.0, 1.0, 0, 0, 1.0])}
+    h = habitat_fit(sq, p, E["habitat"], 30, 1.0)
+    assert h[0] == pytest.approx(0.5) and h[1] == pytest.approx(1.0) and h[2] == pytest.approx(1.0)
+    assert h[3] == 0 and h[5] == 0                       # nothing / nature reserve
+
+
+def test_fennel_near_mask_and_licences():
+    from shroomy.grid import Grid
+    from shroomy.habitat.fennel import near_mask, usable
+    g = Grid("EPSG:32636", 0.0, 2500.0, 250, 10, 10)
+    m = near_mask(np.array([125.0]), np.array([2375.0]), g)       # a record in the top-left square
+    assert m[0, 0] == 1 and m[0, 1] == 1 and m[1, 1] == 1         # centres 250 m and 354 m away
+    assert m[0, 3] == 0 and m[2, 2] == 0                          # 750 m and 707 m away
+    recs = [{"license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"},
+            {"license": "http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode"},
+            {"license": "CC0_1_0", "coordinateUncertaintyInMeters": 5000},
+            {"license": "CC_BY_4_0", "basisOfRecord": "LIVING_SPECIMEN"}]
+    assert len(usable(recs)) == 1

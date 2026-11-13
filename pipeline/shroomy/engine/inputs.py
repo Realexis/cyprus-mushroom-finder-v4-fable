@@ -45,6 +45,10 @@ def build(run_file, squares="land"):
     bl = burn_layers(date.fromisoformat(str(w["today"])).year)
     if bl is not None:
         sq["burn_recent"], sq["burn_5y"] = bl[0][rows, cols], bl[1][rows, cols]
+    # Giant fennel near the square (GBIF records, audit step 10). 0 where the layer is missing.
+    fen = config.PROCESSED / "fennel_250m.tif"
+    sq["fennel_near"] = (_bands(fen)["fennel_near"][rows, cols].astype("float32") if fen.exists()
+                         else np.zeros(len(rows), "float32"))
     cx = g.west + (cols + 0.5) * g.res
     cy = g.north - (rows + 0.5) * g.res
     interp = Interpolator(np.c_[w["x"], w["y"]], np.c_[cx, cy])

@@ -123,3 +123,12 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
 - The card shows **rain since 1 September** (island average) as a plain fact. No threshold in mm: no source gives one.
   Until the history is filled back to 1 September (step 4), it says "since 12 October".
 - No dated desert truffle finds in the test seasons, so the backtest cannot check it.
+
+### Step 10: fennel king oyster with real fennel points
+
+- GBIF: 285 giant fennel records in Cyprus. **236 used**: licence CC0, CC BY or CC BY-NC, placed to 1 km or better,
+  not a garden plant. 10 datasets, all credited in `config/sources.yaml` (`gbif_fennel`).
+- **1,936 squares** are within 500 m of a record and get full weight. Elsewhere fields and grassland keep half weight.
+- Backtest (same weather): both fennel king oyster finds (25 Jan, 12 Feb 2026) are still inside open windows.
+  **But neither is within 2 km of a fennel record**: they hit through the grassland stand-in.
+  Records show where people looked, not everywhere fennel grows.
