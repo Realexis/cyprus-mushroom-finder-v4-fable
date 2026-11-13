@@ -14,6 +14,7 @@ import { mountEmergency, mountSafetyToggle } from "./ui/safety";
 import { mountSpecies, speciesByCode } from "./ui/species";
 import { CellInfo, cellSpot, hexSpot, type SpotData, type Spots } from "./ui/spot";
 import { applyTheme, currentTheme, toggleTheme } from "./ui/theme";
+import { PREVIEW_BADGE, VERSION } from "./version";
 import { hideMapTip as hideTip, mountTips, showAt } from "./ui/tips";
 import { mountGuide } from "./ui/guide";
 import { renderLegend } from "./ui/legend";
@@ -107,6 +108,10 @@ class TerrainControl implements maplibregl.IControl {
 
 async function main() {
   applyTheme(currentTheme());
+  if (PREVIEW_BADGE) {
+    const sub = document.querySelector(".brand-sub");
+    sub?.insertAdjacentHTML("afterend", ` <span class="ver-badge" data-tip="Test version ${VERSION}. Not the live site.">v${VERSION.split(".").slice(0, 2).join(".")} preview</span>`);
+  }
   mountTips();
   mountSafetyToggle();
   const guide = mountGuide();

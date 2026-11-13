@@ -1,6 +1,6 @@
 [project]
 name = "shroomy"
-version = "0.1.0"
+version = "0.3.0"
 description = "Cyprus Mushroom Finder data pipeline: habitat, weather and growing-conditions scores"
 requires-python = ">=3.12,<3.14"
 dependencies = [

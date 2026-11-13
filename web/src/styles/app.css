@@ -599,3 +599,7 @@ details.oos p { margin: 2px 0; }
   /* "Data delayed" sits at the bottom of the map on phones, clear of the colour key */
   .delayed { top: auto; bottom: calc(var(--sheet-h, 120px) + 8px); font-size: var(--fs-0); padding: 4px 12px; white-space: nowrap; }
 }
+
+/* "v0.3 preview" badge (test versions only, see src/version.ts) */
+.ver-badge { display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  line-height: 1.6; background: #6a3fb5; color: #fff; vertical-align: middle; white-space: nowrap; }
