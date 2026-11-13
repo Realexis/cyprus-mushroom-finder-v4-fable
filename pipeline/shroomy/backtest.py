@@ -431,12 +431,17 @@ if __name__ == "__main__":
     ap.add_argument("--fetch-only", action="store_true")
     ap.add_argument("--cost", action="store_true", help="print the Open-Meteo cost and stop")
     ap.add_argument("--memory-check", metavar="DAY", help="compare a 31-day run with a run from 1 Sep on DAY")
+    ap.add_argument("--weather", metavar="FILE", help="use this saved run file (e.g. a daily season run) instead")
     a = ap.parse_args()
     if a.memory_check:
         print(json.dumps(memory_check(run_file_for(a.season), a.memory_check), indent=1))
         sys.exit()
     if a.cost:
         print(f"{a.season}: ~{season_cost(a.season)[0]:,.0f} calls")
+        sys.exit()
+    if a.weather:
+        from pathlib import Path
+        run(Path(a.weather), a.season, a.label or Path(a.weather).stem)
         sys.exit()
     f = run_file_for(a.season)
     if not f.exists():

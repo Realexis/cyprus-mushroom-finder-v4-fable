@@ -152,3 +152,23 @@ with ECMWF soil moisture (top 7 cm) interpolated to the square, observed days on
 - Also corrected About lines made wrong by these steps: the mushroom clock (19 days, 2-day re-wet, open while wet),
   soil temperature (now from Open-Meteo), burned areas (EFFIS with fire dates), giant fennel (GBIF records),
   desert truffle host. Checked at 375 px and desktop: no sideways scroll.
+
+### Autumn 2026 on saved weather (12 Oct - 20 Nov, all 1,159 points, no new calls)
+
+`--weather data/processed/weather/season_2026-11-13.npz`, old code (`f455bda`) against new, same file.
+
+- **Only 3 find events** fall in this file, all genus-only *Agaricus* (16, 17, 31 Oct): old 0 of 3 hit, new 1 of 3.
+  Too few to score. The species-level autumn finds (red pine ×5 on 1 Oct, white brittlegill 27 Sep)
+  are before 12 Oct: they need the September download.
+- **What the map says today, 13 Nov 2026** (share of habitat squares with a window open):
+
+| | Red pine | Slippery Jack | Bloody milk cap | Matsutake | Oak boletes | Wood blewit | Shaggy ink cap | Fennel k. o. | Morels, truffle |
+|---|---|---|---|---|---|---|---|---|---|
+| Old | 0 % | 0 % | 0 % | 0 % | 0 % | 2 % | 0 % | 0 % | 0-1 % |
+| New | 67 % | 66 % | 79 % | 80 % | 87 % | 62 % | 29 % | 31 % | 0 % |
+
+- Island rain since 12 Oct: 52 mm. The new clock opened windows about 19 days after the mid-October rain
+  and keeps them open while the ground stays wet. Public finds from late October and 3 Nov
+  (*Agaricus*, boletes, *Russula*) fit "open now". The old code had them "recovering".
+- **Honest note:** once open, a wet autumn stays open on most squares. The map then ranks places
+  by habitat, water and warmth more than by the clock.
