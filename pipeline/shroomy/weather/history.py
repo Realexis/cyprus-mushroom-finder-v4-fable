@@ -90,7 +90,8 @@ def assemble(today: date, past_days: int, forecast_days: int, out_path, store=ST
     cols = [dates.index(d) for d in want]
     out = {k: h[k] for k in POINT_KEYS}
     for v in VARS:
-        out[v] = h[v][:, cols]
+        if v in h:                                       # older stores: no soil temperature yet
+            out[v] = h[v][:, cols]
     np.savez_compressed(out_path, dates=np.array(want), today=today.isoformat(),
                         model=h["model"], **out)
     return out_path

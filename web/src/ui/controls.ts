@@ -16,7 +16,10 @@ export interface Meta {
     confidence: { sure_below: number; likely_below: number };
     /** Species codes behind each general map ("key", "all"), in the order of the "best" input. */
     general: Record<string, string[]>;
-    species: Record<string, { english_name: string; latin_name: string; season_text: string; window_days: number }> };
+    species: Record<string, { english_name: string; latin_name: string; season_text: string; window_days: number;
+      autumn_rain_memory?: boolean }> };
+  /** Island-average rain since the engine run's first day (audit step 9). A plain fact, not a score. */
+  rain_since?: { from: string; to: string; mm: number; from_1_sep: boolean };
 }
 export interface HotZone { hex: string; where: string; lat: number; lon: number; score: number; date: string; }
 

@@ -244,7 +244,9 @@ function monthBar(sp: Species, now: number): string {
 type View = { kind: "list" } | { kind: "looks" } | { kind: "sp"; code: string };
 
 /** "Conditions for this species now", from summary.json (set by main.ts). */
-export interface SpeciesNow { areas: { where: string; score: number }[]; bestDay: { label: string; score: number } | null; }
+export interface SpeciesNow { areas: { where: string; score: number }[]; bestDay: { label: string; score: number } | null;
+  /** Rain since 1 September, for species whose crop depends on autumn rain (a fact, not a score). */
+  rainSince?: { from: string; mm: number } | null; }
 
 /** Mounts the species guide. Returns open(code?) — no code = the list of all species. */
 export function mountSpecies(month: () => number, onShow: (code: string) => void,
@@ -320,9 +322,12 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
       : `<ul class="sc-now-list">${c.areas.map((a) => `<li><b>${word(a.score)}</b> · ${esc(a.where)}</li>`).join("")}</ul>
          ${c.bestDay ? `<p>Best day this week: <b>${esc(c.bestDay.label)}</b> (${word(c.bestDay.score).toLowerCase()}).</p>` : ""}
          <p class="sc-soft">Growing conditions for its habitat. It does not mean the mushroom is there.</p>`;
+    const rain = c?.rainSince
+      ? `<p>Rain since ${esc(c.rainSince.from)}: <b>${c.rainSince.mm} mm</b> (island average).
+          Its crop depends on autumn rain. How much it needs in Cyprus is not known.</p>` : "";
     return `<section class="sc-sec sc-now">
         <h3 class="sc-h">${icon("map")}Conditions for this mushroom now</h3>
-        ${body}
+        ${body}${rain}
         <button type="button" class="primary-btn sc-map" data-act="show" data-code="${sp.code}"
           data-tip="Close this and colour the map for this mushroom.">${icon("map")}Show it on the map</button>
       </section>`;

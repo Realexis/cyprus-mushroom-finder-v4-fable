@@ -221,10 +221,11 @@ species:
     tier: more
     rare: true                                      # [SPEC]
     trees: []
-    trees_text: "Rock-rose scrub"
-    bands: [1, 2]
-    altitude_text: "Not known"
+    trees_text: "Rock-rose scrub, as a stand-in. Its real host plant (Helianthemum) is not mapped"   # [LOI16]
+    bands: [1]
+    altitude_text: "Lowland, up to about 300 m"       # [LOI16] finds at 80-180 m
     months: [2, 3]                                  # [LOI16] Feb-Mar (was [SPEC] spring)
     notes:
-      - "Its spring crop depends on the rain of October to December. The map does not use that yet."
+      - "Its crop depends on autumn rain (September to October) and on late March (Andrino et al. 2019, Spain). How much rain it needs in Cyprus is not known, so the map does not score it."
+      - "Its host plant in Cyprus is Helianthemum, mostly H. stipulatum (Loizides 2016). That plant is not mapped, so the map uses rock-rose scrub instead."
     inat: ["Terfezia"]

@@ -115,3 +115,11 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
   (the Karpas morel find now has habitat 1.5 km away): **hit 91 %, base 35 %, gap +56 %**.
 - **Morel check:** 28 Feb 2026 (Karpas): window open within 5 km. 10 Mar 2026 (Paphos district): not in this
   weather file (ends 28 Feb). Neither is in the Limassol fire area, which fits "many Cyprus morels are not fire morels".
+
+### Step 9: desert truffle
+
+- Altitude 0-1,000 m → **0-300 m** (LOI16: finds at 80-180 m). Season Feb-Mar (step 6).
+- The card now says the real host plant (*Helianthemum*) is **not mapped**: the map uses rock-rose scrub as a stand-in.
+- The card shows **rain since 1 September** (island average) as a plain fact. No threshold in mm: no source gives one.
+  Until the history is filled back to 1 September (step 4), it says "since 12 October".
+- No dated desert truffle finds in the test seasons, so the backtest cannot check it.

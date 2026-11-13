@@ -93,3 +93,13 @@ def test_old_store_without_soil_temperature_merges(tmp_path):
     H.merge(fake_run(tmp_path / "b.npz", "2026-11-13", 3, 8, 2.0), store)
     h = np.load(store)
     assert np.isnan(h["tsoil_om"][0, 0]) and h["tsoil_om"][0, -1] == 2.0
+
+
+def test_assemble_from_an_old_store_without_soil_temperature(tmp_path):
+    store = tmp_path / "h.npz"
+    H.merge(fake_run(tmp_path / "a.npz", "2026-11-13", 31, 8, 1.0), store)
+    z = dict(np.load(store))
+    z.pop("tsoil_om")
+    np.savez_compressed(store, **z)
+    out = H.assemble(date(2026, 11, 13), 31, 8, tmp_path / "run.npz", store)
+    assert "tsoil_om" not in np.load(out).files and np.load(out)["precip"].shape == (3, 39)

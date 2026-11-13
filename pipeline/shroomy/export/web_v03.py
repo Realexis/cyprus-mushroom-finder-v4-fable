@@ -63,6 +63,16 @@ def write_info(path, parts, inputs):
         f.write(np.asarray(inputs, "<i2").tobytes())
 
 
+def rain_since(run_file, today):
+    """Island-average rain from the engine run's first day to today (a plain fact for the cards,
+    audit step 9). Not part of any score."""
+    w = np.load(run_file)
+    d = [str(x) for x in w["dates"]]
+    t = d.index(today.isoformat())
+    mm = float(np.nanmean(np.nansum(w["precip"][:, : t + 1], axis=1)))
+    return {"from": d[0], "to": d[t], "mm": int(round(mm)), "from_1_sep": d[0][5:] == "09-01"}
+
+
 def build(run, engine_run=None):
     """engine_run: the longer season run file for the engine's memory (audit step 4); default `run`."""
     w = np.load(run)
@@ -198,6 +208,7 @@ def build(run, engine_run=None):
                     for v in sources.values() if isinstance(v, dict) and "credit" in v],
         "safety": "Conditions only. Never eat a wild mushroom based on this map, an app or an AI.",
     }
+    meta["rain_since"] = rain_since(engine_run or run, today)
     (PUBLIC / "meta.json").write_text(json.dumps(meta, indent=1))
     specs = [{"code": c, "latin": q["latin_name"], "common": q["english_name"], "months": list(range(1, 13)),
               "season_text": q["season_text"], "tier": q["tier"]} for c, q in eng["profiles"].items()]

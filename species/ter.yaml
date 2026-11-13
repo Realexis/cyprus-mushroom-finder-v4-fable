@@ -11,14 +11,18 @@ tier: more
 rare: true                                              # [SPEC]
 confidence: low                                         # [SPEC]
 host_trees: {}
-land_cover: {clc_sclerophyll: 1.0}                      # [SPEC] rock-rose scrub (CORINE sclerophyllous vegetation)
-altitude_range: [0, 1000]                               # [GUESS]
+# [SPEC] rock-rose scrub (CORINE sclerophyllous vegetation) as a STAND-IN: the real host is Helianthemum,
+# mostly H. stipulatum (LOI16), which has no map (GBIF: 150 points in Cyprus, too few for a map).
+land_cover: {clc_sclerophyll: 1.0}
+altitude_range: [0, 300]                                # [LOI16] finds at 80-180 m; the 150 m soft edge adds a margin.
+                                                        # One Cyprus species grows under Cistus with pine at 500-620 m (LOI16): not covered
 trigger_mm: 20                                          # [GUESS]
 wait_degree_days: {total: 72, base_c: 4}                # [GUESS] kept: the 18-20 day rule (LOI19) is for autumn woodland fungi, not spring species
 soil_temp_window: {min: 6, best: [10, 18], max: 26}     # [GUESS] spring crop
-# [SPEC] the spring crop depends on rain added up over Oct-Dec. Not modelled yet: the engine
-# remembers only the current bucket.
-extra_cues: {rain_memory_oct_dec: true}
+# The crop depends on autumn rain (September-October) and on late March [AND19, Spanish orchard].
+# No source gives a Cyprus threshold in mm, so none is used: the card shows the rain since
+# 1 September as a plain fact instead (audit step 9). Not part of the score.
+extra_cues: {autumn_rain_memory: true}
 window_length_days: 21                                  # [GUESS]
 recovery_days: 60                                   # [GUESS] kept long: nothing found either way (audit step 3)
 season_prior: {jan: 0.3, feb: 1.0, mar: 1.0, apr: 0.3}   # [LOI16] Cyprus finds 12 Feb to 21 Mar. Jan/Apr edges

@@ -1146,18 +1146,18 @@
    "local": "",
    "local_confirmed": false,
    "trees": [],
-   "trees_text": "Rock-rose scrub",
+   "trees_text": "Rock-rose scrub, as a stand-in. Its real host plant (Helianthemum) is not mapped",
    "bands": [
-    1,
-    2
+    1
    ],
-   "altitude_text": "Not known",
+   "altitude_text": "Lowland, up to about 300 m",
    "months": [
     2,
     3
    ],
    "notes": [
-    "Its spring crop depends on the rain of October to December. The map does not use that yet."
+    "Its crop depends on autumn rain (September to October) and on late March (Andrino et al. 2019, Spain). How much rain it needs in Cyprus is not known, so the map does not score it.",
+    "Its host plant in Cyprus is Helianthemum, mostly H. stipulatum (Loizides 2016). That plant is not mapped, so the map uses rock-rose scrub instead."
    ],
    "tier": "more",
    "rare": true,

@@ -80,6 +80,7 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 | S13 | Step 6 profiles (12 species): most numbers are group defaults copied from the red pine mushroom, marked [GROUP] or [GUESS] in each file. Not modelled yet: warm spells (white brittlegill), cold cue (matsutake), humidity (fennel king oyster), fire year (morels), Oct-Dec rain memory (desert truffle) | guesses | `species/*.yaml` |
 | S14 | Fennel king oyster: no giant fennel map. Fields and grassland stand in at half weight. No photo with an allowed licence on iNaturalist yet | stand-in | `species/pfe.yaml` |
 | S15 | Desert truffles: which soil pH (spec: "pH matters, value to confirm") | unknown | `species/ter.yaml` |
+| A11 | Desert truffle (audit step 9): lowland 0-300 m [LOI16 finds 80-180 m]; host Helianthemum not mapped (CORINE scrub stand-in, said on the card); autumn rain [AND19] shown as a plain fact (rain since the engine run's first day), **no mm threshold** (none in any source) | stand-in | `species/ter.yaml`, `config/species.yaml` |
 | E16 | Forecast confidence from rain dependence: sure under 25% of the score needing forecast rain, likely up to 60%, else unsure. Temperature forecast errors are not counted yet | 0.25 / 0.6 | `config/engine.yaml` `confidence` |
 
 Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure in Cyprus that today every forest bucket is the island median (26.9 mm); drainage class and slope still differ.

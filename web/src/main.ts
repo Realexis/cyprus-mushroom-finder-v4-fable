@@ -324,7 +324,10 @@ async function main() {
         bestDay = { label: k === 0 ? "today" : fmtDay(meta.days[k].date, { weekday: "long" }), score: z.score };
       }
     });
-    return { areas: today.top_zones.slice(0, 3).map((z) => ({ where: z.where, score: z.score })), bestDay };
+    const rs = meta.rain_since;
+    const rainSince = rs && meta.engine?.species[code]?.autumn_rain_memory
+      ? { from: fmtDay(rs.from, { day: "numeric", month: "long" }), mm: rs.mm } : null;
+    return { areas: today.top_zones.slice(0, 3).map((z) => ({ where: z.where, score: z.score })), bestDay, rainSince };
   };
   const openSpecies = mountSpecies(() => panel.monthOf(panel.day), (code) => panel.setSpecies(code), speciesNow);
 

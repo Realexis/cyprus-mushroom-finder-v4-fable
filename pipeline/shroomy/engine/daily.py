@@ -143,6 +143,7 @@ def run(run_file, mask, profiles=None, keep=None):
                               "tier": prof["tier"], "rare": bool(prof["rare"]), "group": prof["group"],
                               "confidence": prof["confidence"], "window_days": pp["window_days"],
                               "trigger_mm": pp["trigger_mm"], "unused_cues": pp["unused_cues"],
+                              "autumn_rain_memory": bool((prof["extra_cues"] or {}).get("autumn_rain_memory")),
                               "season_text": season_text(prof["season_prior"])}
         del r
     raw = np.stack(raw)                                                   # (species, n, 8)
