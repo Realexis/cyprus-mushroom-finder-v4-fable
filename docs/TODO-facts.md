@@ -111,3 +111,4 @@ Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure
 | A10 | Morel altitude 300-1,950 m is from the brief; the 28 Feb 2026 Karpas find is lowland. Not changed (no source for a new range) | to check | `species/mor.yaml` |
 | A12 | Morels on a square burnt 3-5 years ago: neither fresh burn nor unburned ground. Counted as unburned host trees at 0.3. **No source** | [GUESS] | `species/mor.yaml` |
 | A13 | General map, squares with no species in season that day: **hidden** (Real, 2026-11-13) | decided | `export/web_v03.py`, `map/scores.ts` |
+| A14 | **Every species has one edge month (0.3) on each side of its season** (Real, 2026-11-13; audit round 2, fix 11). 13 of 14 already had both; morels got January. All edge months are [GUESS] | decided | `species/*.yaml` |

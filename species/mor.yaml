@@ -26,7 +26,7 @@ soil_temp_window: {min: 4, best: [8, 14], max: 20}      # [SPEC] spring soil war
 extra_cues: {needs_burn: true, one_spring_after_fire: true}   # both used: EFFIS fire years, 2 years back
 window_length_days: 14                                  # [GUESS]
 recovery_days: 30                                   # [GUESS] kept long: nothing found either way (audit step 3)
-season_prior: {feb: 1.0, mar: 1.0, apr: 1.0, may: 0.3}   # [GBIF] Cyprus records Feb 2, Mar 13, Apr 24; [LOI16]. May edge [GUESS]
+season_prior: {jan: 0.3, feb: 1.0, mar: 1.0, apr: 1.0, may: 0.3}   # [GBIF] Cyprus records Feb 2, Mar 13, Apr 24; [LOI16]. Jan and May edges [GUESS] (Real, 2026-11-13: one edge month each side for every species)
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)
 sources: ["v0.3 spec 3.3-3.6", "Original brief: trees, altitude, season"]

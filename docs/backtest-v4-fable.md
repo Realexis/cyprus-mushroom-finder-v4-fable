@@ -222,3 +222,10 @@ The base rate is now also counted **only from the first window near each find** 
   opens the square there. Taps on the sea do nothing, as before.
 - **Not yet checked by eye:** the app window was hidden during this session, so the map could not render.
   Check on the preview: tap the island once at the start view.
+
+### Fix 11: one edge month on each side, every species (Real, 2026-11-13)
+
+- 13 of 14 profiles already had both edges. Morels got **January** at 0.3 [GUESS].
+- Same Sep-Feb weather: species-level hit **91 % → 82 %** (9 of 11), wet-season gap −8 % → −11 %.
+  Cause: morels now open a window in January, then rest 30 days, so the **28 Feb Karpas find misses**.
+- The two December *Russula* finds (genus only) still miss: December is past white brittlegill's November edge.
