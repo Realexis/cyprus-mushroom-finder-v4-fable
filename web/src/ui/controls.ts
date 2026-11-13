@@ -351,7 +351,6 @@ export class Panel {
         ${sp ? `<div class="legend-row" data-tip="Grey = this mushroom's habitat, but the month is outside its season, so there is no score."><span class="swatch oos"></span> Out of season (habitat only)</div>` : ""}
         <div class="legend-row" data-tip="Each coloured square is 250 m of forest. Its score uses the weather for its area (about 9 km wide), corrected for its height, plus its own shade, trees and altitude.">${this.priv ? "Each square = 250 m of forest" : "Each hexagon ≈ 2 km of forest"}</div>
         ${sp ? "" : `<div class="legend-row muted">"Other broadleaf" forest is not scored here (no partner tree). It counts for morels.</div>`}
-        ${this.priv ? `<div class="legend-row" data-tip="Dashed outlines: the best ~2 km zones of the next 8 days."><span class="swatch dashed"></span> <span><b>Top zones</b> of the next 8 days</span></div>` : ""}
         ${this.priv && this.hasHot ? `<div class="legend-zoom" data-tip="Zoom in anywhere and the forest turns into 50 m squares showing shade: cool north-east slopes, valley bottoms and little autumn sun. Shade keeps the ground moist. Terrain only, no finer weather. Tap a square for details.">
           <div class="legend-row"><span><b>Zoom in</b> anywhere for 50 m shade</span></div>
           <div class="legend-bar" style="background:${gradient(SHADE_STOPS)}"></div>

@@ -322,7 +322,9 @@ async function main() {
   const pin = new maplibregl.Marker({ element: pinEl });
   const applySelection = () => {
     const f = lastPick?.f;
-    setSelection(map, f?.layer.id === "hex-fill" ? (f.id as number) : null,
+    // Outline a ~2 km hexagon only when the map itself shows hexagons (fallback view); never over squares.
+    const hexView = !!map.getLayer("hex-fill") && map.getLayoutProperty("hex-fill", "visibility") !== "none";
+    setSelection(map, f?.layer.id === "hex-fill" && hexView ? (f.id as number) : null,
       f?.layer.id === "cells-fill" ? Number((f.properties as Record<string, number>).i) : null);
     if (lastPick) pin.setLngLat(lastPick.lngLat).addTo(map); else pin.remove();
   };
