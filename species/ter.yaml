@@ -1,0 +1,28 @@
+# Desert truffle (Terfezia).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: ter
+english_name: desert truffle
+latin_name: Terfezia
+local_name: {name: "", confirmed: false}
+group: underground                                      # [SPEC]
+tier: more
+rare: true                                              # [SPEC]
+confidence: low                                         # [SPEC]
+host_trees: {}
+land_cover: {clc_sclerophyll: 1.0}                      # [SPEC] rock-rose scrub (CORINE sclerophyllous vegetation)
+altitude_range: [0, 1000]                               # [GUESS]
+trigger_mm: 20                                          # [GUESS]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+soil_temp_window: {min: 6, best: [10, 18], max: 26}     # [GUESS] spring crop
+# [SPEC] the spring crop depends on rain added up over Oct-Dec. Not modelled yet: the engine
+# remembers only the current bucket.
+extra_cues: {rain_memory_oct_dec: true}
+window_length_days: 21                                  # [GUESS]
+recovery_days: 60                                       # [GUESS] one crop a spring
+season_prior: {feb: 0.3, mar: 1.0, apr: 1.0, may: 0.3}  # [SPEC] spring
+# [SPEC] 3.9: pH matters for desert truffles (some acid, some alkaline). Value to confirm.
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0, note: "pH matters; which way to confirm"}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.9"]

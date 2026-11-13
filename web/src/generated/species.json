@@ -28,6 +28,9 @@
    "notes": [
     "Kermes oak is not on our tree map yet, so those areas are not counted."
    ],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -106,6 +109,9 @@
     10
    ],
    "notes": [],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Sep-Oct",
    "photos": [
     {
@@ -185,6 +191,9 @@
    "notes": [
     "The brief says it fruits in warm spells. That rule is not in the score yet (TODO S5)."
    ],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Sep-Oct",
    "photos": [
     {
@@ -262,6 +271,9 @@
     1
    ],
    "notes": [],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Nov-Jan",
    "photos": [
     {
@@ -341,6 +353,9 @@
     "Burned ground is not on the map yet (no data source chosen, TODO D5).",
     "\"Other broadleaf\" mixes deciduous and evergreen trees. Our map cannot tell them apart."
    ],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Mar-Apr",
    "photos": [
     {
@@ -442,6 +457,9 @@
     1
    ],
    "notes": [],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -494,6 +512,675 @@
      {
       "label": "iNaturalist sightings in Cyprus: Suillus luteus",
       "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=53488"
+     }
+    ]
+   }
+  },
+  {
+   "code": "pfe",
+   "latin": "Pleurotus eryngii var. ferulae",
+   "common": "fennel king oyster",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [],
+   "trees_text": "Fields with giant fennel (no fennel map yet: fields and grassland stand in)",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    10,
+    11,
+    12,
+    1,
+    2,
+    3,
+    4
+   ],
+   "notes": [
+    "We have no map of giant fennel. Fields and grassland are used instead, at half weight."
+   ],
+   "tier": "key",
+   "rare": false,
+   "warn": "",
+   "season_text": "Oct-Apr",
+   "photos": [],
+   "inat_pages": [
+    {
+     "name": "Pleurotus eryngii ferulae",
+     "url": "https://www.inaturalist.org/taxa/1710264"
+    }
+   ],
+   "records": {
+    "gbif_total": 0,
+    "inat_research": 0,
+    "months": {},
+    "links": [
+     {
+      "label": "GBIF: Pleurotus eryngii ferulae",
+      "url": "https://www.gbif.org/species/2526644"
+     },
+     {
+      "label": "GBIF records in Cyprus: Pleurotus eryngii ferulae",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=2526644"
+     },
+     {
+      "label": "iNaturalist: Pleurotus eryngii ferulae",
+      "url": "https://www.inaturalist.org/taxa/1710264"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Pleurotus eryngii ferulae",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=1710264"
+     }
+    ]
+   }
+  },
+  {
+   "code": "bae",
+   "latin": "Boletus aereus / edulis",
+   "common": "bronze bolete / cep",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [
+    3
+   ],
+   "trees_text": "Golden oak and kermes oak",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    10,
+    11
+   ],
+   "notes": [
+    "Kermes oak is not on our tree map yet, so those areas are not counted."
+   ],
+   "tier": "more",
+   "rare": false,
+   "warn": "",
+   "season_text": "Oct-Nov",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/334808481/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Federico Calledda, some rights reserved (CC BY-NC), uploaded by Federico Calledda",
+     "page": "https://www.inaturalist.org/photos/334808481",
+     "taxon": "Boletus aereus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12720157/medium.jpg",
+     "licence": "CC BY",
+     "attribution": "(c) Davide Puddu, some rights reserved (CC BY), uploaded by Davide Puddu",
+     "page": "https://www.inaturalist.org/photos/12720157",
+     "taxon": "Boletus aereus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/328303120/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) wp-polzin, some rights reserved (CC BY-NC)",
+     "page": "https://www.inaturalist.org/photos/328303120",
+     "taxon": "Boletus edulis"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Boletus aereus",
+     "url": "https://www.inaturalist.org/taxa/333772"
+    },
+    {
+     "name": "Boletus edulis",
+     "url": "https://www.inaturalist.org/taxa/48701"
+    }
+   ],
+   "records": {
+    "gbif_total": 1,
+    "inat_research": 0,
+    "months": {
+     "8": 1
+    },
+    "links": [
+     {
+      "label": "GBIF: Boletus aereus",
+      "url": "https://www.gbif.org/species/8733688"
+     },
+     {
+      "label": "GBIF records in Cyprus: Boletus aereus",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=8733688"
+     },
+     {
+      "label": "iNaturalist: Boletus aereus",
+      "url": "https://www.inaturalist.org/taxa/333772"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Boletus aereus",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=333772"
+     },
+     {
+      "label": "GBIF: Boletus edulis",
+      "url": "https://www.gbif.org/species/5954958"
+     },
+     {
+      "label": "GBIF records in Cyprus: Boletus edulis",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=5954958"
+     },
+     {
+      "label": "iNaturalist: Boletus edulis",
+      "url": "https://www.inaturalist.org/taxa/48701"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Boletus edulis",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=48701"
+     }
+    ]
+   }
+  },
+  {
+   "code": "xer",
+   "latin": "Xerocomus subtomentosus / chrysenteron group",
+   "common": "yellow and red cracked boletes",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [
+    3
+   ],
+   "trees_text": "Oaks",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    10,
+    11
+   ],
+   "notes": [],
+   "tier": "more",
+   "rare": false,
+   "warn": "",
+   "season_text": "Oct-Nov",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/7018628/medium.jpg",
+     "licence": "CC BY",
+     "attribution": "(c) Davide Puddu, some rights reserved (CC BY), uploaded by Davide Puddu",
+     "page": "https://www.inaturalist.org/photos/7018628",
+     "taxon": "Xerocomus subtomentosus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4144198/medium.",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Christian Schwarz, some rights reserved (CC BY-NC), uploaded by Christian Schwarz",
+     "page": "https://www.inaturalist.org/photos/4144198",
+     "taxon": "Xerocomus subtomentosus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/101576902/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Marco Floriani, some rights reserved (CC BY-NC), uploaded by Marco Floriani",
+     "page": "https://www.inaturalist.org/photos/101576902",
+     "taxon": "Xerocomellus chrysenteron"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Xerocomus subtomentosus",
+     "url": "https://www.inaturalist.org/taxa/485374"
+    },
+    {
+     "name": "Xerocomellus chrysenteron",
+     "url": "https://www.inaturalist.org/taxa/438013"
+    }
+   ],
+   "records": {
+    "gbif_total": 6,
+    "inat_research": 0,
+    "months": {
+     "4": 1,
+     "9": 2,
+     "10": 1,
+     "11": 1,
+     "12": 1
+    },
+    "links": [
+     {
+      "label": "GBIF: Xerocomus subtomentosus",
+      "url": "https://www.gbif.org/species/2519457"
+     },
+     {
+      "label": "GBIF records in Cyprus: Xerocomus subtomentosus",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=2519457"
+     },
+     {
+      "label": "iNaturalist: Xerocomus subtomentosus",
+      "url": "https://www.inaturalist.org/taxa/485374"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Xerocomus subtomentosus",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=485374"
+     },
+     {
+      "label": "GBIF: Xerocomellus chrysenteron",
+      "url": "https://www.gbif.org/species/2519413"
+     },
+     {
+      "label": "GBIF records in Cyprus: Xerocomellus chrysenteron",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=2519413"
+     },
+     {
+      "label": "iNaturalist: Xerocomellus chrysenteron",
+      "url": "https://www.inaturalist.org/taxa/438013"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Xerocomellus chrysenteron",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=438013"
+     }
+    ]
+   }
+  },
+  {
+   "code": "lnu",
+   "latin": "Lepista nuda",
+   "common": "wood blewit",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [
+    1,
+    2,
+    3
+   ],
+   "trees_text": "All forest (leaf litter)",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "All altitudes",
+   "months": [
+    10,
+    11,
+    12,
+    1
+   ],
+   "notes": [],
+   "tier": "more",
+   "rare": false,
+   "warn": "",
+   "season_text": "Oct-Jan",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57891023/medium.jpeg",
+     "licence": "CC BY",
+     "attribution": "(c) Alan Rockefeller, some rights reserved (CC BY), uploaded by Alan Rockefeller",
+     "page": "https://www.inaturalist.org/photos/57891023",
+     "taxon": "Collybia nuda"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/247058599/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Jonáš Gruska, some rights reserved (CC BY-NC), uploaded by Jonáš Gruska",
+     "page": "https://www.inaturalist.org/photos/247058599",
+     "taxon": "Collybia nuda"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Collybia nuda",
+     "url": "https://www.inaturalist.org/taxa/1525548"
+    }
+   ],
+   "records": {
+    "gbif_total": 3,
+    "inat_research": 1,
+    "months": {
+     "1": 1,
+     "2": 2
+    },
+    "links": [
+     {
+      "label": "GBIF: Lepista nuda",
+      "url": "https://www.gbif.org/species/5242048"
+     },
+     {
+      "label": "GBIF records in Cyprus: Lepista nuda",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=5242048"
+     },
+     {
+      "label": "iNaturalist: Collybia nuda",
+      "url": "https://www.inaturalist.org/taxa/1525548"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Collybia nuda",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=1525548"
+     }
+    ]
+   }
+  },
+  {
+   "code": "cco",
+   "latin": "Coprinus comatus",
+   "common": "shaggy ink cap",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [],
+   "trees_text": "Meadows and roadsides",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    12,
+    1,
+    2
+   ],
+   "notes": [
+    "Roadsides are not on our map, only meadows and grassland."
+   ],
+   "tier": "more",
+   "rare": false,
+   "warn": "",
+   "season_text": "Dec-Feb",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/93399523/medium.jpeg",
+     "licence": "CC BY",
+     "attribution": "(c) Tom Norton, some rights reserved (CC BY), uploaded by Tom Norton",
+     "page": "https://www.inaturalist.org/photos/93399523",
+     "taxon": "Coprinus comatus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/112285100/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Gary James, some rights reserved (CC BY-NC), uploaded by Gary James",
+     "page": "https://www.inaturalist.org/photos/112285100",
+     "taxon": "Coprinus comatus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4907999/medium.jpeg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Josema, some rights reserved (CC BY-NC), uploaded by Josema",
+     "page": "https://www.inaturalist.org/photos/4907999",
+     "taxon": "Coprinus comatus"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Coprinus comatus",
+     "url": "https://www.inaturalist.org/taxa/47392"
+    }
+   ],
+   "records": {
+    "gbif_total": 5,
+    "inat_research": 4,
+    "months": {
+     "1": 1,
+     "2": 1,
+     "3": 1,
+     "4": 1,
+     "11": 1
+    },
+    "links": [
+     {
+      "label": "GBIF: Coprinus comatus",
+      "url": "https://www.gbif.org/species/7987658"
+     },
+     {
+      "label": "GBIF records in Cyprus: Coprinus comatus",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=7987658"
+     },
+     {
+      "label": "iNaturalist: Coprinus comatus",
+      "url": "https://www.inaturalist.org/taxa/47392"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Coprinus comatus",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=47392"
+     }
+    ]
+   }
+  },
+  {
+   "code": "aca",
+   "latin": "Agaricus campestris",
+   "common": "field mushroom",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [],
+   "trees_text": "Grassland",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    12,
+    1,
+    2,
+    3
+   ],
+   "notes": [],
+   "tier": "more",
+   "rare": false,
+   "warn": "Easily confused with deadly white Amanitas, such as the death cap.",
+   "season_text": "Dec-Mar",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/457253795/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Felipe Hidalgo, some rights reserved (CC BY-NC), uploaded by Felipe Hidalgo",
+     "page": "https://www.inaturalist.org/photos/457253795",
+     "taxon": "Agaricus campestris"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/452334488/medium.jpg",
+     "licence": "CC BY-SA",
+     "attribution": "(c) anonymous, some rights reserved (CC BY-SA)",
+     "page": "https://www.inaturalist.org/photos/452334488",
+     "taxon": "Agaricus campestris"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/1196316/medium.jpg",
+     "licence": "CC BY-SA",
+     "attribution": "(c) Andreas Kunze, some rights reserved (CC BY-SA)",
+     "page": "https://www.inaturalist.org/photos/1196316",
+     "taxon": "Agaricus campestris"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Agaricus campestris",
+     "url": "https://www.inaturalist.org/taxa/143563"
+    }
+   ],
+   "records": {
+    "gbif_total": 1,
+    "inat_research": 0,
+    "months": {
+     "2": 1
+    },
+    "links": [
+     {
+      "label": "GBIF: Agaricus campestris",
+      "url": "https://www.gbif.org/species/5243458"
+     },
+     {
+      "label": "GBIF records in Cyprus: Agaricus campestris",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=5243458"
+     },
+     {
+      "label": "iNaturalist: Agaricus campestris",
+      "url": "https://www.inaturalist.org/taxa/143563"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Agaricus campestris",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=143563"
+     }
+    ]
+   }
+  },
+  {
+   "code": "cci",
+   "latin": "Cantharellus cibarius / subpruinosus",
+   "common": "chanterelle",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [
+    1,
+    2
+   ],
+   "trees_text": "Pine",
+   "bands": [
+    1,
+    2,
+    3
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    10,
+    11,
+    12,
+    1
+   ],
+   "notes": [],
+   "tier": "more",
+   "rare": true,
+   "warn": "",
+   "season_text": "Oct-Jan",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/309948593/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Federico Calledda, some rights reserved (CC BY-NC), uploaded by Federico Calledda",
+     "page": "https://www.inaturalist.org/photos/309948593",
+     "taxon": "Cantharellus cibarius"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/223897424/medium.jpeg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Jeroen Van Akkeren, some rights reserved (CC BY-NC), uploaded by Jeroen Van Akkeren",
+     "page": "https://www.inaturalist.org/photos/223897424",
+     "taxon": "Cantharellus cibarius"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Cantharellus cibarius",
+     "url": "https://www.inaturalist.org/taxa/47347"
+    }
+   ],
+   "records": {
+    "gbif_total": 0,
+    "inat_research": 0,
+    "months": {},
+    "links": [
+     {
+      "label": "GBIF: Cantharellus cibarius",
+      "url": "https://www.gbif.org/species/5249504"
+     },
+     {
+      "label": "GBIF records in Cyprus: Cantharellus cibarius",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=5249504"
+     },
+     {
+      "label": "iNaturalist: Cantharellus cibarius",
+      "url": "https://www.inaturalist.org/taxa/47347"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Cantharellus cibarius",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=47347"
+     },
+     {
+      "label": "GBIF: Cantharellus subpruinosus",
+      "url": "https://www.gbif.org/species/5249498"
+     },
+     {
+      "label": "GBIF records in Cyprus: Cantharellus subpruinosus",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=5249498"
+     }
+    ]
+   }
+  },
+  {
+   "code": "ter",
+   "latin": "Terfezia",
+   "common": "desert truffle",
+   "local": "",
+   "local_confirmed": false,
+   "trees": [],
+   "trees_text": "Rock-rose scrub",
+   "bands": [
+    1,
+    2
+   ],
+   "altitude_text": "Not known",
+   "months": [
+    3,
+    4
+   ],
+   "notes": [
+    "Its spring crop depends on the rain of October to December. The map does not use that yet."
+   ],
+   "tier": "more",
+   "rare": true,
+   "warn": "",
+   "season_text": "Mar-Apr",
+   "photos": [
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/15848201/medium.jpg",
+     "licence": "CC BY",
+     "attribution": "(c) Davide Puddu, some rights reserved (CC BY), uploaded by Davide Puddu",
+     "page": "https://www.inaturalist.org/photos/15848201",
+     "taxon": "Terfezia"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/13786287/medium.jpg",
+     "licence": "CC BY-SA",
+     "attribution": "(c) anonymous, some rights reserved (CC BY-SA)",
+     "page": "https://www.inaturalist.org/photos/13786287",
+     "taxon": "Terfezia"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/455075138/medium.jpeg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) manuelperra, some rights reserved (CC BY-NC), uploaded by manuelperra",
+     "page": "https://www.inaturalist.org/photos/455075138",
+     "taxon": "Terfezia"
+    }
+   ],
+   "inat_pages": [
+    {
+     "name": "Terfezia",
+     "url": "https://www.inaturalist.org/taxa/637214"
+    }
+   ],
+   "records": {
+    "gbif_total": 2,
+    "inat_research": 0,
+    "months": {},
+    "links": [
+     {
+      "label": "GBIF: Terfezia",
+      "url": "https://www.gbif.org/species/2593142"
+     },
+     {
+      "label": "GBIF records in Cyprus: Terfezia",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=2593142"
+     },
+     {
+      "label": "iNaturalist: Terfezia",
+      "url": "https://www.inaturalist.org/taxa/637214"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Terfezia",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=637214"
      }
     ]
    }

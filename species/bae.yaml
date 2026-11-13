@@ -1,0 +1,24 @@
+# Bronze bolete / cep (Boletus aereus / edulis).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: bae
+english_name: bronze bolete / cep
+latin_name: Boletus aereus / edulis
+local_name: {name: "", confirmed: false}
+group: oak_partner                                      # [SPEC]
+tier: more                                              # [SPEC]
+rare: false
+confidence: low                                         # [SPEC]
+host_trees: {golden_oak: 1.0, kermes_oak: 1.0}          # [SPEC] golden and kermes oak (kermes: no map layer yet)
+altitude_range: [0, 1950]                               # [GUESS] no limit known
+trigger_mm: 20                                          # [GUESS] as pine partners
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+soil_temp_window: {min: 6, best: [12, 20], max: 26}     # [GUESS] "warmer end" [SPEC]
+extra_cues: {not_every_year: true}                      # [SPEC] not modelled
+window_length_days: 10                                  # [GUESS]
+recovery_days: 21                                       # [GUESS]
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 0.3}  # [SPEC] autumn; months [GUESS]
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.5"]

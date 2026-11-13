@@ -76,6 +76,10 @@ These values are **not in the brief**. The code runs with a **[DRAFT]** placehol
 
 | L5 | **Species-specific lookalikes** for each profile (spec wants 2-3, sourced). Now: red pine mushroom and bloody milk cap list only *Lactarius chrysorrheus* (the brief's milk-colour note; for the bloody milk cap it is our guess) | 1 each | `species/*.yaml` |
 | S12 | Profile numbers for red pine mushroom and bloody milk cap (wait 72 degree-days above 4 C, soil 3-24 C best 8-18, window 10 days, recovery 21 days, season edges) are guesses; calibrate in step 9 | guesses | `species/lde.yaml`, `lsa.yaml` |
+| E15 | Land cover counts from a 20% share of the square, full weight from 50% | 0.2 / 0.5 | `config/engine.yaml` `habitat.land_cover_*` |
+| S13 | Step 6 profiles (12 species): most numbers are group defaults copied from the red pine mushroom, marked [GROUP] or [GUESS] in each file. Not modelled yet: warm spells (white brittlegill), cold cue (matsutake), humidity (fennel king oyster), fire year (morels), Oct-Dec rain memory (desert truffle) | guesses | `species/*.yaml` |
+| S14 | Fennel king oyster: no giant fennel map. Fields and grassland stand in at half weight. No photo with an allowed licence on iNaturalist yet | stand-in | `species/pfe.yaml` |
+| S15 | Desert truffles: which soil pH (spec: "pH matters, value to confirm") | unknown | `species/ter.yaml` |
 
 Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure in Cyprus that today every forest bucket is the island median (26.9 mm); drainage class and slope still differ.
 

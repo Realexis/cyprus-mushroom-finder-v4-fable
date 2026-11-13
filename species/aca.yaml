@@ -1,0 +1,32 @@
+# Field mushroom (Agaricus campestris).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: aca
+english_name: field mushroom
+latin_name: Agaricus campestris
+local_name: {name: "", confirmed: false}
+group: field_recycler                                   # [SPEC]
+tier: more
+rare: false
+confidence: medium                                      # [SPEC]
+host_trees: {}
+land_cover: {clc_pasture: 1.0, clc_grassland: 1.0, grass_frac: 1.0}   # [SPEC] grassland
+altitude_range: [0, 1950]                               # [GUESS]
+trigger_mm: 15                                          # [GUESS]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+soil_temp_window: {min: 3, best: [7, 15], max: 22}      # [GUESS] field recycler group
+extra_cues: {}
+window_length_days: 10                                  # [GUESS]
+recovery_days: 21                                       # [GUESS]
+season_prior: {nov: 0.3, dec: 1.0, jan: 1.0, feb: 1.0, mar: 1.0, apr: 0.5}   # [SPEC] winter-spring
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+# User decision 2026-11-13: shown only behind "Show more species", with an Amanita warning.
+lookalikes:
+  - latin: Amanita phalloides
+    why: "Deadly white and pale Amanitas can look like it."   # [BRIEF] deadly list; pairing [DRAFT] L5
+    source: draft
+  - latin: Agaricus xanthodermus
+    why: "Yellow stainer: toxic."                       # [BRIEF] list; pairing [DRAFT] L5
+    source: draft
+sources: ["v0.3 spec 3.3-3.5", "Original brief: lookalike list"]

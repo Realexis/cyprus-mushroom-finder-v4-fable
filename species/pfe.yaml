@@ -1,0 +1,27 @@
+# Fennel king oyster (Pleurotus eryngii var. ferulae).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: pfe
+english_name: fennel king oyster
+latin_name: Pleurotus eryngii var. ferulae
+local_name: {name: "", confirmed: false}                # [SPEC] none given
+group: fennel_root                                      # [SPEC]
+tier: key
+rare: false
+confidence: low                                         # [SPEC]
+host_trees: {}
+# [SPEC] fields with giant fennel. We have NO giant fennel map: fields and grassland are a
+# stand-in, kept at half weight so the map does not over-promise [GUESS].
+land_cover: {clc_pasture: 0.5, clc_grassland: 0.5, grass_frac: 0.5}
+altitude_range: [0, 1500]                               # [GUESS]
+trigger_mm: 15                                          # [GUESS] "rain and humidity weigh more" [SPEC]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS] as the other groups
+soil_temp_window: {min: 4, best: [8, 20], max: 28}      # [GUESS] wide: temperature weighs less [SPEC]
+extra_cues: {humidity: true}                            # [SPEC] not modelled yet
+window_length_days: 10                                  # [GUESS]
+recovery_days: 21                                       # [GUESS]
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 1.0, mar: 1.0, apr: 1.0, may: 0.3}   # [SPEC] autumn-spring
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.6"]

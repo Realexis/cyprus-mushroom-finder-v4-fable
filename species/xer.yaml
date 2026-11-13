@@ -1,0 +1,24 @@
+# Yellow and red cracked boletes (Xerocomus subtomentosus / chrysenteron group).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: xer
+english_name: yellow and red cracked boletes
+latin_name: Xerocomus subtomentosus / chrysenteron group
+local_name: {name: "", confirmed: false}
+group: oak_partner                                      # [SPEC]
+tier: more
+rare: false
+confidence: low
+host_trees: {golden_oak: 1.0, kermes_oak: 1.0}          # [SPEC] oaks
+altitude_range: [0, 1950]                               # [GUESS]
+trigger_mm: 20                                          # [GUESS]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+soil_temp_window: {min: 6, best: [12, 20], max: 26}     # [GUESS] oak group, warmer end
+extra_cues: {}
+window_length_days: 10                                  # [GUESS]
+recovery_days: 21                                       # [GUESS]
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 0.3}  # [SPEC] autumn
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.5"]

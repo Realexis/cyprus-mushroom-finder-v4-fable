@@ -14,7 +14,9 @@ export interface Photo { url: string; licence: string; attribution: string; page
 export interface Species {
   code: string; latin: string; common: string; local: string; local_confirmed: boolean;
   trees: number[]; trees_text: string; bands: number[]; altitude_text: string; months: number[];
-  notes: string[]; season_text: string; photos: Photo[]; inat_pages: { name: string; url: string }[];
+  notes: string[]; season_text: string; photos: Photo[];
+  /** v0.3: "key" shows by default, "more" behind "Show more species"; rare gets a tag; warn = a fixed warning. */
+  tier: "key" | "more"; rare: boolean; warn: string; inat_pages: { name: string; url: string }[];
   records: { gbif_total: number; inat_research: number; months: Record<string, number>; links: { label: string; url: string }[] };
 }
 export interface Lookalike { latin: string; common: string; severity: "deadly" | "toxic"; note: string; photos: Photo[];
@@ -305,6 +307,7 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
     return `
       <section class="sc-danger" aria-labelledby="sc-danger-h">
         <h3 class="sc-h danger" id="sc-danger-h" tabindex="-1">${WARN_ICON}Danger: lookalikes</h3>
+        ${sp.warn ? `<p class="sc-sign"><b>${esc(sp.warn)}</b></p>` : ""}
         ${f?.danger.length ? `<p class="sc-sign-h"><b>Leave it alone if you see:</b></p>
           <ul class="sc-signs">${f.danger.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
         <p>These ${LOOKALIKES.length} grow in the same forests. ${nDeadly} can kill. Tap one to see it larger.</p>

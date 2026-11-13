@@ -307,3 +307,42 @@ def test_summary_clock_words():
     assert engine_clock({"state": 3, "left_days": 4}) == "Window open, about 4 more days."
     assert "opens in about 1 day." in engine_clock({"state": 2, "left_days": 1})
     assert "soaking rain" in engine_clock({"state": 1, "left_days": -1})
+
+
+def test_scores_file_round_trip(tmp_path):
+    from shroomy.export.web_v03 import write_info, write_scores
+    idx = np.array([2, 5, 9])
+    sc = np.arange(24, dtype="uint8").reshape(3, 8)
+    write_scores(tmp_path / "s.bin", idx, sc)
+    b = (tmp_path / "s.bin").read_bytes()
+    n, days = np.frombuffer(b[:8], "<u4")
+    assert (n, days) == (3, 8)
+    assert list(np.frombuffer(b[8:20], "<u4")) == [2, 5, 9]
+    assert np.array_equal(np.frombuffer(b[20:], "u1").reshape(3, 8), sc)
+    parts = np.full((3, 8, 5), 50, "uint8")
+    inputs = np.full((3, 8, 6), -7, "int16")
+    write_info(tmp_path / "i.bin", parts, inputs)
+    b = (tmp_path / "i.bin").read_bytes()
+    assert list(np.frombuffer(b[:16], "<u4")) == [3, 8, 5, 6]
+    start = 16 + 120 + (120 % 2)
+    assert np.all(np.frombuffer(b[start:], "<i2") == -7)
+
+
+def test_all_profiles_valid_and_tiers():
+    from shroomy.engine.profile import load_all
+    ps = load_all()
+    tiers = {p["code"]: p["tier"] for p in ps}
+    assert len(ps) == 14
+    assert sum(t == "key" for t in tiers.values()) == 7 and sum(t == "more" for t in tiers.values()) == 7
+    assert {p["code"] for p in ps if p["rare"]} == {"cci", "ter"}
+
+
+def test_land_cover_needs_a_real_share():
+    p = copy.deepcopy(TEST_PROFILE)
+    p["host_trees"] = {}
+    p["land_cover"] = {"grass_frac": 1.0}
+    sq = _squares()
+    sq["grass_frac"] = np.array([0.05, 0.3, 0.6, 1.0, 0.0, 1.0])
+    h = habitat_fit(sq, p, E["habitat"], 30, 1.0)
+    assert h[0] == 0 and 0 < h[1] < 1 and h[2] == 1 and h[4] == 0
+    assert h[5] == 0                                      # reserve

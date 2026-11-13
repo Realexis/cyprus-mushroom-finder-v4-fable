@@ -103,3 +103,128 @@ species:
     months: [10, 11, 12, 1]                         # [BRIEF] Oct-Jan
     notes: []
     inat: ["Suillus luteus"]
+
+  # ===================================================================
+  # v0.3 (step 6). Seasons, habitats and tiers from the v0.3 spec 3.5 [SPEC].
+  # trees/bands are the v1 map fields (only used without species profiles).
+  # The v0.3 map uses species/<code>.yaml. "more" = shown behind "Show more species".
+  # ===================================================================
+  - code: pfe
+    latin: Pleurotus eryngii var. ferulae
+    common: fennel king oyster                      # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: key
+    trees: []
+    trees_text: "Fields with giant fennel (no fennel map yet: fields and grassland stand in)"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [10, 11, 12, 1, 2, 3, 4]                # [SPEC] autumn-spring
+    notes:
+      - "We have no map of giant fennel. Fields and grassland are used instead, at half weight."
+    inat: ["Pleurotus eryngii ferulae"]
+
+  - code: bae
+    latin: Boletus aereus / edulis
+    common: bronze bolete / cep                     # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    trees: [3]
+    trees_text: "Golden oak and kermes oak"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [10, 11]                                # [SPEC] autumn, not every year
+    notes:
+      - "Kermes oak is not on our tree map yet, so those areas are not counted."
+    inat: ["Boletus aereus", "Boletus edulis"]
+
+  - code: xer
+    latin: Xerocomus subtomentosus / chrysenteron group
+    common: yellow and red cracked boletes          # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    trees: [3]
+    trees_text: "Oaks"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [10, 11]                                # [SPEC] autumn
+    notes: []
+    inat: ["Xerocomus subtomentosus", "Xerocomellus chrysenteron"]
+
+  - code: lnu
+    latin: Lepista nuda
+    common: wood blewit                             # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    trees: [1, 2, 3]                                # [S7] other broadleaf only for morels
+    trees_text: "All forest (leaf litter)"
+    bands: [1, 2, 3]
+    altitude_text: "All altitudes"
+    months: [10, 11, 12, 1]                         # [SPEC] autumn-winter
+    notes: []
+    inat: ["Lepista nuda", "Collybia nuda"]
+
+  - code: cco
+    latin: Coprinus comatus
+    common: shaggy ink cap                          # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    trees: []
+    trees_text: "Meadows and roadsides"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [12, 1, 2]                              # [SPEC] Dec-Feb
+    notes:
+      - "Roadsides are not on our map, only meadows and grassland."
+    inat: ["Coprinus comatus"]
+
+  - code: aca
+    latin: Agaricus campestris
+    common: field mushroom                          # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    # User decision 2026-11-13: shown only behind "Show more species", with this warning.
+    warn: "Easily confused with deadly white Amanitas, such as the death cap."
+    trees: []
+    trees_text: "Grassland"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [12, 1, 2, 3]                           # [SPEC] winter-spring
+    notes: []
+    inat: ["Agaricus campestris"]
+
+  - code: cci
+    latin: Cantharellus cibarius / subpruinosus
+    common: chanterelle                             # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    rare: true                                      # [SPEC]
+    trees: [1, 2]
+    trees_text: "Pine"
+    bands: [1, 2, 3]
+    altitude_text: "Not known"
+    months: [10, 11, 12, 1]                         # [SPEC] autumn-winter
+    notes: []
+    inat: ["Cantharellus cibarius", "Cantharellus subpruinosus"]
+
+  - code: ter
+    latin: Terfezia
+    common: desert truffle                          # [SPEC]
+    local: ""
+    local_confirmed: false
+    tier: more
+    rare: true                                      # [SPEC]
+    trees: []
+    trees_text: "Rock-rose scrub"
+    bands: [1, 2]
+    altitude_text: "Not known"
+    months: [3, 4]                                  # [SPEC] spring
+    notes:
+      - "Its spring crop depends on the rain of October to December. The map does not use that yet."
+    inat: ["Terfezia"]

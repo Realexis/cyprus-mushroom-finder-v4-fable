@@ -85,6 +85,10 @@ habitat:
   altitude_soft_m: 150             # [DRAFT] E12: altitude range edges ramp over this many metres
   # Land-cover names a profile may weight (habitat_v03_250m.tif bands, 0..1 shares).
   land_cover: [grass_frac, clc_arable, clc_pasture, clc_grassland, clc_sclerophyll, clc_transitional, clc_burnt]
+  # A land cover counts only where it covers a real part of the square:
+  # nothing below `land_cover_zero_share`, full weight from `land_cover_full_share`. [DRAFT] E15
+  land_cover_zero_share: 0.2
+  land_cover_full_share: 0.5
   burn_full_at_frac: 0.5           # [DRAFT] E13: needs_burn species get full fit at this burnt share
   # Soil preference (profile soil_pref): pH ranges for the mismatch ramp. [DRAFT] E14
   ph_acid_below: 6.5

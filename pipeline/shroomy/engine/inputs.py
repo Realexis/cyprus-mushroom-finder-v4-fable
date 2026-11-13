@@ -65,6 +65,17 @@ def build(run_file, squares="land"):
     }
 
 
+def subset(inp, keep):
+    """Keep only some squares (boolean or index array over the squares)."""
+    out = dict(inp)
+    for k in ("rows", "cols", "lat", "precip", "tmean", "tmin", "tmax"):
+        out[k] = inp[k][keep]
+    if inp.get("tsoil") is not None:
+        out["tsoil"] = inp["tsoil"][keep]
+    out["squares"] = {k: v[keep] for k, v in inp["squares"].items()}
+    return out
+
+
 def _awc_certainty(sq):
     from .bucket import certainty
     neutral = config.load("soil")["soil_effect"]["neutral_at_rel_band"]

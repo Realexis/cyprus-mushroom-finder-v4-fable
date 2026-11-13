@@ -1,0 +1,24 @@
+# Slippery Jack (Suillus luteus).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: slu
+english_name: slippery Jack
+latin_name: Suillus luteus
+local_name: {name: lartias, confirmed: false}           # [SPEC] to confirm
+group: pine_partner
+tier: key
+rare: false
+confidence: medium
+host_trees: {calabrian_pine: 1.0, black_pine: 1.0}      # [SPEC] pine
+altitude_range: [0, 1950]                               # [BRIEF] the pine belt
+trigger_mm: 20                                          # [GROUP]
+wait_degree_days: {total: 72, base_c: 4}                # [GROUP]
+soil_temp_window: {min: 3, best: [8, 18], max: 24}      # [GROUP]
+extra_cues: {}
+window_length_days: 10                                  # [GROUP]
+recovery_days: 21                                       # [GROUP]
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 0.3}   # [SPEC] Oct-Jan
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.5", "Original brief: trees, season"]

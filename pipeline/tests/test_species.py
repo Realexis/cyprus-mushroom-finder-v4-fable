@@ -71,7 +71,9 @@ def test_every_species_uses_known_trees_bands_months():
         assert set(s["trees"]) <= {1, 2, 3, 4}, s["code"]
         assert set(s["bands"]) <= {1, 2, 3}, s["code"]
         assert set(s["months"]) <= set(range(1, 13)), s["code"]
-        assert s["trees"] and s["bands"] and s["months"], s["code"]
+        assert s["bands"] and s["months"], s["code"]
+        # v0.3: field, fennel and scrub species have no partner tree.
+        assert s["trees"] or s["code"] in {"pfe", "cco", "aca", "ter"}, s["code"]
 
 
 def test_only_morels_use_other_broadleaf():

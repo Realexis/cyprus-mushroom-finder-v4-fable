@@ -1,0 +1,27 @@
+# Morels (Morchella esculenta / elata).
+# EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
+# 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
+# [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
+code: mor
+english_name: morels
+latin_name: Morchella esculenta / elata
+local_name: {name: arnaoui, confirmed: false}           # [SPEC] to confirm
+group: burn                                             # [SPEC]
+tier: key
+rare: false
+confidence: low                                         # [SPEC]
+# [SPEC] burned ground, broadleaf. Burned forest has little tree cover left, so no tree-cover minimum.
+host_trees: {other_broadleaf: 1.0, calabrian_pine: 0.6, black_pine: 0.6, golden_oak: 0.6}   # weights [GUESS]
+land_cover: {clc_burnt: 1.0}                            # CORINE 2018 burnt areas (EFFIS fire years: TODO V4)
+min_tree_cover_pct: 0
+altitude_range: [300, 1950]                             # [BRIEF] mid-high; 300 m edge [GUESS]
+trigger_mm: 15                                          # [GUESS]
+wait_degree_days: {total: 72, base_c: 4}                # [GUESS]
+soil_temp_window: {min: 4, best: [8, 14], max: 20}      # [SPEC] spring soil warming (~10 C); range [GUESS]
+extra_cues: {needs_burn: true, one_spring_after_fire: true}   # needs_burn is used; fire year not yet (V4)
+window_length_days: 14                                  # [GUESS]
+recovery_days: 30                                       # [GUESS]
+season_prior: {feb: 0.3, mar: 1.0, apr: 1.0, may: 0.3}  # [SPEC] Mar-Apr
+soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
+lookalikes: []                                          # to source (L5)
+sources: ["v0.3 spec 3.3-3.6", "Original brief: trees, altitude, season"]

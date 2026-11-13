@@ -120,6 +120,8 @@ export interface SpotData {
   /** Pin for "Drive there" / "Share location". road = nearest road point outside nature reserves
    *  (2 km zones); centre = the middle of a 250 m square (none for squares in or by a reserve). */
   access?: { lat: number; lon: number; km?: number; from?: string; kind: "road" | "centre" };
+  /** v0.3 general map: the species that gives the best score on a day (shown in "Why this score"). */
+  bestName?: (day: number) => string | null;
   /** Habitat score for a species on a day, ignoring its season. null = no habitat here. */
   speciesBase?: (sp: SpeciesLite, day: number) => number | null;
 }
@@ -190,7 +192,7 @@ function engineBars(s: SpotData, ctx: SpotContext): string {
       ${val[n] ? `<div class="why-val">${esc(val[n])}</div>` : ""}</li>`;
   }).join("");
   return `<details class="why" open><summary data-tip="The five parts multiply. One short bar pulls the whole score down. Tap to hide or show."><b>Why this score</b></summary>
-    <p class="muted small">${ctx.species ? "" : "For the species that does best here. "}The parts multiply: one short bar pulls the score down.</p><ul>${rows}</ul></details>`;
+    <p class="muted small">${ctx.species ? "" : (() => { const b = s.bestName?.(ctx.day); return b ? `For the species that does best here: <b>${esc(b)}</b>. ` : "For the species that does best here. "; })()}The parts multiply: one short bar pulls the score down.</p><ul>${rows}</ul></details>`;
 }
 
 function whyBars(s: SpotData, ctx: SpotContext): string {
@@ -388,11 +390,6 @@ export function hexSpot(props: Record<string, number>, info: SpotInfo | undefine
 export class CellInfo {
   private constructor(private a: Int16Array, private nf: number, private ni: number, private days: number,
                       private ra: Float32Array | null, private tail = 2) {}
-  /** A species file (cells_sp_<code>.bin): same layout without the two road numbers. */
-  static async loadSpecies(url: string, meta: { factors: string[]; inputs: string[]; days: number }): Promise<CellInfo> {
-    const buf = await fetch(url).then((r) => { if (!r.ok) throw new Error(url); return r.arrayBuffer(); });
-    return new CellInfo(new Int16Array(buf), meta.factors.length, meta.inputs.length, meta.days, null, 0);
-  }
   static async load(url: string, meta: { factors: string[]; inputs: string[]; days: number }): Promise<CellInfo> {
     const buf = await fetch(url).then((r) => r.arrayBuffer());
     // Drive-there pins (cells_road.bin, next to cells_info.bin): each square's centre. Optional.
@@ -425,21 +422,19 @@ export class CellInfo {
 
 export function cellSpot(props: Record<string, number>, info: CellInfo | null, score: (d: number) => number | null,
                          lngLat: { lng: number; lat: number }, seasonShare: number,
-                         engine = false, spInfo: CellInfo | null = null): SpotData {
+                         eng?: Pick<SpotData, "factors" | "inputs" | "speciesBase" | "bestName">): SpotData {
   const i = Number(props.i);
   const m = (x: number) => (x < 0 ? "–" : x < 1000 ? `${Math.round(x / 10) * 10} m` : `${(x / 1000).toFixed(1)} km`);
   const rd = info?.road(i);
   const acc = info?.access(i);
   return {
     kind: "cell", score,
-    speciesBase: engine
-      ? (sp, d) => (props[`${sp.code}${d}`] === undefined || props.closed ? null : Number(props[`${sp.code}${d}`]))
-      : (sp, d) => (sp.trees.includes(Number(props.tree)) && sp.bands.includes(Number(props.band)) && !props.closed
-        ? Math.round(Number(props[`b${d}`]) + seasonShare) : null),
+    speciesBase: (sp, d) => (sp.trees.includes(Number(props.tree)) && sp.bands.includes(Number(props.band)) && !props.closed
+      ? Math.round(Number(props[`b${d}`]) + seasonShare) : null),
     clock: (d) => Number(props[`p${d}`]),
-    // A picked v0.3 species has its own parts file; else the general one (best species here).
-    factors: (d) => (spInfo ?? info)?.factors(i, d) ?? null,
-    inputs: (d) => (spInfo ?? info)?.inputs(i, d) ?? null,
+    factors: (d) => info?.factors(i, d) ?? null,
+    inputs: (d) => info?.inputs(i, d) ?? null,
+    ...eng,                                       // v0.3: parts, numbers and species scores from the score files
     where: `250 m square · ${lngLat.lat.toFixed(4)}, ${lngLat.lng.toFixed(4)}`,
     trees: TREES[Number(props.tree)] ?? "Forest",
     soil: props.awc === undefined ? undefined

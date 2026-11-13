@@ -7,6 +7,7 @@ import * as maplibregl from "maplibre-gl";
 import type { MapGeoJSONFeature } from "maplibre-gl";
 import { Protocol } from "pmtiles";
 import { pmtiles } from "./map/files";
+import { ScoreStore } from "./map/scores";
 import { addOverlays, applyView, hexProp, set3D, setReplayFrame, setSelection, type LayerUrls } from "./map/layers";
 import { baseStyle, type Theme } from "./map/style";
 import { Panel, type HotZone, type Meta } from "./ui/controls";
@@ -145,16 +146,10 @@ async function main() {
     cellMeta = await getJSON<{ factors: string[]; inputs: string[]; days: number }>(abs("data/cells_info.json"));
     if (cellMeta) cellInfo = await CellInfo.load(abs("data/cells_info.bin"), cellMeta).catch(() => null);
   })();
-  // v0.3: one parts file per species (~7 MB), loaded when that species is picked and a square tapped.
-  const spInfo = new Map<string, CellInfo | null>();
-  const spLoading = new Map<string, Promise<void>>();
-  const ensureSpInfo = (code: string) => spLoading.get(code) ?? (() => {
-    const p = ensureCellInfo().then(async () => {
-      spInfo.set(code, cellMeta ? await CellInfo.loadSpecies(abs(`data/cells_sp_${code}.bin`), cellMeta).catch(() => null) : null);
-    });
-    spLoading.set(code, p);
-    return p;
-  })();
+  // v0.3: scores come from small files per species / general map (map/scores.ts).
+  const store = new ScoreStore((f) => `${abs(f)}?v=${encodeURIComponent(meta.generated_utc)}`);
+  const paintScores = () => { if (meta.engine && map.getSource("cells")) void store.paint(map, panel.scoreKey, panel.day); };
+  if (import.meta.env.DEV) (window as unknown as { store: unknown }).store = store;
   // Top-zone outlines (daily). The 50 m shade itself is the fixed file tiles/shade50.pmtiles.
   let hotZonesGeo: GeoJSON.FeatureCollection | undefined;
   if (priv) {
@@ -233,20 +228,43 @@ async function main() {
     if (p.f.layer.id === "hot-fill") return { kind: "hot", score: () => null, hot: props };
     if (p.f.layer.id === "cells-fill") {
       const sp = speciesByCode(panel.species);
-      const eng = panel.isEngine(sp?.code ?? null);
+      const i = Number(props.i);
+      if (meta.engine) {
+        // v0.3: everything from the score files. Details load on the first tap.
+        const e = meta.engine;
+        const key = panel.scoreKey;
+        const sc = store.get(key), inf = store.info(key);
+        const row = sc ? sc.row(i) : -1;
+        const visible = e.codes.filter((c) => speciesByCode(c)?.tier === "key" || panel.showMore);
+        const s = cellSpot(props, cellInfo, (d) => sc?.score(i, d) ?? null, p.lngLat, 0, {
+          factors: (d) => (inf && row >= 0 ? inf.parts(row, d) : null),
+          inputs: (d) => (inf && row >= 0 ? inf.inputs(row, d) : null),
+          speciesBase: (spx, d) => (visible.includes(spx.code) ? store.get(spx.code)?.score(i, d) ?? null : null),
+          bestName: (d) => {
+            if (sp || !inf || row < 0) return null;
+            const b = Math.round(inf.inputs(row, d)[e.general_inputs.indexOf("best")]);
+            return speciesByCode(e.general[key]?.[b] ?? "")?.common ?? null;
+          },
+        });
+        const zone = props.h === undefined ? undefined : spots?.spots[Number(props.h)];
+        s.where = zone ? `${zone.where} · 250 m square` : "250 m square";
+        const ready = !!cellInfo && inf !== undefined && visible.every((c) => store.get(c) !== undefined);
+        s.note = ready ? undefined : "Loading the details for this square…";
+        if (!ready) void Promise.all([ensureCellInfo(), store.loadInfo(key), ...visible.map((c) => store.load(c))]).then(() => {
+          if (lastPick?.f.layer.id === "cells-fill") panel.showSpot(buildSpot(lastPick), false);
+        });
+        return s;
+      }
       const score = (d: number) => {
         if (!sp) return props[`s${d}`] === null || props[`s${d}`] === undefined ? null : Number(props[`s${d}`]);
-        if (eng) return props[`${sp.code}${d}`] === undefined ? null : Number(props[`${sp.code}${d}`]);
         if (!sp.trees.includes(Number(props.tree)) || !sp.bands.includes(Number(props.band))) return null;
         return panel.inSeason(d) ? Math.round(Number(props[`b${d}`]) + meta.season_share) : 0;
       };
-      const s = cellSpot(props, cellInfo, score, p.lngLat, meta.season_share, !!meta.engine,
-        eng ? spInfo.get(sp!.code) ?? null : null);
+      const s = cellSpot(props, cellInfo, score, p.lngLat, meta.season_share);
       const zone = props.h === undefined ? undefined : spots?.spots[Number(props.h)];
       s.where = zone ? `${zone.where} · 250 m forest square` : "250 m forest square";
-      const ready = !!cellInfo && (!eng || spInfo.has(sp!.code));
-      s.note = ready ? undefined : "Loading the details for this square…";
-      if (!ready) void (eng ? ensureSpInfo(sp!.code) : ensureCellInfo()).then(() => {
+      s.note = cellInfo ? undefined : "Loading the details for this square…";
+      if (!cellInfo) void ensureCellInfo().then(() => {
         if (lastPick?.f.layer.id === "cells-fill") panel.showSpot(buildSpot(lastPick), false);
       });
       return s;
@@ -256,8 +274,9 @@ async function main() {
 
   const panel: Panel = new Panel(sheet, meta, priv, islandRain(rain, 30), shade,
     (p) => {
-      if (!map.isStyleLoaded()) return;
+      if (!map.getLayer("hex-fill")) return;               // overlays not added yet (tiles may still be loading)
       applyView(map, p.view);
+      paintScores();
       drawLegend();
       if (lastPick && p.mode === "conditions") p.showSpot(buildSpot(lastPick), false);
     },
@@ -266,6 +285,11 @@ async function main() {
   // Best zone per day (and per species) for the day buttons, from summary.json.
   panel.best = (day, code) => {
     const d = summary?.days[day];
+    if (!code && meta.engine && panel.showMore) {            // general map with the "more" species: best of all
+      const all = Object.values(d?.species ?? {}).map((x) => x.top_zones[0]).filter(Boolean);
+      const z = all.sort((a, b) => b.score - a.score)[0];
+      return z ? { score: z.score, where: z.where } : null;
+    }
     const z = code ? (d?.species?.[code]?.in_season ? d.species[code].top_zones[0] : undefined) : d?.top_zones[0];
     return z ? { score: z.score, where: z.where } : null;
   };
@@ -312,10 +336,14 @@ async function main() {
 
   const onStyle = () => {
     addOverlays(map, theme, urls, panel.view);
+    store.reset();                                            // a new style = a new source without colours
+    paintScores();
     if (terrainCtl.on) set3D(map, true, theme, false);
     applySelection();
   };
   map.once("load", onStyle);
+  // v0.3: repaint the scores if the squares source was rebuilt (cheap no-op otherwise).
+  map.on("sourcedata", (e) => { if (e.sourceId === "cells") paintScores(); });
 
   // Loading message: hide once the map has drawn its layers for the first time.
   const loading = document.getElementById("loading")!;

@@ -100,7 +100,8 @@ def habitat_fit(sq, prof, h, tree_cover_min, neutral_at_rel_band):
     for name, w in (prof.get("land_cover") or {}).items():
         if name not in h["land_cover"]:
             raise ValueError(f"unknown land_cover {name!r}; allowed: {h['land_cover']}")
-        base = np.maximum(base, w * np.clip(np.nan_to_num(sq[name]), 0, 1))
+        share = ramp(np.nan_to_num(sq[name]), h["land_cover_zero_share"], h["land_cover_full_share"])
+        base = np.maximum(base, w * share)
 
     lo, hi = prof["altitude_range"]
     m = h["altitude_soft_m"]

@@ -11,7 +11,9 @@ export interface Meta {
   clock: { opens: number; closes: number; soak_mm: number };
   weights: Record<string, number>; season_share: number; general_map_trees: number[];
   /** v0.3 species engine: present when the map shows the multiplied score. */
-  engine?: { parts: string[]; inputs: string[]; codes: string[]; states: string[];
+  engine?: { parts: string[]; inputs: string[]; general_inputs: string[]; codes: string[]; states: string[];
+    /** Species codes behind each general map ("key", "all"), in the order of the "best" input. */
+    general: Record<string, string[]>;
     species: Record<string, { english_name: string; latin_name: string; season_text: string; window_days: number }> };
 }
 export interface HotZone { hex: string; where: string; lat: number; lon: number; score: number; date: string; }
@@ -37,8 +39,14 @@ function gradient(stops: [number, string][]) {
   return `linear-gradient(90deg, ${stops.map(([v, c]) => `${c} ${(v / max) * 100}%`).join(", ")})`;
 }
 
+const MORE_KEY = "shroomy-show-more";
+function readMore(): boolean { try { return localStorage.getItem(MORE_KEY) === "1"; } catch { return false; } }
+function saveMore(on: boolean) { try { localStorage.setItem(MORE_KEY, on ? "1" : "0"); } catch { /* private window */ } }
+
 export class Panel {
   day = 0;
+  /** v0.3: show the "more" species too (and use them in the general map). */
+  showMore = readMore();
   mode: Mode = "conditions";
   priv = false;
   species: string | null = null;
@@ -78,13 +86,16 @@ export class Panel {
     return !sp || sp.months.includes(this.monthOf(day));
   };
 
+  /** Which score file colours the map: the species, or the general map of the species shown. */
+  get scoreKey(): string { return this.species ?? (this.showMore ? "all" : "key"); }
+
   /** Scored on this day? Engine species always are (soft season); older species only in season. */
   inSeason = (day: number) => this.isEngine(this.species) || this.usualSeason(day);
 
   get filter(): Filter {
     const sp = speciesByCode(this.species);
     return { code: sp?.code ?? null, trees: sp?.trees ?? [], bands: sp?.bands ?? [],
-      inSeason: this.inSeason(this.day), seasonShare: this.meta.season_share, engine: this.isEngine(sp?.code ?? null) };
+      inSeason: this.inSeason(this.day), seasonShare: this.meta.season_share, engine: !!this.meta.engine };
   }
 
   get view(): View {
@@ -190,11 +201,12 @@ export class Panel {
     // In-season species first; out-of-season ones after, in a group that says why they are grey.
     const month = this.monthOf(this.day);
     const opt = (s: (typeof SPECIES)[number], off: boolean) =>
-      `<option value="${s.code}" ${s.code === this.species ? "selected" : ""}>${esc(s.common)} · ${esc(s.latin)}${off ? ` · ${esc(s.season_text)}` : ""}</option>`;
+      `<option value="${s.code}" ${s.code === this.species ? "selected" : ""}>${esc(s.common)} · ${esc(s.latin)}${off ? ` · ${esc(s.season_text)}` : ""}${s.rare ? " · rare" : ""}</option>`;
     // v0.3: only species with an engine profile are scored; the rest follow in the next step.
     const eng = !!this.meta.engine;
-    const scored = SPECIES.filter((s) => !eng || this.isEngine(s.code));
+    const scored = SPECIES.filter((s) => !eng || (this.isEngine(s.code) && (s.tier === "key" || this.showMore)));
     const later = SPECIES.filter((s) => eng && !this.isEngine(s.code));
+    const nMore = SPECIES.filter((s) => eng && this.isEngine(s.code) && s.tier === "more").length;
     const inSeasonList = scored.filter((s) => s.months.includes(month));
     const offList = scored.filter((s) => !s.months.includes(month));
     const monthName = fmtDay(cur.date, { month: "long" });
@@ -203,7 +215,8 @@ export class Panel {
       offList.length ? `<optgroup label="${eng ? `Outside their usual season: lower scores` : `Out of season in ${monthName}: grey, no score`}">${offList.map((s) => opt(s, true)).join("")}</optgroup>` : "",
       later.length ? `<optgroup label="Coming soon to the new model">${later.map((s) => `<option value="${s.code}" disabled>${esc(s.common)} · ${esc(s.latin)}</option>`).join("")}</optgroup>` : "",
     ].join("");
-    const seasonMsg = sp && this.isEngine(sp.code) ? (this.usualSeason(this.day)
+    const warn = sp?.warn ? `<p class="filter-line warn-line"><b>${esc(sp.warn)}</b></p>` : "";
+    const seasonMsg = warn + (sp && this.isEngine(sp.code) ? (this.usualSeason(this.day)
       ? `<p class="filter-line">Good conditions for <i>${esc(sp.latin)}</i> habitat · <span class="tag">in season ${esc(sp.season_text)}</span></p>`
       : `<p class="filter-line warn-line"><b>Outside its usual season.</b> <i>${esc(sp.latin)}</i> usually fruits in
           <b>${esc(sp.season_text)}</b>. Its scores are lowered, not set to zero.</p>`)
@@ -212,7 +225,7 @@ export class Panel {
       : `<p class="filter-line warn-line"><b>Why is the map grey?</b> <i>${esc(sp.latin)}</i> (${esc(sp.common)}) fruits in
           <b>${esc(sp.season_text)}</b>, and this day is in ${fmtDay(cur.date, { month: "long" })}. Grey shows where its habitat is
           (its trees and altitude), with no score. Its season starts again in
-          <b>${new Date(2000, sp.months[0] - 1, 1).toLocaleDateString("en-GB", { month: "long" })}</b>. For now, pick an in-season species.</p>`) : "";
+          <b>${new Date(2000, sp.months[0] - 1, 1).toLocaleDateString("en-GB", { month: "long" })}</b>. For now, pick an in-season species.</p>`) : "");
 
     this.el.innerHTML = `
       <div class="sheet-top">
@@ -236,13 +249,15 @@ export class Panel {
         <select id="species" aria-describedby="sp-help" data-tip="Pick a mushroom to colour the map for its habitat: its trees, its altitude and its season. Out of season = grey, no score. The map never says the mushroom is there.">${options}</select>
         <button id="cards-btn" type="button" class="icon-btn" aria-label="Open species cards" data-tip="Photos, season, trees and the deadly lookalikes for each mushroom.">Species cards</button>
       </div>
+      ${nMore ? `<button type="button" class="chip more-toggle" id="more-btn" aria-pressed="${this.showMore}"
+        data-tip="${this.showMore ? "Hide the extra species again." : `Add ${nMore} more species: boletes, wood blewit, field and scrub mushrooms. Some are rare, some are easy to mix up with deadly ones.`}">${this.showMore ? "✓ Showing more species" : "Show more species"} (${nMore})</button>` : ""}
       <p id="sp-help" class="muted small">${eng ? "Each species has its own trees, water, warmth and season." : "A species changes only the trees, altitude and season that count."}</p>
       ${sp ? "" : (() => {
         const on = scored.filter((x) => x.months.includes(this.monthOf(this.day)));
         const off = scored.filter((x) => !x.months.includes(this.monthOf(this.day)));
         return `<div class="filter-line">
           <p data-tip="Species whose season includes this day's month. Tap one to colour the map for its habitat.">
-          <b>In season on this day:</b> ${on.length ? on.map((x) => `<button type="button" class="chip" data-pick-species="${x.code}">${esc(x.common)}</button>`).join(" ") : "none of our target species"}</p>
+          <b>In season on this day:</b> ${on.length ? on.map((x) => `<button type="button" class="chip" data-pick-species="${x.code}">${esc(x.common)}${x.rare ? ` <span class="tag">rare</span>` : ""}</button>`).join(" ") : "none of our target species"}</p>
           ${off.length ? `<details class="oos"><summary>Show out-of-season species (${off.length})</summary>
             <ul>${off.map((x) => `<li>${esc(x.common)} · ${esc(x.season_text)}</li>`).join("")}</ul>
             <p>${eng ? "Picked anyway, its scores are lower." : "Picked anyway, its habitat shows <b>grey</b> with no score."}</p></details>` : ""}
@@ -285,6 +300,12 @@ export class Panel {
     this.el.querySelector<HTMLSelectElement>("#species")?.addEventListener("change", (e) =>
       this.setSpecies((e.target as HTMLSelectElement).value || null));
     this.el.querySelector("#cards-btn")?.addEventListener("click", () => this.openSpecies(this.species ?? undefined));
+    this.el.querySelector("#more-btn")?.addEventListener("click", () => {
+      this.showMore = !this.showMore;
+      saveMore(this.showMore);
+      if (!this.showMore && speciesByCode(this.species)?.tier === "more") this.species = null;
+      this.render(); this.onChange(this);
+    });
     this.el.querySelectorAll<HTMLButtonElement>(".filter-line [data-pick-species]").forEach((b) =>
       b.addEventListener("click", () => this.setSpecies(b.dataset.pickSpecies!)));
     this.el.querySelector("#play")?.addEventListener("click", () => (this.playing ? this.stop() : this.play()));

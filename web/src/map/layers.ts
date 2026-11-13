@@ -12,7 +12,7 @@ export interface Filter {
   trees: number[]; bands: number[];  // species habitat (private 250 m cells)
   inSeason: boolean;                 // species season window on the chosen day
   seasonShare: number;               // points the season factor is worth (species: full)
-  engine: boolean;                   // v0.3: species score is stored per square (code + day), never grey
+  engine: boolean;                   // v0.3: squares are coloured from score files (feature-state "v"), never grey
 }
 
 export interface View { day: number; mode: Mode; priv: boolean; filter: Filter; replayIndex: number; }
@@ -54,15 +54,18 @@ function hexFilter(v: View): FilterSpecification {
 }
 
 function cellColor(v: View): ExpressionSpecification | string {
+  if (v.filter.engine) {                // v0.3: the score file for this species / general map, via feature-state
+    return ["case", ["==", ["feature-state", "v"], null], "rgba(0,0,0,0)",
+      ramp(["to-number", ["feature-state", "v"], 0], SCORE_STOPS)] as unknown as ExpressionSpecification;
+  }
   if (!v.filter.code) return ramp(["to-number", ["get", `s${v.day}`], 0], SCORE_STOPS);
-  if (v.filter.engine) return ramp(["to-number", ["get", `${v.filter.code}${v.day}`], 0], SCORE_STOPS);
   if (!v.filter.inSeason) return OUT_OF_SEASON;
   return ramp(["+", ["to-number", ["get", `b${v.day}`], 0], v.filter.seasonShare], SCORE_STOPS);
 }
 
 function cellFilter(v: View): FilterSpecification {
+  if (v.filter.engine) return ["==", ["get", "closed"], 0];
   if (!v.filter.code) return ["all", ["==", ["get", "closed"], 0], ["==", ["get", "g"], 1]];
-  if (v.filter.engine) return ["all", ["==", ["get", "closed"], 0], ["has", `${v.filter.code}${v.day}`]];
   return ["all", ["==", ["get", "closed"], 0],
     ["in", ["get", "tree"], ["literal", v.filter.trees]],
     ["in", ["get", "band"], ["literal", v.filter.bands]]];
@@ -139,7 +142,7 @@ export function addOverlays(map: MlMap, theme: Theme, urls: LayerUrls, v: View) 
     paint: { "line-color": SEL_CORE, "line-width": selW(3, 4.5) } }, firstSymbol);
 
   if (urls.cells) {
-    map.addSource("cells", { type: "vector", url: `pmtiles://${urls.cells}`,
+    map.addSource("cells", { type: "vector", url: `pmtiles://${urls.cells}`, promoteId: "i",
       attribution: "Copernicus Land Monitoring Service · EEA" });
     map.addLayer({
       id: "cells-fill", type: "fill", source: "cells", "source-layer": "cells", filter: cellFilter(v),

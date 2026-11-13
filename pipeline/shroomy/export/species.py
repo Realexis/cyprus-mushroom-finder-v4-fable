@@ -131,7 +131,8 @@ def build(refresh=False):
         ph, pages = photos_for(s["inat"], 3, refresh)
         out_s.append({k: s[k] for k in ("code", "latin", "common", "local", "local_confirmed", "trees",
                                          "trees_text", "bands", "altitude_text", "months", "notes")}
-                     | {"season_text": SP.months_text(s["months"]), "photos": ph, "inat_pages": pages,
+                     | {"tier": s.get("tier", "key"), "rare": bool(s.get("rare", False)), "warn": s.get("warn", ""),
+                        "season_text": SP.months_text(s["months"]), "photos": ph, "inat_pages": pages,
                         "records": cyprus_records(s["inat"], refresh)})
         print(f" - {s['latin']}: {len(ph)} photos")
     out_l = []
