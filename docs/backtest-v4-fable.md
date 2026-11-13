@@ -204,3 +204,12 @@ The base rate is now also counted **only from the first window near each find** 
 - Saved 13 Nov data: key-species map 98,612 habitat squares, **93,433 drawn** today, **5,179 not drawn**
   (all species: 94,551 drawn, 13,344 not). Zones and "best zones" use in-season squares only.
 - **Real decides:** hidden (now) or shown grey.
+
+### Fix 3: the panel says when a square has burned
+
+- Each square now carries its latest EFFIS fire year in the last 5 years (at least 5 % burned) and the burnt share.
+  The panel shows: "🔥 **Burned in 2021** (55 % of the square). Tree partners are not counted here for 5 years after a fire."
+  (Under 50 %: "count less here".) The tooltip says the tree cover number is from 2018, before most fires.
+- Odou square (34.897 N, 33.166 E), saved 13 Nov data: key-species map **not drawn, "No species in season here"**
+  (only morels and wood blewit have habitat; morels are out of season); all-species map: wood blewit.
+- Morels on a 3-5-year-old burn still count as unburned host trees at 0.3: **no source**, tagged, TODO-facts A12.

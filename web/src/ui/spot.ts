@@ -140,6 +140,8 @@ export interface SpotData {
   factors?: (day: number) => number[] | null;  // 0..1, in meta factor order
   inputs?: (day: number) => number[] | null;
   where?: string; trees?: string; altitude?: string; road?: string; note?: string; soil?: string;
+  /** EFFIS: the latest fire in the last 5 years and the share of the square it burned (round 2, fix 3). */
+  burn?: { year: number; pct: number };
   hot?: Record<string, number>;
   /** Pin for "Drive there" / "Share location". road = nearest road point outside nature reserves
    *  (2 km zones); centre = the middle of a 250 m square (none for squares in or by a reserve). */
@@ -353,11 +355,12 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
   const e = ctx.meta.engine;
   const clk = e ? engineClock(s.inputs?.(ctx.day) ?? null, e.inputs)
     : s.clock ? clockSentence(s.clock(ctx.day), ctx.meta.clock) : null;
-  const clkTip = e ? "After a soaking rain (about 20 mm in 3 days) the clock starts. Warm soil runs it faster, cold soil slower. Then a window opens for about 10 days."
+  const clkTip = e ? "After a soaking rain (about 20 mm in 3 days) the clock starts. Warm soil runs it faster, cold soil slower. Then a window opens. It stays open while the ground is wet."
     : `Counts the days since the last soaking rain (${ctx.meta.clock.soak_mm} mm or more). The fruiting window opens about ${ctx.meta.clock.opens} days after it and closes about ${ctx.meta.clock.closes} days after it.`;
   const facts = [
     s.trees ? `<li data-tip="The likely trees, worked out from satellite forest maps, height and rock type. Not a tree survey."><span aria-hidden="true">🌲</span> <b>Trees:</b> ${s.trees}</li>` : "",
     s.altitude ? `<li data-tip="Height above sea level. Higher forest is cooler and its season starts earlier."><span aria-hidden="true">⛰</span> <b>Altitude:</b> ${s.altitude}</li>` : "",
+    s.burn ? `<li data-tip="EFFIS fire maps (Copernicus). Partner-tree species need living trees, so a recently burned square counts less for them, or not at all, for 5 years. The tree cover number is from 2018, before most fires."><span aria-hidden="true">🔥</span> <b>Burned in ${s.burn.year}</b> (${s.burn.pct}% of the square). ${s.burn.pct >= 50 ? "Tree partners are not counted here" : "Tree partners count less here"} for 5 years after a fire.</li>` : "",
     s.soil ? `<li data-tip="From SoilGrids (a computer estimate, few Cyprus samples). 'Holds water' compares this square with other Cyprus forest squares."><span aria-hidden="true">🟫</span> <b>Soil:</b> ${s.soil}</li>` : "",
     s.road ? `<li data-tip="Straight-line distance to the nearest forest track and drivable road, from OpenStreetMap. Not a driving route."><span aria-hidden="true">🚙</span> <b>Nearest:</b> ${s.road}</li>` : "",
   ].join("");
@@ -480,6 +483,7 @@ export function cellSpot(props: Record<string, number>, info: CellInfo | null, s
     ...eng,                                       // v0.3: parts, numbers and species scores from the score files
     where: `250 m square · ${lngLat.lat.toFixed(4)}, ${lngLat.lng.toFixed(4)}`,
     trees: TREES[Number(props.tree)] ?? "Forest",
+    burn: props.fy ? { year: Number(props.fy), pct: Number(props.fb ?? 0) } : undefined,
     soil: props.awc === undefined ? undefined
       : `holds water ${["", "poorly", "average", "well"][Number(props.hold)] ?? "–"} · pH ${(Number(props.ph) / 10).toFixed(1)}${props.su ? " · <span class=\"muted\">uncertain estimate</span>" : " · <span class=\"muted\">estimate</span>"}${props.tc !== undefined ? ` · tree cover ${props.tc}%` : ""}`,
     altitude: `${Number(props.elev).toLocaleString("en-GB")} m · ${BANDS[Number(props.band)] ?? ""} band`,

@@ -221,15 +221,18 @@ def build(run, engine_run=None):
     (PUBLIC / "summary.json").write_text(json.dumps(summ, indent=1, ensure_ascii=False))
     print(f" - summary.json: top {len(summ['days'][0]['top_zones'])} zones per day + {len(specs)} species")
 
-    export_cells(eng, hab, g, to_ll, rd, zone_of)
+    export_cells(eng, hab, g, to_ll, rd, zone_of, today.year)
     from . import hotspots
     hotspots.build(summ, g)
 
 
-def export_cells(eng, hab, g, to_ll, rd, zone_of):
+def export_cells(eng, hab, g, to_ll, rd, zone_of, year=None):
     """Every square with habitat -> PMTiles (shape + fixed facts) + road details (public)."""
     import rasterio
+    from ..habitat.effis import latest_fire
     rows, cols = eng["rows"], eng["cols"]
+    # Fire year + burnt share (EFFIS, last 5 years): the panel says why tree partners are off (round 2, fix 3).
+    fire = latest_fire(year) if year else None
     n = len(rows)
     x = g.west + (cols + 0.5) * g.res
     y = g.north - (rows + 0.5) * g.res
@@ -276,6 +279,8 @@ def export_cells(eng, hab, g, to_ll, rd, zone_of):
                           "ph": int(round(float(soil["ph"][k]) * 10)), "su": int(bool(soil["unsure"][k]))})
         if soil and np.isfinite(soil["tc"][k]):
             props["tc"] = int(round(float(soil["tc"][k])))
+        if fire is not None and fire[0][r, c] > 0:
+            props.update({"fy": int(fire[0][r, c]), "fb": int(round(float(fire[1][r, c]) * 100))})
         feats.append({"type": "Feature", "id": k, "properties": props,
                       "geometry": {"type": "Polygon", "coordinates": [list(zip(xs, ys))]}})
     gj = PUBLIC / "cells.geojson"

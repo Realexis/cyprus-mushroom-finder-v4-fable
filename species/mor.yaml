@@ -17,6 +17,8 @@ confidence: low                                         # [SPEC]
 #    olive, at 500-600 m [LOI16, LOI16m]. Calabrian pine and the Troodos broadleaf zone at a low
 #    weight 0.3 [GUESS, direction LOI16]. Strawberry tree, Cistus, olive: no map layer yet.
 host_trees: {calabrian_pine: 0.3, golden_oak: 0.3, other_broadleaf: 0.3}
+# [GUESS, no source] A square burnt 3-5 years ago is neither a fresh burn nor unburned ground; it still
+# counts as unburned host trees at 0.3 (round 2, fix 3; TODO-facts A12).
 altitude_range: [300, 1950]                             # [BRIEF] mid-high; 300 m edge [GUESS]
 trigger_mm: 15                                          # [GUESS]
 wait_degree_days: {total: 72, base_c: 4}                # [GUESS] kept: the 18-20 day rule (LOI19) is for autumn woodland fungi, not spring species

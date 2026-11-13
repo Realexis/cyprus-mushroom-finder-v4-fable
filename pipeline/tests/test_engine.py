@@ -550,3 +550,15 @@ def test_late_window_wakes_up_on_new_rain():
     assert f[30] == E["cycle"]["factor"]["open"]               # new rain on day 30 -> full again
     assert f[39] == E["cycle"]["factor"]["open"]               # ... for a full window length
     assert f[41] == E["cycle"]["factor"]["late_open"]          # then late again if no more rain
+
+
+def test_latest_fire_year_for_the_panel(tmp_path):
+    import rasterio
+    from shroomy.habitat.effis import latest_fire
+    f = tmp_path / "b.tif"
+    with rasterio.open(f, "w", driver="GTiff", width=1, height=1, count=3, dtype="float32") as dst:
+        for i, (y, v) in enumerate(((2019, 0.9), (2021, 0.55), (2024, 0.02)), start=1):
+            dst.write(np.full((1, 1), v, "float32"), i)
+            dst.set_band_description(i, f"burn_{y}")
+    fy, share = latest_fire(2026, f)
+    assert fy[0, 0] == 2021 and share[0, 0] == pytest.approx(0.55)   # 2024 too small, 2019 too old

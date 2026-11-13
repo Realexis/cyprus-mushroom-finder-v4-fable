@@ -84,5 +84,23 @@ def burn_layers(year, path=OUT):
     return recent.astype("float32"), five.astype("float32")
 
 
+
+
+def latest_fire(year, path=OUT, years_back=TREE_PARTNER_YEARS, min_share=0.05):
+    """(fire_year, burnt_share) 2-D arrays for a run in calendar `year`: the most recent fire year in the
+    run's year or the `years_back` before that burned at least `min_share` of the square (0 = none),
+    and the burnt share used for tree partners (burn_5y). None if the file is missing."""
+    if not path.exists():
+        return None
+    with rasterio.open(path) as src:
+        bands = {int(d.split("_")[1]): np.nan_to_num(src.read(i + 1)) for i, d in enumerate(src.descriptions)}
+    shape = next(iter(bands.values())).shape
+    fy = np.zeros(shape, "int16")
+    for y in range(year - years_back, year + 1):          # oldest first, so the newest wins
+        if y in bands:
+            fy = np.where(bands[y] >= min_share, y, fy).astype("int16")
+    return fy, burn_layers(year, path)[1]
+
+
 if __name__ == "__main__":
     build(refresh="--refresh" in sys.argv)
