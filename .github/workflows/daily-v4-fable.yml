@@ -1,0 +1,91 @@
+# V4 + Fable daily update (its own repo: Realexis/cyprus-mushroom-finder-v4-fable).
+# 04:17 UTC = 06:17 Cyprus winter time (off the busy top of the hour, as on main).
+# Fetch weather -> species engine from 1 September -> export PUBLIC data -> deploy to this repo's Pages.
+# If the weather source is down, the run fails before deploying: the site keeps yesterday's data.
+name: Daily update (V4 + Fable)
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Force a full 31-day weather fetch"
+        type: boolean
+        default: false
+      backfill:
+        description: "Also fill the weather history back to 1 September (one time, ~3,400 calls)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write          # push the built site to the gh-pages branch
+
+concurrency:
+  group: daily-update-v4-fable
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'Realexis/cyprus-mushroom-finder-v4-fable'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: pipeline/uv.lock
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Restore weather history
+        uses: actions/cache/restore@v5.1.0
+        with:
+          path: data/processed/weather/history.npz
+          key: weather-history-v4f-${{ github.run_id }}
+          restore-keys: weather-history-v4f-
+
+      - name: Download fixed data (habitat layers are encrypted)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATIC_KEY: ${{ secrets.STATIC_KEY }}
+        run: |
+          gh release download static-v4f-1 --dir /tmp/static
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass env:STATIC_KEY \
+            -in /tmp/static/static.tar.gz.enc | tar -xz
+          mkdir -p web/public/tiles
+          mv /tmp/static/*.pmtiles web/public/tiles/
+
+      - name: Fetch weather, run the species engine, export public data
+        working-directory: pipeline
+        run: uv run python -m shroomy.daily --public ${{ inputs.full && '--full' || '' }}
+
+      - name: Fill the history back to 1 September (one time)
+        if: ${{ inputs.backfill }}
+        working-directory: pipeline
+        run: |
+          uv run python -m shroomy.weather.backfill
+          uv run python -m shroomy.daily --public --no-fetch
+
+      - name: Save weather history
+        if: always()
+        uses: actions/cache/save@v5.1.0
+        with:
+          path: data/processed/weather/history.npz
+          key: weather-history-v4f-${{ github.run_id }}
+
+      - name: Build and deploy the site
+        env:
+          DEPLOY_REMOTE: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          (cd web && npm ci)
+          ./scripts/deploy-pages.sh

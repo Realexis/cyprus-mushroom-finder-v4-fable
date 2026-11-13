@@ -9,7 +9,7 @@
 If the weather source is down, this exits with an error and the site keeps
 yesterday's data — the site then shows "Data delayed" by itself.
 
-Run:  uv run python -m shroomy.daily [--public] [--full]
+Run:  uv run python -m shroomy.daily [--public] [--full] [--no-fetch]
 """
 import json
 import sys
@@ -28,10 +28,13 @@ def main():
     past, fc = cfg["past_days"], cfg["forecast_days"]
     recent = 3                                   # past days fetched every day
     full = "--full" in sys.argv or not history.complete_for(today, past, skip_recent=recent)
-    print(f"Daily run for {today} · {'FULL 31-day' if full else 'incremental 3-day'} weather fetch")
-
-    fetched = fetch_main(today, past_days=past if full else recent, out_name="fetch")
-    history.merge(fetched)
+    if "--no-fetch" in sys.argv:                 # rebuild from the history only (e.g. after a backfill)
+        full = False
+        print(f"Daily run for {today} · no weather fetch (history only)")
+    else:
+        print(f"Daily run for {today} · {'FULL 31-day' if full else 'incremental 3-day'} weather fetch")
+        fetched = fetch_main(today, past_days=past if full else recent, out_name="fetch")
+        history.merge(fetched)
     run = config.PROCESSED / "weather" / f"run_{today.isoformat()}.npz"
     history.assemble(today, past, fc, run)
     season_run = config.PROCESSED / "weather" / f"season_{today.isoformat()}.npz"

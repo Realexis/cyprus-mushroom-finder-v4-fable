@@ -23,6 +23,8 @@ concurrency:
 
 jobs:
   update:
+    # Only the live site's repo. Copies of this code in other repos (e.g. V4 + Fable) have their own robot.
+    if: github.repository == 'Realexis/cyprus-mushroom-finder'
     runs-on: ubuntu-latest
     timeout-minutes: 90          # a full 31-day fetch can take ~30 min
     steps:
