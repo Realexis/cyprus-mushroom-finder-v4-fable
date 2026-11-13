@@ -1,10 +1,11 @@
-# Slippery Jack (Suillus luteus).
+# Slippery Jacks (Suillus). Renamed by Real, 2026-11-13: 0 Cyprus records of S. luteus, 5 of S. collinitus
+# and many named only to the genus (audit: SOURCES table C). Which Suillus is "lartias": TODO-facts F3.
 # EVERY NUMBER HERE IS A STARTING GUESS FROM RESEARCH, to calibrate with dated records and the
 # 2025-26 backtest (step 9). [SPEC] = v0.3 spec (docs/methodology-v0.3.md), [BRIEF] = original brief,
 # [GROUP] = same as the other species of its group (no species-specific source yet), [GUESS] = ours.
 code: slu
-english_name: slippery Jack
-latin_name: Suillus luteus
+english_name: slippery Jacks
+latin_name: Suillus
 local_name: {name: lartias, confirmed: false}           # [SPEC] to confirm
 group: pine_partner
 tier: key

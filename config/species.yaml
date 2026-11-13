@@ -92,8 +92,8 @@ species:
     inat: ["Morchella esculenta", "Morchella elata"]
 
   - code: slu
-    latin: Suillus luteus
-    common: slippery Jack                           # [BRIEF]
+    latin: Suillus                                  # Real, 2026-11-13 (was Suillus luteus: no Cyprus records)
+    common: slippery Jacks                          # [BRIEF] "slippery Jack", made plural for the genus
     local: lartias                                  # [BRIEF] to confirm
     local_confirmed: false
     trees: [1, 2]                                   # [BRIEF] pine
@@ -102,7 +102,7 @@ species:
     altitude_text: "The pine belt"
     months: [10, 11, 12, 1, 2]                      # [INAT/GBIF] Oct-Feb (was [BRIEF] Oct-Jan)
     notes: []
-    inat: ["Suillus luteus"]
+    inat: ["Suillus collinitus", "Suillus luteus"]   # photos: the Cyprus species first
 
   # ===================================================================
   # v0.3 (step 6). Seasons, habitats and tiers from the v0.3 spec 3.5 [SPEC].

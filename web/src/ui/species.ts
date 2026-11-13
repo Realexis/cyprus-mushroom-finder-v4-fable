@@ -189,7 +189,7 @@ const FIELD: Record<string, Field> = {
     look: [
       ["Cap", "Brown, slimy and shiny. The skin peels off."],
       ["Underneath", "A sponge of small pores, not gills. Yellow, then olive."],
-      ["Stem", "Pale yellow, with a ring: white on top, dark brown to violet underneath. Small dots above the ring."],
+      ["Stem", "Suillus luteus: pale yellow, with a ring (white on top, dark brown to violet underneath) and small dots above it. Suillus collinitus: no ring, pink stem base."],
     ],
     where: [
       "Under pines, including planted pines, on poor soil.",

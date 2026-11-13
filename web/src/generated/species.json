@@ -447,8 +447,8 @@
   },
   {
    "code": "slu",
-   "latin": "Suillus luteus",
-   "common": "slippery Jack",
+   "latin": "Suillus",
+   "common": "slippery Jacks",
    "local": "lartias",
    "local_confirmed": false,
    "trees": [
@@ -477,40 +477,62 @@
    "season_text": "Oct-Feb",
    "photos": [
     {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/244576279/medium.jpg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Federico Calledda, some rights reserved (CC BY-NC), uploaded by Federico Calledda",
+     "page": "https://www.inaturalist.org/photos/244576279",
+     "taxon": "Suillus collinitus"
+    },
+    {
+     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/27081317/medium.jpeg",
+     "licence": "CC BY-NC",
+     "attribution": "(c) Cordula Bernert, some rights reserved (CC BY-NC), uploaded by Cordula Bernert",
+     "page": "https://www.inaturalist.org/photos/27081317",
+     "taxon": "Suillus collinitus"
+    },
+    {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12823339/medium.jpeg",
      "licence": "CC BY",
      "attribution": "(c) Davide Puddu, some rights reserved (CC BY), uploaded by Davide Puddu",
      "page": "https://www.inaturalist.org/photos/12823339",
      "taxon": "Suillus luteus"
-    },
-    {
-     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/10473273/medium.jpg",
-     "licence": "CC BY-NC",
-     "attribution": "(c) Kari Pihlaviita, some rights reserved (CC BY-NC), uploaded by Kari Pihlaviita",
-     "page": "https://www.inaturalist.org/photos/10473273",
-     "taxon": "Suillus luteus"
-    },
-    {
-     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/13310739/medium.jpg",
-     "licence": "CC BY-NC",
-     "attribution": "(c) Christian Schwarz, some rights reserved (CC BY-NC), uploaded by Christian Schwarz",
-     "page": "https://www.inaturalist.org/photos/13310739",
-     "taxon": "Suillus luteus"
     }
    ],
    "inat_pages": [
+    {
+     "name": "Suillus collinitus",
+     "url": "https://www.inaturalist.org/taxa/363592"
+    },
     {
      "name": "Suillus luteus",
      "url": "https://www.inaturalist.org/taxa/53488"
     }
    ],
    "records": {
-    "gbif_total": 1,
-    "inat_research": 0,
+    "gbif_total": 3,
+    "inat_research": 2,
     "months": {
-     "1": 1
+     "1": 1,
+     "10": 1,
+     "12": 1
     },
     "links": [
+     {
+      "label": "GBIF: Suillus collinitus",
+      "url": "https://www.gbif.org/species/9104622"
+     },
+     {
+      "label": "GBIF records in Cyprus: Suillus collinitus",
+      "url": "https://www.gbif.org/occurrence/search?country=CY&taxon_key=9104622"
+     },
+     {
+      "label": "iNaturalist: Suillus collinitus",
+      "url": "https://www.inaturalist.org/taxa/363592"
+     },
+     {
+      "label": "iNaturalist sightings in Cyprus: Suillus collinitus",
+      "url": "https://www.inaturalist.org/observations?place_id=10289,96773&taxon_id=363592"
+     },
      {
       "label": "GBIF: Suillus luteus",
       "url": "https://www.gbif.org/species/7777157"
