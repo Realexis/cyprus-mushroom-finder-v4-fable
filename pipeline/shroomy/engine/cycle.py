@@ -11,6 +11,7 @@
 - Open:       the growing window. Ends early on dry soil or frost. After window_length_days
               it goes on as a "late window" (lower factor) while the soil stays wet,
               for species with recovery_days = 0 [LOI19: no rest]. Others go to Spent.
+              A new soaking rain wakes a late window up: full window again.
 - Spent:      just after a full window. Rain does not restart the clock.
 - Recovering: rest of recovery_days. Then Primed again.
 
@@ -91,6 +92,12 @@ class Cycle:
         early = m & ((fill < c["close_below_fill"]) | frost)
         new[early] = rest[early]
         self.late[early] = False
+        # A late window wakes up when a new soaking rain falls: full window again, counted from today
+        # [LOI19 "1-2 days following subsequent rainfall episodes"; audit round 2, fix 1].
+        wake = m & ~early & self.late & trig
+        self.late[wake] = False
+        self.days[wake] = 0
+        self.trigger_t[wake] = t
         full = m & ~early & (self.days >= p["window_days"])
         if p["recovery_days"] > 0:
             new[full] = SPENT

@@ -536,3 +536,17 @@ def test_fennel_near_mask_and_licences():
             {"license": "CC0_1_0", "coordinateUncertaintyInMeters": 5000},
             {"license": "CC_BY_4_0", "basisOfRecord": "LIVING_SPECIMEN"}]
     assert len(usable(recs)) == 1
+
+
+
+def test_late_window_wakes_up_on_new_rain():
+    """Round 2, fix 1: a late window (factor 0.6) goes back to a full window when a soaking rain falls."""
+    n = 50
+    rain = [30] + [0] * 29 + [30] + [0] * (n - 31)
+    out = _run(rain, [0.9] * n, [11] * n, prof=P0)
+    s, f = out["state"][0], out["factor"][0]
+    assert np.all(s[10:] == C.OPEN)
+    assert f[25] == E["cycle"]["factor"]["late_open"]          # late before the new rain
+    assert f[30] == E["cycle"]["factor"]["open"]               # new rain on day 30 -> full again
+    assert f[39] == E["cycle"]["factor"]["open"]               # ... for a full window length
+    assert f[41] == E["cycle"]["factor"]["late_open"]          # then late again if no more rain

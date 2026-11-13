@@ -247,13 +247,20 @@ def nearest_open_offset(open_any, t):
 
 def fair_score(events):
     """Hit rate (window open within 5 km on the find day) beside the base rate
-    (share of all season days with a window open there). The gap is the real result."""
+    (share of all season days with a window open there). The gap is the real result.
+    base_rate_wet: the same, counted only from the first window near each find (the wet season):
+    a fairer bar, because a dry autumn makes any wet-season model look good (round 2, fix 4)."""
     ev = [e for e in events if e.get("open_5km") is not None]
     if not ev:
         return {"events": 0}
     hit = float(np.mean([e["open_5km"] for e in ev]))
     base = float(np.mean([e["open_days_share_5km"] for e in ev]))
-    return {"events": len(ev), "hit_rate": round(hit, 2), "base_rate": round(base, 2), "gap": round(hit - base, 2)}
+    out = {"events": len(ev), "hit_rate": round(hit, 2), "base_rate": round(base, 2), "gap": round(hit - base, 2)}
+    wet = [e.get("open_days_share_5km_wet") for e in ev]
+    if all(w is not None for w in wet):
+        out["base_rate_wet"] = round(float(np.mean(wet)), 2)
+        out["gap_wet"] = round(hit - out["base_rate_wet"], 2)
+    return out
 
 
 def fill_minmax(run_file):
@@ -328,9 +335,13 @@ def run(run_file, season, label=None):
                    "open_offset_nearest": nearest_open_offset(is_open[i], t)}
             if near:
                 open_any = is_open[near].any(axis=0)
+                first = int(np.argmax(open_any)) if open_any.any() else len(open_any)
                 row.update({"best_score_5km": int(round(sc[near, t].max())), "open_5km": bool(open_any[t]),
                             "open_share_5km": round(float(is_open[near, t].mean()), 2),
                             "open_days_share_5km": round(float(open_any.mean()), 3),
+                            # wet season = from the first window near this find to the end (round 2, fix 4)
+                            "open_days_share_5km_wet": round(float(open_any[first:].mean()), 3)
+                            if first < len(open_any) else None,
                             "open_offset_5km": nearest_open_offset(open_any, t)})
             else:
                 row.update({"best_score_5km": None, "open_5km": None, "open_days_share_5km": None,
@@ -412,7 +423,8 @@ def print_summary(rep):
     print(f"\n{rep['label']}: {rep['dates_run'][0]} to {rep['dates_run'][1]}")
     f = rep["fair"]
     if f.get("events"):
-        print(f"ALL find events: {f['events']}  hit {f['hit_rate']:.0%}  base {f['base_rate']:.0%}  gap {f['gap']:+.0%}")
+        print(f"ALL find events: {f['events']}  hit {f['hit_rate']:.0%}  base {f['base_rate']:.0%}  gap {f['gap']:+.0%}"
+              + (f"  | wet season: base {f['base_rate_wet']:.0%}  gap {f['gap_wet']:+.0%}" if "gap_wet" in f else ""))
     fw = rep["fair_weak"]
     if fw.get("events"):
         print(f"genus-only (weak): {fw['events']}  hit {fw['hit_rate']:.0%}  base {fw['base_rate']:.0%}  gap {fw['gap']:+.0%}")

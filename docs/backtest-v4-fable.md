@@ -172,3 +172,26 @@ with ECMWF soil moisture (top 7 cm) interpolated to the square, observed days on
   (*Agaricus*, boletes, *Russula*) fit "open now". The old code had them "recovering".
 - **Honest note:** once open, a wet autumn stays open on most squares. The map then ranks places
   by habitat, water and warmth more than by the clock.
+
+## Round 2 (audit FEEDBACK-round2.md, V4 + Fable section)
+
+### Fix 1: a late window wakes up when it rains again
+
+- A soaking rain on a late window (factor 0.6) now gives a full window again, counted from that day [LOI19].
+- Same Sep-Feb weather: shaggy ink cap 90th percentile in Jan-Feb **60 → 100** after rain days
+  (it was stuck at the late factor). Red pine was already at 100. Dry autumn unchanged (no window open Sep-Nov).
+
+### Fix 4 (saved data part): hit rate inside the wet season
+
+The base rate is now also counted **only from the first window near each find** to the end (the wet season).
+
+| Same Sep-Feb 2025-26 weather | Finds | Hit | Base (whole season) | Gap | Base (wet season) | Gap (wet season) |
+|---|---|---|---|---|---|---|
+| Old V4 (`f455bda`) | 10 | 0 % | 16 % | −16 % | 37 % | −37 % |
+| New (round 2, fix 1) | 11 | 91 % | 35 % | +56 % | **99 %** | **−8 %** |
+
+- **Honest reading:** once the wet season starts, some window within 5 km is open on almost every day.
+  So inside the wet season the new model is **no better than saying "open" every day**.
+  The +56 % mostly separates wet weeks from the dry autumn. What it does get right: nothing in the dry
+  autumn, windows from mid-December, no January gap. It cannot yet say **which week** inside winter is best.
+- A real test needs weather the clock was not tuned on (downloads A and B, next).
