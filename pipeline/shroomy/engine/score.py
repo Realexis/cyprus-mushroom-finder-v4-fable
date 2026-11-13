@@ -26,9 +26,11 @@ def temperature_fit(tsoil, window):
 
 
 def season_prior(month, season, floor):
-    """Soft prior 0.5..1 (spec). season = 12 values 0..1 (jan..dec); 0 -> floor, 1 -> 1."""
-    v = np.asarray(season, "float64")[np.asarray(month) - 1]
-    return floor + (1 - floor) * np.clip(v, 0, 1)
+    """Season prior. season = 12 values 0..1 (jan..dec). Listed months: floor..1 (an edge month
+    at 0.3 -> 0.65). Months a profile does not list (0) -> 0: out of season stays closed
+    (audit step 5; the spec's soft 0.5 floor let the bloody milk cap open in February)."""
+    v = np.clip(np.asarray(season, "float64")[np.asarray(month) - 1], 0, 1)
+    return np.where(v > 0, floor + (1 - floor) * v, 0.0)
 
 
 def combine(habitat, water, temp, cycle, prior):

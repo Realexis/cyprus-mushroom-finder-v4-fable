@@ -240,10 +240,38 @@ def test_multiply_not_sum():
     assert combine(0.5, 0.5, 0.5, 1.0, 1.0) == pytest.approx(0.125)
 
 
-def test_season_prior_is_soft():
-    sp = season_prior(np.arange(1, 13), P["season"], E["season_prior"]["floor"])
-    assert sp.min() == 0.5 and sp.max() == 1.0
-    assert sp[9] == 1.0 and sp[6] == 0.5                # oct in, jul out
+def test_season_prior_soft_edges_closed_outside():
+    """Audit step 5: listed months are soft (0.5..1), months not listed are 0."""
+    sp = season_prior(np.arange(1, 13), [0, 0, 0, 0, 0, 0, 0, 0, 0.3, 1, 1, 0], E["season_prior"]["floor"])
+    assert sp[9] == 1.0 and sp[10] == 1.0               # oct, nov in
+    assert sp[8] == pytest.approx(0.65)                 # sep edge at 0.3
+    assert sp[6] == 0.0 and sp[11] == 0.0               # jul, dec not listed -> closed
+
+
+def test_no_window_out_of_season():
+    """Bloody milk cap in February, morels in December: no trigger in a month the profile does not list."""
+    n, d = 3, 40
+    precip = np.zeros((n, d))
+    precip[:, 5] = 40
+    inp = {"lat": np.full(n, 34.9), "doy": 32 + np.arange(d), "month": np.full(d, 2),     # February
+           "precip": precip, "tmean": np.full((n, d), 13.0), "tmin": np.full((n, d), 8.0),
+           "tmax": np.full((n, d), 18.0), "tsoil": None, "island_awc_median": 27.0,
+           "squares": {**_squares(n), "awc_mm": np.full(n, 27.0), "awc_q05_mm": np.full(n, 10.0),
+                       "awc_q95_mm": np.full(n, 60.0), "shade_score": np.full(n, 0.5)}}
+    water = prepare_water(inp, E, S)
+    r = run_species(TEST_PROFILE, inp, water, E, S)      # season: oct, nov only
+    assert not np.any(r["state"] == C.TRIGGERED) and not np.any(r["state"] == C.OPEN)
+    assert r["score"].max() == 0
+
+
+def test_window_closes_when_the_season_ends():
+    n = 30
+    ins = [True] * 15 + [False] * (n - 15)
+    rw = np.array([30] + [0] * (n - 1), float)[None, :]
+    out = C.run_cycle(rw, np.full((1, n), 0.9), np.full((1, n), 11.0), np.ones((1, n), bool),
+                      np.zeros((1, n), bool), P0, E["cycle"], in_season=ins)
+    s = out["state"][0]
+    assert s[12] == C.OPEN and s[15] == C.PRIMED and not np.any(s[15:] == C.OPEN)
 
 
 def test_temperature_fit_shape():

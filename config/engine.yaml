@@ -80,7 +80,10 @@ cycle:
     recovering: 0.2
 
 season_prior:
-  floor: 0.5                       # [SPEC] soft prior 0.5..1; months a profile leaves out get this
+  # [SPEC] soft prior 0.5..1 for the months a profile lists (an edge month at 0.3 -> 0.65).
+  # Months a profile does NOT list -> 0, and no trigger then (audit step 5, replaces the spec's
+  # soft floor: the backtest opened the bloody milk cap in February, morels in December).
+  floor: 0.5
 
 habitat:
   # Host tree names in profiles -> habitat_250m.tif likely_tree codes.

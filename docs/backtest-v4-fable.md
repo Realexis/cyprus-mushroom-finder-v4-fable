@@ -76,3 +76,29 @@ Numbers: `data/processed/backtest/backtest_<name>.json` (not in git).
 - **Not done yet:** the local history starts 12 Oct 2026. Filling 1 Sep to 11 Oct once is about
   **3,400 free calls** (`uv run python -m shroomy.weather.backfill`). Until then the map's memory starts 12 Oct.
   The daily robot on `main` is not changed.
+
+### Steps 5+6: closed out of season, months from Cyprus sources
+
+- **Months a profile does not list now score 0**, and no wait or window runs then (was: halved).
+  Edge months (0.3) still score lower but are open. An open window closes when its months end.
+- **New months** (full months; edges in the profiles):
+
+| Species | Was | Now | Source |
+|---|---|---|---|
+| Red pine mushroom | Oct-Jan | Oct-Feb | LOI16; records Oct-Apr |
+| Slippery Jack | Oct-Jan | Oct-Feb | 33 *Suillus* records, peak Dec-Jan |
+| Bloody milk cap | Sep-Oct | Sep-Nov | WIK-LS |
+| Morels | Mar-Apr | Feb-Apr | GBIF Feb 2, Mar 13, Apr 24; LOI16 |
+| Desert truffle | Mar-Apr | Feb-Mar (Jan, Apr edges) | LOI16 finds 12 Feb - 21 Mar |
+| Wood blewit | Oct-Jan | Nov-Feb | GBIF Jan, Feb |
+| Shaggy ink cap | Dec-Feb | Nov-Apr | PIO08; records Nov-Apr |
+| Field mushroom | Dec-Mar | Oct-Mar | PIO08 |
+
+- `config/species.yaml` months and the panel's season text were changed to match.
+- The site texts that said "never to zero" now say the score is zero further out (panel, tooltip, About).
+- **Backtest (same weather):** hit 90 %, base 37 % (species-level, unchanged). Bloody milk cap: 0 % open in
+  February (was 19 %). Morels: 0 % in December (was 25 %). Desert truffle: 0 % in December (was 46 %).
+- **Genus-only *Russula* finds on 8 and 25 Dec now miss:** white brittlegill stays Sep-Oct (PIO08, kept).
+  Those two finds are not named to species, so they may be another *Russula*.
+- **Not changed, waiting for Real:** the slippery Jack name, the bronze bolete "rare" tag, hiding the chanterelle,
+  the bloody milk cap habitat (a question for the Cyprus Mycological Association).

@@ -53,12 +53,12 @@ class Cycle:
         rw = max(self.c.get("rewet_wait_days", 2), 1)
         return np.where(self.quick, self.days / rw, self.dd / self.p["wait_dd"])
 
-    def step(self, t, rain_win, fill, tsoil, temp_ok, frost, new_season=False):
+    def step(self, t, rain_win, fill, tsoil, temp_ok, frost, new_season=False, in_season=True):
         p, c, s0 = self.p, self.c, self.state.copy()
         if new_season:                                  # 1 September: the season memory starts again
             self.started[:] = False
         rest = np.where(temp_ok, PRIMED, DORMANT).astype("int8")   # where a cancelled cycle goes
-        trig = (rain_win >= p["trigger_mm"]) & (fill >= c["trigger_min_fill"]) & temp_ok
+        trig = (rain_win >= p["trigger_mm"]) & (fill >= c["trigger_min_fill"]) & temp_ok & bool(in_season)
         new = s0.copy()
 
         # Dormant / Primed: follow the temperature; a soaking rain starts the clock.
@@ -106,22 +106,30 @@ class Cycle:
         new[back] = rest[back]
         self.days[back] = 0
 
+        # Out of season (a month the profile does not list): waits and windows close (audit step 5).
+        if not in_season:
+            m = (new == TRIGGERED) | (new == OPEN)
+            new[m] = rest[m]
+            self.late[m] = False
+
         self.state = new
         return new
 
 
-def run_cycle(rain_win, fill, tsoil, temp_ok, frost, prof, ccfg, new_season=None, started0=None):
-    """Whole run. Inputs (squares, days); new_season: (days,) bool, True on 1 September.
+def run_cycle(rain_win, fill, tsoil, temp_ok, frost, prof, ccfg, new_season=None, started0=None, in_season=None):
+    """Whole run. Inputs (squares, days); new_season: (days,) bool, True on 1 September;
+    in_season: (days,) bool, False in months the profile does not list (no trigger then).
     Returns dict of (squares, days) arrays."""
     n, nd = fill.shape
     cyc = Cycle(n, temp_ok[:, 0], prof, ccfg, started0)
     ns = np.zeros(nd, bool) if new_season is None else np.asarray(new_season, bool)
+    ins = np.ones(nd, bool) if in_season is None else np.asarray(in_season, bool)
     out = {"state": np.empty((n, nd), "int8"), "dd": np.empty((n, nd), "float32"),
            "days": np.empty((n, nd), "int16"), "trigger_t": np.empty((n, nd), "int16"),
            "prog": np.empty((n, nd), "float32"), "late": np.empty((n, nd), bool),
            "started": np.empty((n, nd), bool)}
     for t in range(nd):
-        out["state"][:, t] = cyc.step(t, rain_win[:, t], fill[:, t], tsoil[:, t], temp_ok[:, t], frost[:, t], ns[t])
+        out["state"][:, t] = cyc.step(t, rain_win[:, t], fill[:, t], tsoil[:, t], temp_ok[:, t], frost[:, t], ns[t], ins[t])
         out["dd"][:, t] = cyc.dd
         out["days"][:, t] = cyc.days
         out["trigger_t"][:, t] = cyc.trigger_t

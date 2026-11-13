@@ -60,7 +60,9 @@ def run_species(prof, inp, water, ecfg=None, scfg=None):
     tfit = temperature_fit(water["tsoil"], p["temp"])
     rain_win = rolling_sum(inp["precip"], p["trigger_days"])
     new_season = [str(d)[5:] == "09-01" for d in inp["dates"]] if inp.get("dates") is not None else None
-    cyc = run_cycle(rain_win, water["fill"], water["tsoil"], tfit > 0, water["frost"], p, ecfg["cycle"], new_season)
+    in_season = np.asarray(p["season"])[np.asarray(inp["month"]) - 1] > 0          # no trigger out of season
+    cyc = run_cycle(rain_win, water["fill"], water["tsoil"], tfit > 0, water["frost"], p, ecfg["cycle"], new_season,
+                    in_season=in_season)
     prior = season_prior(inp["month"], p["season"], ecfg["season_prior"]["floor"])[None, :]
     score = combine(hab[:, None], wfit, tfit, cyc["factor"], prior)
     return {"score": score.astype("float32"), "habitat": hab.astype("float32"),

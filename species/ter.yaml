@@ -21,7 +21,7 @@ soil_temp_window: {min: 6, best: [10, 18], max: 26}     # [GUESS] spring crop
 extra_cues: {rain_memory_oct_dec: true}
 window_length_days: 21                                  # [GUESS]
 recovery_days: 60                                   # [GUESS] kept long: nothing found either way (audit step 3)
-season_prior: {feb: 0.3, mar: 1.0, apr: 1.0, may: 0.3}  # [SPEC] spring
+season_prior: {jan: 0.3, feb: 1.0, mar: 1.0, apr: 0.3}   # [LOI16] Cyprus finds 12 Feb to 21 Mar. Jan/Apr edges
 # [SPEC] 3.9: pH matters for desert truffles (some acid, some alkaline). Value to confirm.
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0, note: "pH matters; which way to confirm"}
 lookalikes: []                                          # to source (L5)

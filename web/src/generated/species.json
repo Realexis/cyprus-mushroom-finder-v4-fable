@@ -23,7 +23,8 @@
     10,
     11,
     12,
-    1
+    1,
+    2
    ],
    "notes": [
     "Kermes oak is not on our tree map yet, so those areas are not counted."
@@ -34,7 +35,7 @@
    "look": [
     "Lactarius chrysorrheus"
    ],
-   "season_text": "Oct-Jan",
+   "season_text": "Oct-Feb",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/235753421/medium.jpeg",
@@ -109,7 +110,8 @@
    "altitude_text": "Above 1,200 m",
    "months": [
     9,
-    10
+    10,
+    11
    ],
    "notes": [],
    "tier": "key",
@@ -118,7 +120,7 @@
    "look": [
     "Lactarius chrysorrheus"
    ],
-   "season_text": "Sep-Oct",
+   "season_text": "Sep-Nov",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/598783046/medium.jpg",
@@ -354,6 +356,7 @@
    ],
    "altitude_text": "Mid and high altitudes",
    "months": [
+    2,
     3,
     4
    ],
@@ -365,7 +368,7 @@
    "rare": false,
    "warn": "",
    "look": [],
-   "season_text": "Mar-Apr",
+   "season_text": "Feb-Apr",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/185479981/medium.jpg",
@@ -463,14 +466,15 @@
     10,
     11,
     12,
-    1
+    1,
+    2
    ],
    "notes": [],
    "tier": "key",
    "rare": false,
    "warn": "",
    "look": [],
-   "season_text": "Oct-Jan",
+   "season_text": "Oct-Feb",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12823339/medium.jpeg",
@@ -815,17 +819,17 @@
    ],
    "altitude_text": "All altitudes",
    "months": [
-    10,
     11,
     12,
-    1
+    1,
+    2
    ],
    "notes": [],
    "tier": "more",
    "rare": false,
    "warn": "",
    "look": [],
-   "season_text": "Oct-Jan",
+   "season_text": "Nov-Feb",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57891023/medium.jpeg",
@@ -890,9 +894,12 @@
    ],
    "altitude_text": "Not known",
    "months": [
+    11,
     12,
     1,
-    2
+    2,
+    3,
+    4
    ],
    "notes": [
     "Roadsides are not on our map, only meadows and grassland."
@@ -901,7 +908,7 @@
    "rare": false,
    "warn": "",
    "look": [],
-   "season_text": "Dec-Feb",
+   "season_text": "Nov-Apr",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/93399523/medium.jpeg",
@@ -976,6 +983,8 @@
    ],
    "altitude_text": "Not known",
    "months": [
+    10,
+    11,
     12,
     1,
     2,
@@ -989,7 +998,7 @@
     "Amanita phalloides",
     "Agaricus xanthodermus"
    ],
-   "season_text": "Dec-Mar",
+   "season_text": "Oct-Mar",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/457253795/medium.jpg",
@@ -1144,8 +1153,8 @@
    ],
    "altitude_text": "Not known",
    "months": [
-    3,
-    4
+    2,
+    3
    ],
    "notes": [
     "Its spring crop depends on the rain of October to December. The map does not use that yet."
@@ -1154,7 +1163,7 @@
    "rare": true,
    "warn": "",
    "look": [],
-   "season_text": "Mar-Apr",
+   "season_text": "Feb-Mar",
    "photos": [
     {
      "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/15848201/medium.jpg",

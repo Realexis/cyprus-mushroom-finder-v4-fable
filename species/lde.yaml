@@ -28,8 +28,8 @@ extra_cues:
   young_stand_bonus: true                               # [SPEC] 11-20 year stands; no stand-age layer yet (EFFIS, V4)
 window_length_days: 10                                  # [SPEC] "about 1-2 weeks" -> 10 [GUESS]
 recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
-# [SPEC] Oct-Jan, "high ground first". Values 0..1 (0 -> 0.5 soft floor). Sep/Feb edges [GUESS].
-season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 0.3}
+# Was [SPEC] Oct-Jan. Values 0..1; edge months (0.3) score lower, months not listed score 0 (audit step 5).
+season_prior: {sep: 0.3, oct: 1.0, nov: 1.0, dec: 1.0, jan: 1.0, feb: 1.0, mar: 0.3}   # [LOI16] season Sep-Apr, best Nov-Feb; Cyprus records Oct to Apr. Oct-Feb full, Sep/Mar edges
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}  # [SPEC] 3.9: unknown until finds teach us
 lookalikes:
   - latin: Lactarius chrysorrheus

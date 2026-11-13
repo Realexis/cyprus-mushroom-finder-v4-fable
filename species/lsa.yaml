@@ -19,7 +19,7 @@ soil_temp_window: {min: 3, best: [8, 18], max: 24}      # [GUESS] as the red pin
 extra_cues: {}
 window_length_days: 10                                  # [GUESS] as the red pine mushroom
 recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
-season_prior: {aug: 0.3, sep: 1.0, oct: 1.0, nov: 0.3}  # [SPEC] Sep-Oct; Aug/Nov edges [GUESS]
+season_prior: {aug: 0.3, sep: 1.0, oct: 1.0, nov: 1.0, dec: 0.3}   # [WIK-LS] fruits Sep-Nov in southern Europe. Aug/Dec edges [GUESS]; no Cyprus records
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}  # [SPEC] 3.9
 lookalikes:
   - latin: Lactarius chrysorrheus

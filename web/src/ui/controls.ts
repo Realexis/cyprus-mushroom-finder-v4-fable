@@ -85,7 +85,7 @@ export class Panel {
   /** Month of a day offset (1-12), for species season windows. */
   monthOf(day: number) { return Number(this.meta.days[day].date.slice(5, 7)); }
 
-  /** Is this species scored by the v0.3 engine (soft season: never greyed out)? */
+  /** Is this species scored by the v0.3 engine (soft season edges, zero further out; never greyed out)? */
   isEngine = (code: string | null) => !!code && !!this.meta.engine?.codes.includes(code);
 
   /** In the species' usual months (species.yaml). */
@@ -223,14 +223,14 @@ export class Panel {
     const monthName = fmtDay(cur.date, { month: "long" });
     const options = [`<option value="" ${this.species ? "" : "selected"}>All forest (general map)</option>`,
       inSeasonList.length ? `<optgroup label="In season in ${monthName}: coloured by score">${inSeasonList.map((s) => opt(s, false)).join("")}</optgroup>` : "",
-      offList.length ? `<optgroup label="${eng ? `Outside their usual season: lower scores` : `Out of season in ${monthName}: grey, no score`}">${offList.map((s) => opt(s, true)).join("")}</optgroup>` : "",
+      offList.length ? `<optgroup label="${eng ? `Outside their usual season: lower or no scores` : `Out of season in ${monthName}: grey, no score`}">${offList.map((s) => opt(s, true)).join("")}</optgroup>` : "",
       later.length ? `<optgroup label="Coming soon to the new model">${later.map((s) => `<option value="${s.code}" disabled>${esc(s.common)} · ${esc(s.latin)}</option>`).join("")}</optgroup>` : "",
     ].join("");
     const warn = sp?.warn ? `<p class="filter-line warn-line"><b>${esc(sp.warn)}</b></p>` : "";
     const seasonMsg = warn + (sp && this.isEngine(sp.code) ? (this.usualSeason(this.day)
       ? `<p class="filter-line">Good conditions for <i>${esc(sp.latin)}</i> habitat · <span class="tag">in season ${esc(sp.season_text)}</span></p>`
       : `<p class="filter-line warn-line"><b>Outside its usual season.</b> <i>${esc(sp.latin)}</i> usually fruits in
-          <b>${esc(sp.season_text)}</b>. Its scores are lowered, not set to zero.</p>`)
+          <b>${esc(sp.season_text)}</b>. Just before and after those months its scores are lower. Further out, no window opens.</p>`)
       : sp ? (this.inSeason(this.day)
       ? `<p class="filter-line">Good conditions for <i>${esc(sp.latin)}</i> habitat · <span class="tag">in season ${esc(sp.season_text)}</span></p>`
       : `<p class="filter-line warn-line"><b>Why is the map grey?</b> <i>${esc(sp.latin)}</i> (${esc(sp.common)}) fruits in

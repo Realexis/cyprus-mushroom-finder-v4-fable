@@ -42,7 +42,7 @@ const PART_TIP: Record<string, string> = {
   water: "Each square has a water bucket. Rain fills it. Sun and wind empty it, faster on sunny slopes.",
   temperature: "Is the soil in this species' comfortable range? Frost stops most species.",
   cycle: "After a soaking rain the clock starts. Warm soil runs it faster, cold soil slower. Then a window opens.",
-  prior: "The usual months for this species. Outside them the score is lowered, never to zero.",
+  prior: "The usual months for this species. Just before and after them the score is lower. Outside that, it is zero.",
 };
 const STATE_TEXT = [
   "Soil too warm or too cold: the clock is paused.",

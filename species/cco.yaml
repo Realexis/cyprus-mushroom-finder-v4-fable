@@ -19,7 +19,7 @@ soil_temp_window: {min: 3, best: [7, 15], max: 22}      # [GUESS] "rain + cool w
 extra_cues: {}
 window_length_days: 10                                  # [GUESS]
 recovery_days: 0                                    # [LOI19] no rest after a window: later rain re-opens it (engine.yaml cycle.rewet_wait_days)
-season_prior: {nov: 0.3, dec: 1.0, jan: 1.0, feb: 1.0, mar: 0.3}   # [SPEC] Dec-Feb
+season_prior: {oct: 0.3, nov: 1.0, dec: 1.0, jan: 1.0, feb: 1.0, mar: 1.0, apr: 1.0, may: 0.3}   # [PIO08] rainy autumns; Cyprus records Nov to Apr. Oct/May edges [GUESS]
 soil_pref: {ph: unknown, texture: unknown, weight: 1.0}
 lookalikes: []                                          # to source (L5)
 sources: ["v0.3 spec 3.3-3.5"]

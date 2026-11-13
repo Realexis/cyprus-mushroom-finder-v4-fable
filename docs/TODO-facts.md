@@ -101,3 +101,7 @@ Bucket size uses "blend by certainty" (user, 2026-11-13). SoilGrids is so unsure
 | A1 | Wait for the first flush: 150 degree-days above 4 C for forest and fennel species `[LOI19 + backtest weather]`. Shaggy ink cap and field mushroom kept at 72 (fast recyclers, no source). Morels and desert truffle kept at 72: LOI19 is an autumn woodland rule | 150 / 72 | `species/*.yaml` |
 | A2 | Late window factor (open past its full length, soil still wet) | 0.6 [GUESS] | `engine.yaml cycle.factor.late_open` |
 | A3 | Morels 30 and desert truffle 60 recovery days kept: nothing found either way | [GUESS] | `species/mor.yaml`, `ter.yaml` |
+| A4 | **Out of season = 0** (was the spec's soft 0.5 floor): months a profile does not list score 0, no trigger, windows close | audit step 5 | `engine/score.py`, `cycle.py` |
+| A5 | Season months changed from Cyprus sources (LOI16, PIO08, WIK-LS, GBIF/iNat months). **Edge months (0.3) are [GUESS]** | audit step 6 | `species/*.yaml`, `config/species.yaml` |
+| A6 | **Ask Real:** rename "slippery Jack" to "Slippery Jacks (*Suillus*)" (0 Cyprus records of *S. luteus*, 5 of *S. collinitus*); bronze bolete `rare: true` (LOI16 "surprisingly rare"); hide chanterelle (no Cyprus source, 0 records) | not changed | `species/slu.yaml`, `bae.yaml`, `cci.yaml` |
+| A7 | Bloody milk cap "black pine above 1,200 m" has no source; general sources say pines on **chalky** soil, Troodos black pine is on igneous rock. **Question for the Cyprus Mycological Association** | not changed | `species/lsa.yaml` |

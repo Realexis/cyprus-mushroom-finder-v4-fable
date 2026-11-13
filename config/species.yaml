@@ -27,7 +27,7 @@ species:
     trees_text: "Pine (Calabrian and black pine); also golden oak and kermes oak"
     bands: [1, 2, 3]                                # [BRIEF] "all pine"
     altitude_text: "All pine altitudes"
-    months: [10, 11, 12, 1]                         # [BRIEF] Oct-Jan
+    months: [10, 11, 12, 1, 2]                      # [LOI16] Oct-Feb (was [BRIEF] Oct-Jan)
     notes:
       - "Kermes oak is not on our tree map yet, so those areas are not counted."   # [DRAFT] D8
     inat: ["Lactarius deliciosus"]
@@ -41,7 +41,7 @@ species:
     trees_text: "Troodos black pine"
     bands: [3]                                      # [BRIEF] >1,200 m
     altitude_text: "Above 1,200 m"
-    months: [9, 10]                                 # [BRIEF] Sep-Oct
+    months: [9, 10, 11]                             # [WIK-LS] Sep-Nov (was [BRIEF] Sep-Oct)
     notes: []
     inat: ["Lactarius sanguifluus"]
 
@@ -85,7 +85,7 @@ species:
     trees_text: "Deciduous broadleaf trees; burned ground"
     bands: [2, 3]                                   # [BRIEF] mid-high
     altitude_text: "Mid and high altitudes"
-    months: [3, 4]                                  # [BRIEF] Mar-Apr
+    months: [2, 3, 4]                               # [GBIF, LOI16] Feb-Apr (was [BRIEF] Mar-Apr)
     notes:
       - "Burned ground is not on the map yet (no data source chosen, TODO D5)."
       - "\"Other broadleaf\" mixes deciduous and evergreen trees. Our map cannot tell them apart."   # [DRAFT]
@@ -100,7 +100,7 @@ species:
     trees_text: "Pine"
     bands: [1, 2, 3]                                # [BRIEF] pine belt
     altitude_text: "The pine belt"
-    months: [10, 11, 12, 1]                         # [BRIEF] Oct-Jan
+    months: [10, 11, 12, 1, 2]                      # [INAT/GBIF] Oct-Feb (was [BRIEF] Oct-Jan)
     notes: []
     inat: ["Suillus luteus"]
 
@@ -163,7 +163,7 @@ species:
     trees_text: "All forest (leaf litter)"
     bands: [1, 2, 3]
     altitude_text: "All altitudes"
-    months: [10, 11, 12, 1]                         # [SPEC] autumn-winter
+    months: [11, 12, 1, 2]                          # [GBIF] Nov-Feb (was [SPEC] autumn-winter)
     notes: []
     inat: ["Lepista nuda", "Collybia nuda"]
 
@@ -177,7 +177,7 @@ species:
     trees_text: "Meadows and roadsides"
     bands: [1, 2, 3]
     altitude_text: "Not known"
-    months: [12, 1, 2]                              # [SPEC] Dec-Feb
+    months: [11, 12, 1, 2, 3, 4]                    # [PIO08, records] Nov-Apr (was [SPEC] Dec-Feb)
     notes:
       - "Roadsides are not on our map, only meadows and grassland."
     inat: ["Coprinus comatus"]
@@ -194,7 +194,7 @@ species:
     trees_text: "Grassland"
     bands: [1, 2, 3]
     altitude_text: "Not known"
-    months: [12, 1, 2, 3]                           # [SPEC] winter-spring
+    months: [10, 11, 12, 1, 2, 3]                   # [PIO08] Oct-Mar (was [SPEC] winter-spring)
     notes: []
     inat: ["Agaricus campestris"]
 
@@ -224,7 +224,7 @@ species:
     trees_text: "Rock-rose scrub"
     bands: [1, 2]
     altitude_text: "Not known"
-    months: [3, 4]                                  # [SPEC] spring
+    months: [2, 3]                                  # [LOI16] Feb-Mar (was [SPEC] spring)
     notes:
       - "Its spring crop depends on the rain of October to December. The map does not use that yet."
     inat: ["Terfezia"]
