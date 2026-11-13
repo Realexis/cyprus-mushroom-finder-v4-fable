@@ -156,8 +156,9 @@ function speciesHere(s: SpotData, ctx: SpotContext): string {
   const m = ctx.monthOf(ctx.day);
   const e = ctx.meta.engine;
   const all = e ? ctx.all.filter((sp) => e.codes.includes(sp.code)) : ctx.all;
-  // v0.3: every scored species is ranked (outside its usual season it just scores lower).
-  const rows = all.map((sp) => ({ sp, v: s.speciesBase!(sp, ctx.day), on: !!e || sp.months.includes(m) }));
+  // v0.3: species are ranked in the months their profile lists (edge months too); others are out of season.
+  const rows = all.map((sp) => ({ sp, v: s.speciesBase!(sp, ctx.day),
+    on: e ? (e.species[sp.code]?.season_months ?? sp.months).includes(m) : sp.months.includes(m) }));
   const good = rows.filter((r) => r.v !== null && r.on).sort((a, b) => (b.v ?? 0) - (a.v ?? 0));
   const off = rows.filter((r) => r.v !== null && !r.on);
   const none = rows.filter((r) => r.v === null);
@@ -197,6 +198,10 @@ function factorText(name: string, inp: number[] | null, f: number, ctx: SpotCont
 
 function engineBars(s: SpotData, ctx: SpotContext): string {
   const e = ctx.meta.engine!;
+  // General map, no species with habitat here in season that day: no score, so no bars.
+  if (!ctx.species && s.score(ctx.day) === null && s.factors?.(ctx.day)) {
+    return `<p class="muted small">The species with habitat here fruit in other months. See the list below.</p>`;
+  }
   const fac = s.factors?.(ctx.day);
   if (!fac) return "";
   const inp = s.inputs?.(ctx.day) ?? null;
@@ -334,7 +339,8 @@ export function spotHTML(s: SpotData, ctx: SpotContext): string {
   const sp = ctx.species;
   let head: string;
   if (v === null) {
-    head = sp ? `<b>No <i>${esc(sp.latin)}</i> habitat here</b>` : `<b>Not scored on the general map</b>`;
+    head = sp ? `<b>No <i>${esc(sp.latin)}</i> habitat here</b>`
+      : ctx.meta.engine && s.factors?.(ctx.day) ? `<b>No species in season here on this day</b>` : `<b>Not scored on the general map</b>`;
   } else if (sp && !ctx.inSeason(ctx.day)) {
     head = `<b>Out of season for <i>${esc(sp.latin)}</i></b><span class="muted"> (${esc(sp.season_text)})</span>`;
   } else {

@@ -120,8 +120,9 @@ def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False
     for d in days:
         k = d["offset"]
         month = date.fromisoformat(d["date"]).month
-        picked = pick(general, lambda z: z["score"][k])
-        scores = np.array([z["score"][k] for z in general])
+        gen_k = [z for z in general if np.isfinite(z["score"][k])]      # zones with a species in season that day
+        picked = pick(gen_k, lambda z: z["score"][k])
+        scores = np.array([z["score"][k] for z in gen_k])
         top = []
         for rank, z in enumerate(picked, 1):
             inp = {n: float(v[k]) for n, v in z["inputs"].items()}
@@ -159,20 +160,20 @@ def build(zones: list, days: list, meta: dict, specs: list, engine: bool = False
         out_days.append({
             "date": d["date"], "weekday": date.fromisoformat(d["date"]).strftime("%A"),
             "confidence": d["confidence"],
-            "island": {"median_score": int(np.median(scores)),
+            "island": {"median_score": int(np.median(scores)) if len(scores) else 0,
                        "zones_70_plus": int((scores >= 70).sum()), "zones_total": len(general)},
             "top_zones": top,
             "species": sp_out,
         })
     how = (
         "Scores 0-100 = how good GROWING CONDITIONS are in ~2 km forest zones. v0.3: for each species, "
-        "habitat x water x temperature x mushroom clock x a soft season factor, multiplied, so one poor "
-        "part makes the score poor. The general score is the best species here. "
+        "habitat x water x temperature x mushroom clock x a season factor, multiplied, so one poor "
+        "part makes the score poor. The general score is the best species here that is in season that day. "
         if engine else
         "Scores 0-100 = how good GROWING CONDITIONS are (rain, temperature, soil moisture, "
         "season for the altitude, shade) in ~2 km forest zones. ")
     sp_note = ("Species scores say 'good conditions for [species] habitat', never that the species is there. "
-               "Out of its usual season a species scores lower, not zero."
+               "In the edge months of its season a species scores lower; further out it scores zero."
                if engine else
                "Species scores change only the habitat filter (trees, altitude) and the season "
                "window. They say 'good conditions for [species] habitat', never that the "

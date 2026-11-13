@@ -144,23 +144,30 @@ def run(run_file, mask, profiles=None, keep=None):
                               "confidence": prof["confidence"], "window_days": pp["window_days"],
                               "trigger_mm": pp["trigger_mm"], "unused_cues": pp["unused_cues"],
                               "autumn_rain_memory": bool((prof["extra_cues"] or {}).get("autumn_rain_memory")),
-                              "season_text": season_text(prof["season_prior"])}
+                              "season_text": season_text(prof["season_prior"]),
+                              "season_months": [i + 1 for i, v in enumerate(pp["season"]) if v > 0]}
         del r
     raw = np.stack(raw)                                                   # (species, n, 8)
     raw_dry = np.stack(raw_dry)
     n = raw.shape[1]
     ar, dd = np.arange(n)[:, None], np.arange(N_DAYS)[None, :]
+    # In season that day: the profile lists the month (season value > 0). Round 2, fix 2: a species
+    # out of season can never be "the best here".
+    months = np.asarray(inp["month"])[days]
+    ins = np.stack([np.asarray(P.engine_params(p, E)["season"])[months - 1] > 0 for p in profiles])   # (species, 8)
     out["general"] = {}
     for name, members in (("key", [i for i, p in enumerate(profiles) if p["tier"] == "key"]),
                           ("all", list(range(len(profiles))))):
         sub = raw[members]
-        has = hab[members][:, :, None] > 0                                # only species with habitat here
+        has = (hab[members][:, :, None] > 0) & ins[members][:, None, :]  # habitat here AND in season that day
+        any_in = has.any(axis=0)                                          # (n, 8): some species in season here
         best = np.where(has, sub, -1.0).argmax(axis=0)                    # (n, 8) index into members
         src = np.array(members)[best]                                     # index into codes
         out["general"][name] = {
             "codes": [codes[i] for i in members],
             "habitat": hab[members].max(axis=0),
-            "score": _pack_parts(sub.max(axis=0)),
+            "score": _pack_parts(np.where(any_in, sub[best, ar, dd], 0.0)),
+            "in_season": any_in,                                          # False: no general score that day
             "dry": _pack_parts(raw_dry[src, ar, dd]),               # the best species, without forecast rain
             "best": best.astype("uint8"),
             "parts": np.stack([out["parts"][c] for c in codes])[src, ar, dd],

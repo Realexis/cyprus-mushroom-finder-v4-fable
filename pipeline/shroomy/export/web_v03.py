@@ -73,6 +73,10 @@ def rain_since(run_file, today):
     return {"from": d[0], "to": d[t], "mm": int(round(mm)), "from_1_sep": d[0][5:] == "09-01"}
 
 
+# General score files: this value = no species with habitat here is in season that day (round 2, fix 2).
+NO_SPECIES_IN_SEASON = 255
+
+
 def build(run, engine_run=None):
     """engine_run: the longer season run file for the engine's memory (audit step 4); default `run`."""
     w = np.load(run)
@@ -104,7 +108,8 @@ def build(run, engine_run=None):
     sets = {c: (groups[c], eng["score"][c], eng["parts"][c], eng["inputs"][c]) for c in codes}
     for name, ge in eng["general"].items():
         best = (ge["best"].astype("int16") * 10)[:, :, None]
-        sets[name] = (ge["habitat"] > 0, ge["score"], ge["parts"], np.concatenate([ge["inputs"], best], axis=2))
+        sc = np.where(ge["in_season"], ge["score"], NO_SPECIES_IN_SEASON).astype("uint8")
+        sets[name] = (ge["habitat"] > 0, sc, ge["parts"], np.concatenate([ge["inputs"], best], axis=2))
     for name, (m, sc, pa, inp) in sets.items():
         write_scores(PUBLIC / f"sp_{name}.bin", sq[m], sc[m])
         write_info(PUBLIC / f"sp_{name}_info.bin", pa[m], inp[m])
@@ -118,7 +123,7 @@ def build(run, engine_run=None):
     elev = hab["elevation_m"][rows, cols]
     gk = eng["general"]["key"]
     gen = gk["habitat"] > 0
-    score = np.where(gen[:, None], gk["score"].astype(float), np.nan)
+    score = np.where(gen[:, None] & gk["in_season"], gk["score"].astype(float), np.nan)
     fac = gk["parts"].astype(float) / 100
     inp = gk["inputs"].astype(float) / 10
     hexes = np.array([h3.latlng_to_cell(la, lo, pv["h3_resolution"]) for la, lo in zip(lat, lon)])
@@ -138,12 +143,12 @@ def build(run, engine_run=None):
         ring.append(ring[0])
         props = {"h": len(spots)}
         zone_of[m] = len(spots)
-        gen_score = _nanmean(score[mg]) if has_gen else None
+        gen_score = _nanmean(score[mg]) if has_gen else None           # NaN on days with no species in season
         # Forecast confidence of the zone (spec 3.7): its mean score with vs without forecast rain.
         conf = (D.confidence(D.rain_dependence(gen_score, gk["dry"][mg].astype(float).mean(axis=0)), E["confidence"])
                 if has_gen else None)
         if has_gen:
-            props.update({f"s{i}": int(round(v)) for i, v in enumerate(gen_score)})
+            props.update({f"s{i}": int(round(v)) for i, v in enumerate(gen_score) if np.isfinite(v)})
         sp_mean = {c: eng["score"][c][v].astype(float).mean(axis=0) for c, v in sp_cells.items()}
         sp_conf = {c: D.confidence(D.rain_dependence(sp_mean[c], eng["dry"][c][v].astype(float).mean(axis=0)),
                                    E["confidence"]) for c, v in sp_cells.items()}

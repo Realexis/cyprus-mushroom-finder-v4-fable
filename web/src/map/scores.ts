@@ -3,7 +3,10 @@
 // Layouts: pipeline/shroomy/export/web_v03.py.
 import type { Map as MlMap } from "maplibre-gl";
 
-/** sp_<key>.bin: which squares have a score, and the score per day (0-100). */
+/** General score files: no species with habitat here is in season that day (export/web_v03.py). */
+export const NO_SPECIES_IN_SEASON = 255;
+
+/** sp_<key>.bin: which squares have a score, and the score per day (0-100; 255 = none in season). */
 export class Scores {
   private constructor(readonly idx: Uint32Array, readonly sc: Uint8Array, readonly days: number) {}
   static async load(url: string): Promise<Scores> {
@@ -21,9 +24,12 @@ export class Scores {
     }
     return -1;
   }
+  /** Score 0-100, or null: no habitat, or no species in season here that day (general maps: 255). */
   score(i: number, day: number): number | null {
     const r = this.row(i);
-    return r < 0 ? null : this.sc[r * this.days + day];
+    if (r < 0) return null;
+    const v = this.sc[r * this.days + day];
+    return v === NO_SPECIES_IN_SEASON ? null : v;
   }
 }
 
@@ -100,7 +106,10 @@ export class ScoreStore {
     // applied AFTER the new values in the same frame and wipe them.)
     const prev = this.painted && this.painted.key !== key ? this.ready.get(this.painted.key) : null;
     if (prev) for (let r = 0; r < prev.idx.length; r++) map.setFeatureState({ ...src, id: prev.idx[r] }, { v: null });
-    for (let r = 0; r < s.idx.length; r++) map.setFeatureState({ ...src, id: s.idx[r] }, { v: s.sc[r * s.days + day] });
+    for (let r = 0; r < s.idx.length; r++) {
+      const v = s.sc[r * s.days + day];
+      map.setFeatureState({ ...src, id: s.idx[r] }, { v: v === NO_SPECIES_IN_SEASON ? null : v });   // clear: none in season
+    }
     this.painted = { key, day };
   }
 }

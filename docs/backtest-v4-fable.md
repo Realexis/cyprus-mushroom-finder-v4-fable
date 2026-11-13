@@ -195,3 +195,12 @@ The base rate is now also counted **only from the first window near each find** 
   The +56 % mostly separates wet weeks from the dry autumn. What it does get right: nothing in the dry
   autumn, windows from mid-December, no January gap. It cannot yet say **which week** inside winter is best.
 - A real test needs weather the clock was not tuned on (downloads A and B, next).
+
+### Fix 2: an out-of-season species is never "the best here"
+
+- The general map picks the best species **that has habitat here and is in season that day**.
+  A square with no such species gets **no general score** that day (file value 255): it is not drawn,
+  and its panel says "No species in season here on this day".
+- Saved 13 Nov data: key-species map 98,612 habitat squares, **93,433 drawn** today, **5,179 not drawn**
+  (all species: 94,551 drawn, 13,344 not). Zones and "best zones" use in-season squares only.
+- **Real decides:** hidden (now) or shown grey.
