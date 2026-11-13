@@ -31,6 +31,9 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [
+    "Lactarius chrysorrheus"
+   ],
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -112,6 +115,9 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [
+    "Lactarius chrysorrheus"
+   ],
    "season_text": "Sep-Oct",
    "photos": [
     {
@@ -194,6 +200,7 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Sep-Oct",
    "photos": [
     {
@@ -274,6 +281,7 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Nov-Jan",
    "photos": [
     {
@@ -356,6 +364,7 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Mar-Apr",
    "photos": [
     {
@@ -460,6 +469,7 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -545,6 +555,7 @@
    "tier": "key",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Oct-Apr",
    "photos": [],
    "inat_pages": [
@@ -603,6 +614,7 @@
    "tier": "more",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Oct-Nov",
    "photos": [
     {
@@ -703,6 +715,7 @@
    "tier": "more",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Oct-Nov",
    "photos": [
     {
@@ -811,6 +824,7 @@
    "tier": "more",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -886,6 +900,7 @@
    "tier": "more",
    "rare": false,
    "warn": "",
+   "look": [],
    "season_text": "Dec-Feb",
    "photos": [
     {
@@ -970,6 +985,10 @@
    "tier": "more",
    "rare": false,
    "warn": "Easily confused with deadly white Amanitas, such as the death cap.",
+   "look": [
+    "Amanita phalloides",
+    "Agaricus xanthodermus"
+   ],
    "season_text": "Dec-Mar",
    "photos": [
     {
@@ -1053,6 +1072,9 @@
    "tier": "more",
    "rare": true,
    "warn": "",
+   "look": [
+    "Omphalotus olearius"
+   ],
    "season_text": "Oct-Jan",
    "photos": [
     {
@@ -1131,6 +1153,7 @@
    "tier": "more",
    "rare": true,
    "warn": "",
+   "look": [],
    "season_text": "Mar-Apr",
    "photos": [
     {

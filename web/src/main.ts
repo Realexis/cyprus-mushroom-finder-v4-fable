@@ -12,8 +12,8 @@ import { addOverlays, applyView, hexProp, set3D, setReplayFrame, setSelection, t
 import { baseStyle, type Theme } from "./map/style";
 import { Panel, type HotZone, type Meta } from "./ui/controls";
 import { mountEmergency, mountSafetyToggle } from "./ui/safety";
-import { mountSpecies, speciesByCode } from "./ui/species";
-import { CellInfo, cellSpot, hexSpot, type SpotData, type Spots } from "./ui/spot";
+import { mountSpecies, speciesByCode, type SpeciesNow } from "./ui/species";
+import { CellInfo, cellSpot, fmtDay, hexSpot, type SpotData, type Spots } from "./ui/spot";
 import { applyTheme, currentTheme, toggleTheme } from "./ui/theme";
 import { PREVIEW_BADGE, VERSION } from "./version";
 import { hideMapTip as hideTip, mountTips, showAt } from "./ui/tips";
@@ -212,6 +212,17 @@ async function main() {
         ? "Your location is off: this browser gives no location. Allow location for this site in your browser settings to see where you are."
         : ctlTips[".maplibregl-ctrl-geolocate"];
       geo.setAttribute("aria-label", off ? "Your location (off: no location permission)" : "Show your location");
+      // Spec 4.10: say it in words next to the crossed-out button, not only in a tooltip.
+      let lab = document.getElementById("geo-label");
+      if (off && !lab) {
+        lab = document.createElement("span");
+        lab.id = "geo-label";
+        lab.className = "geo-label";
+        lab.setAttribute("aria-hidden", "true");
+        lab.textContent = "Location off";
+        geo.closest(".maplibregl-ctrl-group")?.append(lab);
+      }
+      if (lab) lab.hidden = !off;
     };
     sayGeo();
     new MutationObserver(sayGeo).observe(geo, { attributes: true, attributeFilter: ["disabled", "title"] });
@@ -301,7 +312,21 @@ async function main() {
   drawLegend();
   map.on("zoom", drawLegend);
 
-  const openSpecies = mountSpecies(() => panel.monthOf(panel.day), (code) => panel.setSpecies(code));
+  // "Conditions for this mushroom now" on its card: best areas today + best day, from summary.json.
+  const speciesNow = (code: string): SpeciesNow | null => {
+    const days = summary?.days ?? [];
+    const today = days[0]?.species?.[code];
+    if (!today) return null;
+    let bestDay: SpeciesNow["bestDay"] = null;
+    days.forEach((d, k) => {
+      const z = d.species?.[code]?.top_zones[0];
+      if (z && (!bestDay || z.score > bestDay.score)) {
+        bestDay = { label: k === 0 ? "today" : fmtDay(meta.days[k].date, { weekday: "long" }), score: z.score };
+      }
+    });
+    return { areas: today.top_zones.slice(0, 3).map((z) => ({ where: z.where, score: z.score })), bestDay };
+  };
+  const openSpecies = mountSpecies(() => panel.monthOf(panel.day), (code) => panel.setSpecies(code), speciesNow);
 
   // Keep map buttons above the bottom sheet on phones.
   new ResizeObserver(() => document.documentElement.style.setProperty("--sheet-h", `${sheet.offsetHeight + 8}px`))
@@ -310,10 +335,10 @@ async function main() {
   // Fit Cyprus into the part of the map NOT covered by the panel.
   const fitCyprus = () => {
     const pad = phone.matches
-      ? { top: 4, right: 4, left: 4, bottom: sheet.offsetHeight + 4 }
+      ? { top: 4, right: 50, left: 4, bottom: sheet.offsetHeight + 4 }        // right: clear of the map buttons (Karpas tip)
       : { top: 24, right: 60, bottom: 24, left: sheet.offsetWidth + 40 };
     // Phones: Cyprus is wide and flat, so its width sets the zoom; use every pixel of it.
-    map.fitBounds([[32.27, 34.56], [34.6, 35.7]], { padding: pad, duration: 0 });
+    map.fitBounds([[32.27, 34.56], [34.62, 35.7]], { padding: pad, duration: 0 });
   };
   map.once("load", () => {
     fitCyprus();

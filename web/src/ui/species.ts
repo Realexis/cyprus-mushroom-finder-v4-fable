@@ -1,7 +1,8 @@
 // Species guide: a simple list of mushrooms, and one scrolling page per mushroom.
-// Order on every mushroom page (the user's choice, 2026-11-12): a red link to the lookalikes at the top,
-// then the mushroom (photos, what to look for), then danger signs and ALL deadly / toxic lookalikes,
-// then where to look and when.
+// Order on every mushroom page (v0.3 spec 4.3; user decision 2026-11-13 "new order, never empty"):
+// photo -> names -> conditions for this species now -> where and when -> what to look for ->
+// "Don't confuse with": this species' own lookalikes where sourced, then ALL deadly / toxic ones (folded).
+// The Amanita warning signs show on every page. Cards do not lead with warnings.
 // Facts: species.json (project brief) plus field notes below, each backed by a listed source.
 // Photos: iNaturalist; every photo opens a larger view with its author and licence.
 // Nothing here ever says a mushroom can be eaten.
@@ -16,13 +17,15 @@ export interface Species {
   trees: number[]; trees_text: string; bands: number[]; altitude_text: string; months: number[];
   notes: string[]; season_text: string; photos: Photo[];
   /** v0.3: "key" shows by default, "more" behind "Show more species"; rare gets a tag; warn = a fixed warning. */
-  tier: "key" | "more"; rare: boolean; warn: string; inat_pages: { name: string; url: string }[];
+  tier: "key" | "more"; rare: boolean; warn: string;
+  /** Latin names of this species' own lookalikes (from its v0.3 profile; may be empty). */
+  look: string[]; inat_pages: { name: string; url: string }[];
   records: { gbif_total: number; inat_research: number; months: Record<string, number>; links: { label: string; url: string }[] };
 }
 export interface Lookalike { latin: string; common: string; severity: "deadly" | "toxic"; note: string; photos: Photo[];
   inat_pages?: { name: string; url: string }[]; }
 
-export const SPECIES = data.species as Species[];
+export const SPECIES = data.species as unknown as Species[];
 export const LOOKALIKES = data.lookalikes as Lookalike[];
 export const speciesByCode = (c: string | null) => SPECIES.find((s) => s.code === c) ?? null;
 
@@ -208,6 +211,8 @@ const ICONS: Record<string, string> = {
   back: `<path d="M15 5 8 12l7 7"/>`,
   next: `<path d="m9 5 7 7-7 7"/>`,
   map: `<path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2Z"/><path d="M9 4v14M15 6v14"/>`,
+  shroom: `<path d="M3 12a9 7 0 0 1 18 0Z"/><path d="M9.5 12v6a2.5 2.5 0 0 0 5 0v-6"/>`,
+  warn: `<path d="M12 3 2 20h20Z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/>`,
   check: `<path d="m5 12.5 4.5 4.5L19 7.5"/>`,
   look: `<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>`,
   tree: `<path d="M12 2 5.5 11H9l-4.5 7h15L15 11h3.5Z"/><path d="M12 18v4"/>`,
@@ -238,8 +243,12 @@ function monthBar(sp: Species, now: number): string {
 // ------------------------------------------------------------------ the dialog
 type View = { kind: "list" } | { kind: "looks" } | { kind: "sp"; code: string };
 
+/** "Conditions for this species now", from summary.json (set by main.ts). */
+export interface SpeciesNow { areas: { where: string; score: number }[]; bestDay: { label: string; score: number } | null; }
+
 /** Mounts the species guide. Returns open(code?) — no code = the list of all species. */
-export function mountSpecies(month: () => number, onShow: (code: string) => void): (code?: string) => void {
+export function mountSpecies(month: () => number, onShow: (code: string) => void,
+                             conditions: (code: string) => SpeciesNow | null = () => null): (code?: string) => void {
   const dlg = document.createElement("dialog");
   dlg.className = "species-dlg sc";
   dlg.setAttribute("aria-label", "Mushroom guide");
@@ -253,7 +262,7 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
   SPECIES.forEach((s) => { sets[`sp-${s.code}`] = s.photos.map((p) => ({ p, name: p.taxon ?? s.latin })); });
 
   // ---------------------------------------------------------------- pieces
-  const lookRows = () => `<ul class="sc-lk">${LOOK_ORDER.map((l, i) => `
+  const lookRows = (only?: string[]) => `<ul class="sc-lk">${LOOK_ORDER.map((l, i) => only && !only.includes(l.latin) ? "" : `
     <li><button type="button" class="sc-lk-row ${l.severity}" data-act="view" data-set="lk${i}" data-i="0"
         aria-label="${esc(l.latin)}, ${sevText(l).toLowerCase()}. Open the photo, with its credit."
         data-tip="Tap to see the photo larger, with its author and licence.">
@@ -267,12 +276,13 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
 
   const row = (s: Species) => {
     const on = inSeason(s, now);
-    return `<li><button type="button" class="sc-row${on ? " on" : ""}" data-act="open" data-code="${s.code}"
-        data-tip="Open: what to look for, its deadly lookalikes, where and when.">
-      ${s.photos[0] ? `<img src="${esc(s.photos[0].url)}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : ""}
+    // Common name first (and the local name once confirmed), Latin smaller (spec 4.2). No tooltip (4.6).
+    return `<li><button type="button" class="sc-row${on ? " on" : ""}" data-act="open" data-code="${s.code}">
+      ${s.photos[0] ? `<img src="${esc(s.photos[0].url)}" alt="" loading="lazy" referrerpolicy="no-referrer" />`
+        : `<span class="sc-ph-none" aria-hidden="true">${icon("shroom", 36)}</span>`}
       <span class="sc-row-text">
-        <b><i>${esc(s.latin)}</i></b>
-        <span class="sc-soft">${esc(s.common)}</span>
+        <b>${esc(cap1(s.common))}${s.local_confirmed && s.local ? ` <span class="sc-soft">· ${esc(s.local)}</span>` : ""}${s.rare ? ` <span class="sc-tag">rare</span>` : ""}</b>
+        <span class="sc-soft sc-latin"><i>${esc(s.latin)}</i></span>
         ${on ? `<span class="sc-chip on">${icon("check", 16)}In season</span>` : `<span class="sc-chip">${esc(s.season_text)}</span>`}
       </span>
       ${icon("next")}
@@ -280,15 +290,18 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
   };
 
   const listHTML = () => {
-    const on = SPECIES.filter((s) => inSeason(s, now)), off = SPECIES.filter((s) => !inSeason(s, now));
+    const key = SPECIES.filter((s) => s.tier !== "more"), more = SPECIES.filter((s) => s.tier === "more");
+    const on = key.filter((s) => inSeason(s, now)), off = key.filter((s) => !inSeason(s, now));
     return `
-      <button type="button" class="sc-danger-btn" data-act="looks">
-        <span class="sc-danger-ph">${LOOK_ORDER.slice(0, 3).map((l) => l.photos[0] ? `<img src="${esc(l.photos[0].url)}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : "").join("")}</span>
-        <span class="sc-danger-text"><b>${WARN_ICON}Deadly and toxic lookalikes</b><span>Learn these first.</span></span>
+      ${on.length ? `<h3 class="sc-h sc-h-first">In season in ${monthName(now)}</h3><ul class="sc-list">${on.map(row).join("")}</ul>` : ""}
+      ${off.length ? `<h3 class="sc-h">Not in season in ${monthName(now)}</h3><ul class="sc-list off">${off.map(row).join("")}</ul>` : ""}
+      ${more.length ? `<h3 class="sc-h">More species</h3><ul class="sc-list">${more.map(row).join("")}</ul>` : ""}
+      <h3 class="sc-h">Lookalikes</h3>
+      <button type="button" class="sc-row sc-looks-row" data-act="looks">
+        <span class="sc-ph-none warn" aria-hidden="true">${icon("warn", 36)}</span>
+        <span class="sc-row-text"><b>Deadly and toxic lookalikes</b><span class="sc-soft">All ${LOOKALIKES.length}, with photos</span></span>
         ${icon("next")}
-      </button>
-      ${on.length ? `<h3 class="sc-h">In season in ${monthName(now)}</h3><ul class="sc-list">${on.map(row).join("")}</ul>` : ""}
-      ${off.length ? `<h3 class="sc-h">Not in season in ${monthName(now)}</h3><ul class="sc-list off">${off.map(row).join("")}</ul>` : ""}`;
+      </button>`;
   };
 
   const looksHTML = () => `
@@ -299,43 +312,62 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
       ${lookRows()}
     </section>`;
 
+  const nowHTML = (sp: Species) => {
+    const c = conditions(sp.code);
+    const word = (v: number) => (v >= 80 ? "Very good" : v >= 65 ? "Good" : v >= 45 ? "Fair" : "Poor");
+    const body = !c || !c.areas.length
+      ? `<p class="sc-soft">No scores for this mushroom today.</p>`
+      : `<ul class="sc-now-list">${c.areas.map((a) => `<li><b>${word(a.score)}</b> · ${esc(a.where)}</li>`).join("")}</ul>
+         ${c.bestDay ? `<p>Best day this week: <b>${esc(c.bestDay.label)}</b> (${word(c.bestDay.score).toLowerCase()}).</p>` : ""}
+         <p class="sc-soft">Growing conditions for its habitat. It does not mean the mushroom is there.</p>`;
+    return `<section class="sc-sec sc-now">
+        <h3 class="sc-h">${icon("map")}Conditions for this mushroom now</h3>
+        ${body}
+        <button type="button" class="primary-btn sc-map" data-act="show" data-code="${sp.code}"
+          data-tip="Close this and colour the map for this mushroom.">${icon("map")}Show it on the map</button>
+      </section>`;
+  };
+
+  /** "Don't confuse with": own lookalikes where sourced, then all of them folded. Never empty. */
+  const confuseHTML = (sp: Species, f: Field | undefined) => {
+    const own = LOOK_ORDER.filter((l) => sp.look.includes(l.latin)).map((l) => l.latin);
+    return `<section class="sc-sec sc-confuse" aria-labelledby="sc-danger-h">
+        <h3 class="sc-h warn" id="sc-danger-h" tabindex="-1">${WARN_ICON}Don't confuse with</h3>
+        ${sp.warn ? `<p class="sc-sign"><b>${esc(sp.warn)}</b></p>` : ""}
+        ${own.length ? lookRows(own)
+          : `<p class="sc-soft">Which lookalikes matter most for this mushroom is not confirmed yet. All of them are below.</p>`}
+        <p class="sc-sign-h"><b>Leave it alone if you see:</b></p>
+        <ul class="sc-signs">${[...(f?.danger ?? []), ...(f?.danger.some((d) => d.includes("cup (sac)")) ? [] : [cap1(AMANITA_SIGNS)])]
+          .map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
+        <details class="sc-fold sc-all-looks">
+          <summary>All ${LOOKALIKES.length} deadly and toxic lookalikes (${nDeadly} can kill)</summary>
+          ${lookRows()}
+        </details>
+      </section>`;
+  };
+
   const speciesHTML = (sp: Species) => {
     const f = FIELD[sp.code];
     const shots = sets[`sp-${sp.code}`];
     const onNow = inSeason(sp, now);
     const k = monthsUntil(sp, now), nextM = ((now - 1 + k) % 12) + 1;
     return `
-      <section class="sc-danger" aria-labelledby="sc-danger-h">
-        <h3 class="sc-h danger" id="sc-danger-h" tabindex="-1">${WARN_ICON}Danger: lookalikes</h3>
-        ${sp.warn ? `<p class="sc-sign"><b>${esc(sp.warn)}</b></p>` : ""}
-        ${f?.danger.length ? `<p class="sc-sign-h"><b>Leave it alone if you see:</b></p>
-          <ul class="sc-signs">${f.danger.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
-        <p>These ${LOOKALIKES.length} grow in the same forests. ${nDeadly} can kill. Tap one to see it larger.</p>
-        ${lookRows()}
-      </section>
-
       <section class="sc-me">
         <div class="sc-car-wrap">
-          <ul class="sc-car" tabindex="0" aria-label="Photos of ${esc(sp.latin)}. Swipe for more.">
+          ${shots.length ? `<ul class="sc-car" tabindex="0" aria-label="Photos of ${esc(sp.common)}. Swipe for more.">
             ${shots.map((s, i) => `<li><button type="button" class="sc-photo" data-act="view" data-set="sp-${sp.code}" data-i="${i}"
-                aria-label="Photo ${i + 1} of ${shots.length}: ${esc(s.name)}. Open larger, with the photo credit."
-                data-tip="Tap to see it larger, with the photo's author and licence.">
+                aria-label="Photo ${i + 1} of ${shots.length}: ${esc(s.name)}. Open larger, with the photo credit.">
               <img src="${esc(s.p.url)}" alt="" loading="${i ? "lazy" : "eager"}" referrerpolicy="no-referrer" />
               <span class="sc-cc" aria-hidden="true">©</span></button></li>`).join("")}
-          </ul>
+          </ul>` : `<div class="sc-ph-empty">${icon("shroom", 56)}<span>No photo with an open licence yet.</span></div>`}
           ${shots.length > 1 ? `<div class="sc-dots" aria-hidden="true">${shots.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
         </div>
-        <h3 class="sc-name"><i>${esc(sp.latin)}</i></h3>
-        <p class="sc-sub">${esc(sp.common)}. Local name <b>${esc(sp.local)}</b>${sp.local_confirmed ? "" : `<span class="sc-q" tabindex="0"
-          data-tip="Spelling still to confirm with the Cyprus Mycological Association.">?</span>`}</p>
+        <h3 class="sc-name">${esc(cap1(sp.common))}${sp.rare ? ` <span class="sc-tag">rare</span>` : ""}</h3>
+        <p class="sc-sub"><i>${esc(sp.latin)}</i>${sp.local ? ` · local name <b>${esc(sp.local)}</b>${sp.local_confirmed ? "" : `<span class="sc-q" tabindex="0"
+          data-tip="Spelling still to confirm with the Cyprus Mycological Association.">?</span>`}` : ""}</p>
       </section>
 
-      ${f ? `<section class="sc-sec">
-        <h3 class="sc-h">${icon("look")}What to look for</h3>
-        <p class="sc-unchecked">${icon("info", 18)}<span>From public sources, <b>not checked by an expert</b>. Never use it to decide what to eat.</span></p>
-        <dl class="sc-look">${f.look.map(([k, t]) => `<div><dt>${esc(k)}</dt><dd>${esc(t)}</dd></div>`).join("")}</dl>
-      </section>` : ""}
-
+      ${nowHTML(sp)}
 
       <section class="sc-sec">
         <h3 class="sc-h">${icon("tree")}Where to look</h3>
@@ -352,8 +384,14 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
           : `<span><b>Not in season in ${monthName(now)}.</b> Season ${esc(sp.season_text)}: starts in ${monthName(nextM)}.</span>`}</p>
       </section>
 
-      <button type="button" class="primary-btn sc-map" data-act="show" data-code="${sp.code}"
-        data-tip="Close this and colour the map for this mushroom's trees, altitude and season.">${icon("map")}Show good conditions for this habitat on the map</button>
+      ${f ? `<section class="sc-sec">
+        <h3 class="sc-h">${icon("look")}What to look for</h3>
+        <p class="sc-unchecked">${icon("info", 18)}<span>From public sources, <b>not checked by an expert</b>. Never use it to decide what to eat.</span></p>
+        <dl class="sc-look">${f.look.map(([k, t]) => `<div><dt>${esc(k)}</dt><dd>${esc(t)}</dd></div>`).join("")}</dl>
+      </section>` : ""}
+
+      ${confuseHTML(sp, f)}
+
       <button type="button" class="sc-more" data-act="info">${icon("info", 20)}Sources, photo credits and notes</button>`;
   };
 
@@ -362,7 +400,7 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
     const back = `<button type="button" class="sc-round" data-act="list" aria-label="Back to all mushrooms" data-tip="Back to all mushrooms.">${icon("back")}</button>`;
     if (view.kind === "sp") {
       const sp = speciesByCode(view.code)!;
-      return `${back}<h2 class="sc-title"><i>${esc(sp.latin)}</i><span>${esc(sp.common)}</span></h2>`;
+      return `${back}<h2 class="sc-title">${esc(cap1(sp.common))}<span><i>${esc(sp.latin)}</i></span></h2>`;
     }
     if (view.kind === "looks") return `${back}<h2 class="sc-title">Lookalikes<span>Deadly and toxic</span></h2>`;
     return `<h2 class="sc-title">Mushrooms<span>Tap one to learn it</span></h2>`;
@@ -470,7 +508,7 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
       const f = FIELD[sp.code];
       const confirm = [
         !sp.local_confirmed ? `The local name ${sp.local}.` : "",
-        "Which lookalikes matter most for this mushroom. Until then, all are shown.",
+        "Which lookalikes matter most for this mushroom. Until then, the full list is on every page.",
         "The field notes on this page (researched November 2026).",
         ...(f?.check ?? []),
       ].filter(Boolean);
@@ -481,8 +519,8 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
         <ul class="sc-links">${(f?.src ?? []).map((k) => `<li><a href="${esc(SOURCES[k].url)}" target="_blank" rel="noopener">${esc(SOURCES[k].label)} ↗</a></li>`).join("")}</ul>
         <p class="sc-soft">Season, trees and altitude on the map come from the project brief.</p>
         <h3>How the map uses it</h3>
-        <p>Habitat: ${esc(sp.trees_text)}. ${esc(sp.altitude_text)}. Scored only in ${esc(sp.season_text)}.
-          Everything else (rain, temperature, soil, shade) is the same as the general map.</p>
+        <p>Its own habitat (${esc(sp.trees_text)}), water in the ground, soil warmth, mushroom clock and season
+          (${esc(sp.season_text)}). These multiply into one score. See "About the data" for the method.</p>
         ${sp.notes.length ? `<ul class="sc-links">${sp.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>` : ""}
         ${recordsHTML(sp)}
         <h3>Photos</h3>
@@ -499,7 +537,7 @@ export function mountSpecies(month: () => number, onShow: (code: string) => void
         come from the sources listed on that page. Photos come from iNaturalist; tap any photo to see its author and licence.</p>
       <h3>Still to confirm with the Cyprus Mycological Association</h3>
       <p>The local names (except kokkinomanitaro), the field notes, and which lookalikes matter most for each mushroom.
-        Until then, all ${LOOKALIKES.length} lookalikes are shown on every mushroom.</p>
+        Until then, all ${LOOKALIKES.length} lookalikes are one tap away on every mushroom page.</p>
       <h3>Collecting in Cyprus</h3>
       <ul class="sc-links"><li>Allowed in state forests, but not in nature reserves.</li>
         <li>No rakes or tools that dig. Do not damage the fungus in the ground.</li>

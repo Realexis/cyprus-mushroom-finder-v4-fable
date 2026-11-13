@@ -123,6 +123,16 @@ def photos_for(names, n, refresh):
     return out[:n], pages
 
 
+def profile_lookalikes(code: str) -> list:
+    """Latin names of this species' own lookalikes, from its v0.3 profile (species/<code>.yaml)."""
+    import yaml
+    f = config.ROOT / "species" / f"{code}.yaml"
+    if not f.exists():
+        return []
+    p = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+    return [lk["latin"] if isinstance(lk, dict) else str(lk) for lk in (p.get("lookalikes") or [])]
+
+
 def build(refresh=False):
     specs = config.load("species")["species"]
     looks = config.load("lookalikes")["lookalikes"]
@@ -132,6 +142,7 @@ def build(refresh=False):
         out_s.append({k: s[k] for k in ("code", "latin", "common", "local", "local_confirmed", "trees",
                                          "trees_text", "bands", "altitude_text", "months", "notes")}
                      | {"tier": s.get("tier", "key"), "rare": bool(s.get("rare", False)), "warn": s.get("warn", ""),
+                        "look": profile_lookalikes(s["code"]),
                         "season_text": SP.months_text(s["months"]), "photos": ph, "inat_pages": pages,
                         "records": cyprus_records(s["inat"], refresh)})
         print(f" - {s['latin']}: {len(ph)} photos")

@@ -25,31 +25,94 @@
 
   <main class="page">
     <h1>About the data</h1>
-    <p>This map shows <b>growing conditions</b> in Cyprus forests: where rain, temperature, soil moisture,
-      season and shade are right for wild mushrooms to fruit. It does <b>not</b> show where mushrooms are,
-      and it says nothing about any mushroom you find.</p>
 
-    <h2>How the score works</h2>
-    <p>Each 250 m forest square gets a score from 0 to 100, every day. Six things count:</p>
+    <h2>What this map shows</h2>
+    <p>Where the <b>growing conditions</b> are right for each mushroom species, today and for the next 7 days.</p>
+    <p>It does <b>not</b> show where mushrooms are. It never says whether a mushroom can be eaten.</p>
+
+    <h2>Each species has its own needs</h2>
+    <p>Pine mushrooms, oak boletes, field mushrooms, morels and desert truffles all react to different
+      <b>trees, rain, warmth and ground</b>.</p>
+    <p>So the map runs a <b>separate check for every species</b>.</p>
+    <p>The general map shows the <b>best result</b> among the species you have switched on.</p>
+
+    <h2>The score in one line</h2>
+    <div class="formula" role="img" aria-label="Conditions equals habitat times water times temperature times mushroom clock">
+      <span class="f-res">Conditions</span><span class="f-op">=</span>
+      <span class="f-part">🌲 Habitat</span><span class="f-op">×</span>
+      <span class="f-part">💧 Water</span><span class="f-op">×</span>
+      <span class="f-part">🌡 Temperature</span><span class="f-op">×</span>
+      <span class="f-part">⏱ Mushroom clock</span>
+    </div>
+    <p>If <b>any one</b> of these is poor, the result is poor.</p>
+    <p>Plenty of rain cannot make up for the wrong trees. Perfect trees cannot make up for dry ground.</p>
+    <p class="muted">A gentle <b>season</b> factor is multiplied in too. Outside a species' usual months its score is
+      lowered by up to half, never to zero.</p>
+
+    <h3>1. Habitat: the right place</h3>
     <ul>
-      <li><b>Rain, last 30 days</b> (20%): 0 below 20 mm, full at 80 mm.</li>
-      <li><b>A soaking rain 7–20 days ago</b> (15%): biggest 3-day total. 0 below 10 mm, full at 25 mm.</li>
-      <li><b>Temperature, last 7 days</b> (25%): best 8–18 °C, zero at 3 °C and 24 °C. Frost lowers it.</li>
-      <li><b>Soil moisture</b> (15%): today compared with that place's normal.</li>
-      <li><b>Season for the altitude</b> (15%): high Troodos starts earlier, low hills later.</li>
-      <li><b>Shade</b> (10%): north/east slopes, valley bottoms and little autumn sun.</li>
+      <li><b>Partner trees:</b> many of these species live joined to the roots of certain trees
+        (pine, golden oak, kermes oak). No partner tree, no mushroom.</li>
+      <li><b>Tree cover, altitude, rock type and past fires.</b></li>
+      <li><b>Soil:</b> a gentle nudge for species that prefer acid or alkaline ground.</li>
     </ul>
-    <p><b>Partner trees only.</b> The general map counts pine and golden oak forest.
-      "Other broadleaf" forest is not scored there (no partner tree for our autumn species), but it counts for morels.</p>
-    <p><b>Species filters</b> change only two things: which trees and altitudes count, and the season months.
-      They say "good conditions for [species] habitat". They never say a species is there.</p>
-    <p>Squares with no forest score 0. <b>Nature reserves are closed</b> and always score 0.
-      Temperature is corrected for height (−6.5 °C per 1,000 m).
-      Future days use the weather forecast, so confidence drops after 2 days.</p>
-    <p>The map shows every <b>250 m forest square</b>. The weather behind each square comes from a model about 9 km wide,
-      so the fine detail comes from the forest itself: trees, altitude and shade. In the top zones you can also zoom into
-      <b>50 m terrain</b> (shade only, no finer weather).</p>
-    <p>The map shows growing conditions only. It never shows where mushrooms are, and never anyone's finds.</p>
+
+    <h3>2. Water: is the ground wet enough?</h3>
+    <p>Every 250 m square has a water <b>"bucket"</b>.</p>
+    <ul>
+      <li><b>Rain fills it.</b></li>
+      <li><b>Sun and wind empty it</b>: faster on sunny south slopes, slower in shade.</li>
+    </ul>
+    <p>The soil sets the bucket size:</p>
+    <ul>
+      <li><b>Clay and rich soil</b> hold water longer, so good conditions last more days.</li>
+      <li><b>Sandy or stony soil</b> drains fast, so the window closes sooner.</li>
+    </ul>
+    <p>The same rain can give two different results on two different slopes.</p>
+
+    <h3>3. Temperature: not too hot, not too cold</h3>
+    <p>Each species has its own comfortable <b>soil temperature</b>. <b>Frost</b> stops most of them.</p>
+
+    <h3>4. The mushroom clock</h3>
+    <p>Mushrooms do not appear the day it rains.</p>
+    <ul>
+      <li>After a <b>soaking rain</b> (about 15–20 mm in 3 days), the clock starts.</li>
+      <li><b>Warm days</b> make it run faster, <b>cold days</b> slower.</li>
+      <li>When it runs out, the <b>window opens</b> for about 10 to 14 days (longer for desert truffles).</li>
+      <li>After a full window, the ground needs <b>rest and a new soaking rain</b> before the next one.</li>
+    </ul>
+
+    <h2>How sure is the forecast?</h2>
+    <ul>
+      <li><b>Sure</b>: today and the next 2 days.</li>
+      <li><b>Likely</b>: 3 to 4 days ahead.</li>
+      <li><b>Unsure</b>: 5 or more days ahead. Only a rough guide.</li>
+    </ul>
+
+    <h2>Where the data comes from</h2>
+    <ul>
+      <li><b>Weather:</b> Open-Meteo (rain and temperature), updated daily.
+        Soil temperature is worked out from air temperature for now.</li>
+      <li><b>Terrain:</b> Copernicus elevation model (slope, sun and shade).</li>
+      <li><b>Forests:</b> Copernicus forest type and tree cover maps.</li>
+      <li><b>Fields and scrub:</b> Copernicus grassland map and CORINE Land Cover.</li>
+      <li><b>Soil:</b> SoilGrids by ISRIC (water holding, texture, pH), plus the Geological Map of Cyprus.</li>
+      <li><b>Burned areas:</b> CORINE Land Cover 2018 for now. EFFIS fire maps (with the fire year) are planned.</li>
+      <li><b>Species needs:</b> published research from Cyprus and other Mediterranean forests.</li>
+    </ul>
+
+    <h2>Honest limits</h2>
+    <ul>
+      <li>These are <b>best estimates</b>. Species numbers are <b>starting guesses</b> from research.
+        They will improve as we log real trips.</li>
+      <li>Rain is estimated <b>per area</b>, not per slope. A local storm can be missed.</li>
+      <li>The soil data is a <b>computer estimate</b> and Cyprus has few soil samples.
+        Where it is unsure, soil has no effect on the result. Today that is most of the island.</li>
+      <li>Mushrooms are <b>patchy</b>. A "very good" square can still be empty.</li>
+      <li>Fennel king oyster: we have no map of giant fennel, so fields stand in for it.</li>
+    </ul>
+
+    <p class="card"><b>Nature reserves are closed</b> to picking and always shown as closed.</p>
 
     <h2>The law and the forest</h2>
     <div class="card">
@@ -59,7 +122,7 @@
       <p>Pick by hand or knife. Put the leaf litter back.</p>
     </div>
 
-    <h2>Data sources and credits</h2>
+    <h2>Data credits and licences</h2>
     <div id="credits"><p>Loading…</p></div>
     <p class="tag">Weather run: <span id="run">…</span></p>
 

@@ -451,7 +451,7 @@ dialog.guide-dlg::backdrop { background: rgba(0, 0, 0, 0.55); }
 .safety-short { display: none; }
 .no-rakes { margin: 10px 0 0 !important; padding: 8px 10px; border-radius: 10px; font-size: var(--fs-1);
   background: var(--surface); border: 1px solid var(--line); cursor: help; }
-@media (min-width: 900px) { .no-rakes { display: none; } }     /* desktop keeps the note on the map */
+/* v0.3 spec 4.9: desktop too shows "No rakes" in the panel, not floating on the map. */
 @media (max-width: 899px) {
   .brand-cy { display: none; }                                   /* "Mushroom Finder" fits on one line */
   .map-note { display: none; }                                   /* moved into the zone panel */
@@ -580,3 +580,17 @@ details.oos p { margin: 2px 0; }
 /* "v0.3 preview" badge (test versions only, see src/version.ts) */
 .ver-badge { display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
   line-height: 1.6; background: #6a3fb5; color: #fff; vertical-align: middle; white-space: nowrap; }
+
+/* ================================================================ v0.3 step 7 */
+.map-note { display: none !important; }                          /* "No rakes" lives in the zone panel (spec 4.9) */
+.day .day-score { flex-direction: column; align-items: flex-start; gap: 4px; font-size: var(--fs-1); }
+.day-bar { display: block; width: 64px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 15%, transparent); overflow: hidden; }
+.day-bar i { display: block; height: 100%; border-radius: 3px; }
+.geo-label { position: absolute; right: calc(100% + 6px); bottom: 8px; white-space: nowrap; padding: 3px 8px; border-radius: 999px;
+  font-size: var(--fs-0); font-weight: 700; background: var(--surface); color: var(--ink); border: 1px solid var(--line); pointer-events: none; }
+.maplibregl-ctrl-group:has(.geo-label) { position: relative; }
+/* About page: the score formula (v0.3 4b) */
+.formula { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0 12px; }
+.formula .f-part, .formula .f-res { padding: 6px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; }
+.formula .f-res { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+.formula .f-op { font-weight: 700; color: var(--ink-soft); }

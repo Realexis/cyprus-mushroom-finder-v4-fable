@@ -170,3 +170,27 @@ dialog.species-dlg.sc::backdrop { background: rgba(0, 0, 0, 0.6); }
 .sc-unchecked { display: flex; gap: 8px; align-items: flex-start; margin: 0 0 8px; padding: 6px 10px;
   border-radius: 10px; background: var(--safety-bg); color: var(--safety-ink); font-size: var(--fs-0); }
 .sc-unchecked svg { flex: none; margin-top: 2px; }
+
+/* ---------------------------------------------------------------- v0.3 (step 7): calmer cards, never-empty lookalikes */
+.sc-h-first { margin-top: 4px; }
+.sc-latin { font-size: var(--fs-0); }
+.sc-tag { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: var(--fs-0); font-weight: 700;
+  background: var(--surface-2); color: var(--ink-soft); border: 1px solid var(--line); vertical-align: middle; }
+.sc-ph-none { width: 84px; height: 84px; border-radius: 12px; flex: none; display: grid; place-items: center;
+  background: var(--surface-2); color: var(--ink-soft); }
+.sc-ph-none.warn { color: var(--sos-bg); }
+.sc-looks-row { margin-top: 0; }
+.sc-ph-empty { aspect-ratio: 4 / 3; border-radius: 16px; display: grid; place-items: center; align-content: center; gap: 8px;
+  background: var(--surface-2); color: var(--ink-soft); text-align: center; padding: 16px; font-size: var(--fs-0); }
+.sc-now { padding: 14px 16px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+.sc-now .sc-h { margin-top: 0; }
+.sc-now-list { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 4px; }
+.sc-now p { margin: 6px 0; }
+.sc-confuse { padding: 14px 16px; border-radius: 18px; border: 1px solid var(--line); border-left: 6px solid var(--sos-bg); background: var(--surface); }
+.sc-confuse .sc-h { margin-top: 0; color: var(--ink); }
+.sc-confuse .sc-h svg { width: 22px; height: 22px; flex: none; color: var(--sos-bg); }
+.sc-confuse > p, .sc-confuse > .sc-lk { margin: 0 0 12px; }
+.sc-all-looks { margin-top: 12px; }
+.sc-all-looks > summary { min-height: var(--tap); display: flex; align-items: center; cursor: pointer; font-weight: 700; }
+.sc-all-looks > summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 8px; }
+.sc-all-looks[open] > summary { margin-bottom: 8px; }

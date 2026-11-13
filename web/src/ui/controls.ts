@@ -2,7 +2,7 @@
 // rain replay, legend, hotspot zoom list and the spot panel.
 import { RAIN1_STOPS, RAIN30_STOPS, RAIN7_STOPS, SCORE_STOPS, SHADE_STOPS, SOILPH_STOPS, SOILW_STOPS, isSoil, type Filter, type Mode, type View } from "../map/layers";
 import { SPECIES, speciesByCode } from "./species";
-import { esc, fmtDay, scoreColour, spotHTML, type SpotData } from "./spot";
+import { esc, fmtDay, scoreColour, spotHTML, words, type SpotData } from "./spot";
 
 export interface DayInfo { offset: number; date: string; confidence: "high" | "medium" | "low"; }
 export interface Meta {
@@ -104,6 +104,7 @@ export class Panel {
 
   setSpecies(code: string | null) {
     this.species = code;
+    if (speciesByCode(code)?.tier === "more" && !this.showMore) { this.showMore = true; saveMore(true); }
     if (this.mode !== "conditions") { this.stop(); this.mode = "conditions"; }
     this.render(); this.onChange(this);
   }
@@ -186,12 +187,12 @@ export class Panel {
       const word = CONF_WORD[d.confidence];
       const long = fmtDay(d.date, { weekday: "long", day: "numeric", month: "long" });
       const oos = !!this.species && !this.inSeason(d.offset);
-      const scoreTip = b ? `Best zone: ${b.score}/100, ${b.where}.` : oos ? "Out of season for this species." : "No score.";
+      const scoreTip = b ? `Best zone: ${words(b.score).toLowerCase()} (${b.score}/100), ${b.where}.` : oos ? "Out of season for this species." : "No score.";
       return `<button class="day" data-day="${d.offset}" aria-pressed="${d.offset === this.day}"
-          aria-label="${label} ${num}. ${b ? `Best zone ${b.score} out of 100` : oos ? "Out of season" : "No score"}. Forecast ${word}."
+          aria-label="${label} ${num}. ${b ? `Best zone: ${words(b.score).toLowerCase()} (${b.score} out of 100)` : oos ? "Out of season" : "No score"}. Forecast ${word}."
           data-tip="${long}. ${scoreTip} Forecast ${word}: ${CONF_TIP[d.confidence]}">
         <span class="day-top"><b>${label}</b><span class="day-date">${num}</span></span>
-        <span class="day-score">${b ? `<i style="background:${scoreColour(b.score)}"></i>${b.score}` : "–"}</span>
+        <span class="day-score">${b ? `${words(b.score)}<span class="day-bar" aria-hidden="true"><i style="width:${Math.max(6, b.score)}%;background:${scoreColour(b.score)}"></i></span>` : "–"}</span>
         <span class="day-conf"><i class="dot ${d.confidence}"></i>Forecast: ${word}</span></button>`;
     }).join("");
     const cur = this.meta.days[this.day];
@@ -282,6 +283,7 @@ export class Panel {
       ${rainNote}
       ${this.mode === "replay" ? this.replayHTML() : ""}
       ${this.legend()}
+      <p class="no-rakes panel-rakes" data-tip="Cyprus law: rakes and tools are banned in the forest (up to 1 year in prison, up to €5,000 fine, or both). No fires in or within 2 km of forests."><b>No rakes.</b> Pick by hand or knife. Put the leaf litter back.</p>
       <div class="links"><a href="about.html" data-tip="Where the data comes from, how the score works, and the picking law.">About the data</a>
         <button id="guide-btn" type="button" data-tip="Show the three-step guide again.">How to use</button>
         <button id="theme-btn" type="button" data-tip="Switch between light and dark colours. Dark is easier on the eyes at night.">Light / dark</button></div>
