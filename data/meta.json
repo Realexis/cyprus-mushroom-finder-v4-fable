@@ -1,0 +1,577 @@
+{
+ "generated_utc": "2026-11-14T11:33+00:00",
+ "weather_run": "2026-11-14",
+ "model": "ecmwf_ifs",
+ "days": [
+  {
+   "offset": 0,
+   "date": "2026-11-14",
+   "confidence": "high"
+  },
+  {
+   "offset": 1,
+   "date": "2026-11-15",
+   "confidence": "high"
+  },
+  {
+   "offset": 2,
+   "date": "2026-11-16",
+   "confidence": "high"
+  },
+  {
+   "offset": 3,
+   "date": "2026-11-17",
+   "confidence": "medium"
+  },
+  {
+   "offset": 4,
+   "date": "2026-11-18",
+   "confidence": "medium"
+  },
+  {
+   "offset": 5,
+   "date": "2026-11-19",
+   "confidence": "low"
+  },
+  {
+   "offset": 6,
+   "date": "2026-11-20",
+   "confidence": "low"
+  },
+  {
+   "offset": 7,
+   "date": "2026-11-21",
+   "confidence": "low"
+  }
+ ],
+ "rain_days": [
+  "2026-10-16",
+  "2026-10-17",
+  "2026-10-18",
+  "2026-10-19",
+  "2026-10-20",
+  "2026-10-21",
+  "2026-10-22",
+  "2026-10-23",
+  "2026-10-24",
+  "2026-10-25",
+  "2026-10-26",
+  "2026-10-27",
+  "2026-10-28",
+  "2026-10-29",
+  "2026-10-30",
+  "2026-10-31",
+  "2026-11-01",
+  "2026-11-02",
+  "2026-11-03",
+  "2026-11-04",
+  "2026-11-05",
+  "2026-11-06",
+  "2026-11-07",
+  "2026-11-08",
+  "2026-11-09",
+  "2026-11-10",
+  "2026-11-11",
+  "2026-11-12",
+  "2026-11-13",
+  "2026-11-14",
+  "2026-11-15",
+  "2026-11-16",
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-21"
+ ],
+ "public_hexagon_resolution": 7,
+ "clock": {
+  "opens": 7,
+  "closes": 20,
+  "soak_mm": 20
+ },
+ "weights": {},
+ "season_share": 0,
+ "general_map_trees": [
+  1,
+  2,
+  3
+ ],
+ "engine": {
+  "parts": [
+   "habitat",
+   "water",
+   "temperature",
+   "cycle",
+   "prior"
+  ],
+  "inputs": [
+   "fill_pct",
+   "soil_temp_c",
+   "rain_3d_mm",
+   "state",
+   "left_days",
+   "rain_dep_pct"
+  ],
+  "general_inputs": [
+   "fill_pct",
+   "soil_temp_c",
+   "rain_3d_mm",
+   "state",
+   "left_days",
+   "rain_dep_pct",
+   "best"
+  ],
+  "codes": [
+   "aca",
+   "bae",
+   "cco",
+   "lde",
+   "lnu",
+   "lsa",
+   "mor",
+   "pfe",
+   "rde",
+   "slu",
+   "tca",
+   "ter",
+   "xer"
+  ],
+  "general": {
+   "key": [
+    "lde",
+    "lsa",
+    "mor",
+    "pfe",
+    "rde",
+    "slu",
+    "tca"
+   ],
+   "all": [
+    "aca",
+    "bae",
+    "cco",
+    "lde",
+    "lnu",
+    "lsa",
+    "mor",
+    "pfe",
+    "rde",
+    "slu",
+    "tca",
+    "ter",
+    "xer"
+   ]
+  },
+  "species": {
+   "aca": {
+    "english_name": "field mushroom",
+    "latin_name": "Agaricus campestris",
+    "tier": "more",
+    "rare": false,
+    "group": "field_recycler",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 15.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Mar",
+    "season_months": [
+     1,
+     2,
+     3,
+     4,
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "bae": {
+    "english_name": "bronze bolete / cep",
+    "latin_name": "Boletus aereus / edulis",
+    "tier": "more",
+    "rare": true,
+    "group": "oak_partner",
+    "confidence": "low",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [
+     "not_every_year"
+    ],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Nov",
+    "season_months": [
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "cco": {
+    "english_name": "shaggy ink cap",
+    "latin_name": "Coprinus comatus",
+    "tier": "more",
+    "rare": false,
+    "group": "field_recycler",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 15.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Nov-Apr",
+    "season_months": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     10,
+     11,
+     12
+    ]
+   },
+   "lde": {
+    "english_name": "red pine mushroom",
+    "latin_name": "Lactarius deliciosus",
+    "tier": "key",
+    "rare": false,
+    "group": "pine_partner",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [
+     "young_stand_bonus"
+    ],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Feb",
+    "season_months": [
+     1,
+     2,
+     3,
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "lnu": {
+    "english_name": "wood blewit",
+    "latin_name": "Lepista nuda",
+    "tier": "more",
+    "rare": false,
+    "group": "litter_recycler",
+    "confidence": "medium",
+    "window_days": 14,
+    "trigger_mm": 20.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Nov-Feb",
+    "season_months": [
+     1,
+     2,
+     3,
+     10,
+     11,
+     12
+    ]
+   },
+   "lsa": {
+    "english_name": "bloody milk cap",
+    "latin_name": "Lactarius sanguifluus",
+    "tier": "key",
+    "rare": false,
+    "group": "pine_partner",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Sep-Nov",
+    "season_months": [
+     8,
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "mor": {
+    "english_name": "morels",
+    "latin_name": "Morchella esculenta / elata",
+    "tier": "key",
+    "rare": false,
+    "group": "burn",
+    "confidence": "low",
+    "window_days": 14,
+    "trigger_mm": 15.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Feb-Apr",
+    "season_months": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "pfe": {
+    "english_name": "fennel king oyster",
+    "latin_name": "Pleurotus eryngii var. ferulae",
+    "tier": "key",
+    "rare": false,
+    "group": "fennel_root",
+    "confidence": "low",
+    "window_days": 10,
+    "trigger_mm": 15.0,
+    "unused_cues": [
+     "humidity"
+    ],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Apr",
+    "season_months": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "rde": {
+    "english_name": "white brittlegill",
+    "latin_name": "Russula delica",
+    "tier": "key",
+    "rare": false,
+    "group": "pine_partner",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [
+     "warm_spell"
+    ],
+    "autumn_rain_memory": false,
+    "season_text": "Sep-Oct",
+    "season_months": [
+     8,
+     9,
+     10,
+     11
+    ]
+   },
+   "slu": {
+    "english_name": "slippery Jacks",
+    "latin_name": "Suillus",
+    "tier": "key",
+    "rare": false,
+    "group": "pine_partner",
+    "confidence": "medium",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Feb",
+    "season_months": [
+     1,
+     2,
+     3,
+     9,
+     10,
+     11,
+     12
+    ]
+   },
+   "tca": {
+    "english_name": "matsutake",
+    "latin_name": "Tricholoma caligatum",
+    "tier": "key",
+    "rare": false,
+    "group": "pine_partner",
+    "confidence": "low",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [
+     "temperature_drop"
+    ],
+    "autumn_rain_memory": false,
+    "season_text": "Nov-Jan",
+    "season_months": [
+     1,
+     2,
+     10,
+     11,
+     12
+    ]
+   },
+   "ter": {
+    "english_name": "desert truffle",
+    "latin_name": "Terfezia",
+    "tier": "more",
+    "rare": true,
+    "group": "underground",
+    "confidence": "low",
+    "window_days": 21,
+    "trigger_mm": 20.0,
+    "unused_cues": [
+     "autumn_rain_memory"
+    ],
+    "autumn_rain_memory": true,
+    "season_text": "Feb-Mar",
+    "season_months": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "xer": {
+    "english_name": "yellow and red cracked boletes",
+    "latin_name": "Xerocomus subtomentosus / chrysenteron group",
+    "tier": "more",
+    "rare": false,
+    "group": "oak_partner",
+    "confidence": "low",
+    "window_days": 10,
+    "trigger_mm": 20.0,
+    "unused_cues": [],
+    "autumn_rain_memory": false,
+    "season_text": "Oct-Nov",
+    "season_months": [
+     9,
+     10,
+     11,
+     12
+    ]
+   }
+  },
+  "states": [
+   "dormant",
+   "primed",
+   "triggered",
+   "open",
+   "spent",
+   "recovering"
+  ],
+  "confidence": {
+   "sure_below": 0.25,
+   "likely_below": 0.6
+  }
+ },
+ "credits": [
+  {
+   "name": "Copernicus DEM GLO-30",
+   "credit": "\u00a9 DLR e.V. 2010-2014 and \u00a9 Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+   "licence": "Copernicus DEM licence (free, attribution required)",
+   "status": "verified",
+   "use": ""
+  },
+  {
+   "name": "Copernicus HRL Forest Type 2018 (10 m)",
+   "credit": "\u00a9 European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)",
+   "licence": "Copernicus full, free and open data policy (Regulation (EU) 2021/696)",
+   "status": "verified",
+   "use": ""
+  },
+  {
+   "name": "EEA Nationally designated areas (NatDA) v24 \u2014 Cyprus code CY04 \"Nature reserve\"",
+   "credit": "Nationally designated areas (NatDA) v24 \u00a9 European Environment Agency (EEA), CC BY 4.0",
+   "licence": "CC BY 4.0",
+   "status": "verified",
+   "use": ""
+  },
+  {
+   "name": "Natura 2000 sites (EEA)",
+   "credit": "Natura 2000 \u00a9 European Environment Agency (EEA)",
+   "licence": "CC BY 4.0",
+   "status": "to_verify",
+   "use": ""
+  },
+  {
+   "name": "Geology of Cyprus \u2014 Geologic Units (Geological Survey Department, via DLS INSPIRE)",
+   "credit": "Geological Survey Department, Republic of Cyprus (via Department of Lands and Surveys INSPIRE services)",
+   "licence": "Licence being confirmed with the Department of Lands and Surveys",
+   "status": "to_verify",
+   "use": "Used only inside the model to find the golden oak zone. The rock map itself is not published."
+  },
+  {
+   "name": "Open-Meteo Forecast API",
+   "credit": "Weather data by Open-Meteo.com (CC BY 4.0)",
+   "licence": "CC BY 4.0 (non-commercial free tier)",
+   "status": "verified",
+   "use": ""
+  },
+  {
+   "name": "OpenStreetMap (Geofabrik Cyprus extract, Protomaps build)",
+   "credit": "\u00a9 OpenStreetMap contributors",
+   "licence": "ODbL 1.0",
+   "status": "verified",
+   "use": ""
+  },
+  {
+   "name": "iNaturalist species photos",
+   "credit": "Species photos from iNaturalist (inaturalist.org). Each photo shows its author and licence.",
+   "licence": "Per photo. Only CC0, CC BY, CC BY-SA and CC BY-NC photos are used.",
+   "status": "verified",
+   "use": "Photos on the species cards. Shown from iNaturalist's open-data store, not copied."
+  },
+  {
+   "name": "GBIF occurrence records (Cyprus)",
+   "credit": "Record counts from GBIF.org (Global Biodiversity Information Facility) and iNaturalist.",
+   "licence": "Counts and links only. Each dataset keeps its own licence (CC0, CC BY or CC BY-NC).",
+   "status": "verified",
+   "use": "The \"Public records in Cyprus\" part of each species card. Never used for the score or the map."
+  },
+  {
+   "name": "Copernicus HRL Tree Cover Density 2018 (10 m)",
+   "credit": "\u00a9 European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)",
+   "licence": "Copernicus full, free and open data policy",
+   "status": "verified",
+   "use": "v0.3 habitat \u2014 minimum tree cover for tree-partner species."
+  },
+  {
+   "name": "Copernicus HRL Grassland 2018 (10 m)",
+   "credit": "\u00a9 European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)",
+   "licence": "Copernicus full, free and open data policy",
+   "status": "verified",
+   "use": "v0.3 habitat \u2014 fields and grassland species."
+  },
+  {
+   "name": "CORINE Land Cover 2018",
+   "credit": "\u00a9 European Union, Copernicus Land Monitoring Service 2018, European Environment Agency (EEA)",
+   "licence": "Copernicus full, free and open data policy",
+   "status": "verified",
+   "use": "v0.3 habitat \u2014 fields, pasture, sclerophyllous scrub (rock-rose), burnt areas (around 2018)."
+  },
+  {
+   "name": "EFFIS burnt areas (European Forest Fire Information System), layer modis.ba.poly",
+   "credit": "\u00a9 European Union, EFFIS, Copernicus Emergency Management Service",
+   "licence": "Copernicus Emergency Management Service data, free use with attribution (WFS says fees none, no access constraints)",
+   "status": "to_verify",
+   "use": "v0.3 habitat (audit step 8) \u2014 burnt areas with fire dates, 2016-2026; recent burns for morels, burnt squares removed for tree partners."
+  },
+  {
+   "name": "GBIF occurrence records of giant fennel (Ferula communis) in Cyprus",
+   "credit": "GBIF.org (13 November 2026), Ferula communis occurrences in Cyprus; datasets listed below",
+   "licence": "per dataset, only CC0, CC BY 4.0 and CC BY-NC 4.0 used (non-commercial site)",
+   "status": "verified",
+   "use": "v0.3 habitat (audit step 10) \u2014 squares within 500 m of a record get full weight for the fennel king oyster."
+  },
+  {
+   "name": "SoilGrids 2.0 (ISRIC) \u2014 water retention, texture, pH, organic carbon",
+   "credit": "SoilGrids 2.0, ISRIC \u2014 World Soil Information (CC BY 4.0)",
+   "licence": "CC BY 4.0",
+   "status": "verified",
+   "use": "v0.3 soil layer \u2014 water bucket size, drainage, pH. A machine-learning estimate with few Cyprus profiles."
+  }
+ ],
+ "safety": "Conditions only. Never eat a wild mushroom based on this map, an app or an AI.",
+ "rain_since": {
+  "from": "2026-09-01",
+  "to": "2026-11-14",
+  "mm": 105,
+  "from_1_sep": true
+ }
+}

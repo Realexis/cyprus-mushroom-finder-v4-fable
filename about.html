@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#14211b" />
+  <title>About the data · Cyprus Mushroom Finder</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 15c0-6 5-11 12-11s12 5 12 11z' fill='%23e0b040'/%3E%3Crect x='12' y='15' width='8' height='12' rx='3' fill='%23e9efe6'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/about--LOEIvi0.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/theme-vbfQFcMu.js">
+  <link rel="stylesheet" crossorigin href="./assets/theme-iatmxNqj.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./">
+      <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M4 15c0-6 5-11 12-11s12 5 12 11z" fill="#e0b040" />
+        <rect x="12" y="15" width="8" height="12" rx="3" fill="#e9efe6" />
+      </svg>
+      <span class="brand-text"><span class="brand-name">Cyprus Mushroom Finder</span><br />
+        <span class="brand-sub">← Back to the map</span></span>
+    </a>
+    <button class="sos" type="button" data-emergency aria-haspopup="dialog">Emergency</button>
+  </header>
+  <div class="safety" role="note">
+    <span>Conditions only. Never eat a wild mushroom based on this map, an app or an AI.</span>
+  </div>
+
+  <main class="page">
+    <h1>About the data</h1>
+
+    <h2>What this map shows</h2>
+    <p>Where the <b>growing conditions</b> are right for each mushroom species, today and for the next 7 days.</p>
+    <p>It does <b>not</b> show where mushrooms are. It never says whether a mushroom can be eaten.</p>
+
+    <h2>Each species has its own needs</h2>
+    <p>Pine mushrooms, oak boletes, field mushrooms, morels and desert truffles all react to different
+      <b>trees, rain, warmth and ground</b>.</p>
+    <p>So the map runs a <b>separate check for every species</b>.</p>
+    <p>The general map shows the <b>best result</b> among the species you have switched on.</p>
+
+    <h2>The score in one line</h2>
+    <div class="formula" role="img" aria-label="Conditions equals habitat times water times temperature times mushroom clock">
+      <span class="f-res">Conditions</span><span class="f-op">=</span>
+      <span class="f-part">🌲 Habitat</span><span class="f-op">×</span>
+      <span class="f-part">💧 Water</span><span class="f-op">×</span>
+      <span class="f-part">🌡 Temperature</span><span class="f-op">×</span>
+      <span class="f-part">⏱ Mushroom clock</span>
+    </div>
+    <p>If <b>any one</b> of these is poor, the result is poor.</p>
+    <p>Plenty of rain cannot make up for the wrong trees. Perfect trees cannot make up for dry ground.</p>
+    <p class="muted">A <b>season</b> factor is multiplied in too. Just before and after a species' usual months its
+      score is lower. Further out, it is zero and no window opens.</p>
+
+    <h3>1. Habitat: the right place</h3>
+    <ul>
+      <li><b>Partner trees:</b> many of these species live joined to the roots of certain trees
+        (pine, golden oak, kermes oak). No partner tree, no mushroom.</li>
+      <li><b>Tree cover, altitude, rock type and past fires.</b></li>
+      <li><b>Soil:</b> a gentle nudge for species that prefer acid or alkaline ground.</li>
+    </ul>
+
+    <h3>2. Water: is the ground wet enough?</h3>
+    <p>Every 250 m square has a water <b>"bucket"</b>.</p>
+    <ul>
+      <li><b>Rain fills it.</b></li>
+      <li><b>Sun and wind empty it</b>: faster on sunny south slopes, slower in shade.</li>
+    </ul>
+    <p>The soil sets the bucket size:</p>
+    <ul>
+      <li><b>Clay and rich soil</b> hold water longer, so good conditions last more days.</li>
+      <li><b>Sandy or stony soil</b> drains fast, so the window closes sooner.</li>
+    </ul>
+    <p>The same rain can give two different results on two different slopes.</p>
+
+    <h3>3. Temperature: not too hot, not too cold</h3>
+    <p>Each species has its own comfortable <b>soil temperature</b>. <b>Frost</b> stops most of them.</p>
+
+    <h3>4. The mushroom clock</h3>
+    <p>Mushrooms do not appear the day it rains.</p>
+    <ul>
+      <li>After the season's first <b>soaking rain</b> (about 15–20 mm in 3 days), the clock starts.</li>
+      <li><b>Warm days</b> make it run faster, <b>cold days</b> slower. In early winter that is about
+        <b>19 days</b>, as in the Cyprus field rule (18 to 20 days).</li>
+      <li>When it runs out, the <b>window opens</b>. It stays open while the ground stays wet.
+        <b>Dry ground or frost</b> closes it.</li>
+      <li>Once the season has started, each new soaking rain opens it again after about <b>2 days</b>.</li>
+      <li><b>Morels and desert truffles</b> rest for weeks after a window.</li>
+    </ul>
+
+    <h2>How sure is the forecast?</h2>
+    <p>It depends on <b>rain</b>, not on how many days ahead.</p>
+    <ul>
+      <li><b>Sure</b>: the window depends on rain that has <b>already fallen</b>.
+        That can be sure even 6 days ahead.</li>
+      <li><b>Likely</b> or <b>unsure</b>: it depends on rain that is <b>only forecast</b>.</li>
+    </ul>
+    <p class="muted">How we check: we run the map a second time with all forecast rain taken out.
+      If a score holds, it is sure. Under a quarter of it needing forecast rain = sure; up to 60% = likely; more = unsure.</p>
+
+    <h2>Where the data comes from</h2>
+    <ul>
+      <li><b>Weather:</b> Open-Meteo (rain, temperature, soil temperature), updated daily.
+        Where soil temperature is missing, it is worked out from air temperature.</li>
+      <li><b>Terrain:</b> Copernicus elevation model (slope, sun and shade).</li>
+      <li><b>Forests:</b> Copernicus forest type and tree cover maps.</li>
+      <li><b>Fields and scrub:</b> Copernicus grassland map and CORINE Land Cover.</li>
+      <li><b>Soil:</b> SoilGrids by ISRIC (water holding, texture, pH), plus the Geological Map of Cyprus.</li>
+      <li><b>Burned areas:</b> EFFIS fire maps, with the date of each fire (2016 onwards).
+        Morels use fires of the last 2 years.</li>
+      <li><b>Giant fennel:</b> places where people recorded it (GBIF).</li>
+      <li><b>Species needs:</b> published research from Cyprus and other Mediterranean forests.</li>
+    </ul>
+
+    <h2>How sure is this map?</h2>
+    <p>It is a <b>best estimate</b>, not a promise.</p>
+    <ul>
+      <li>The rain numbers come from a <b>weather model</b> with squares about 9 km wide.</li>
+      <li>The timing rules come from <b>field practice in Cyprus</b> and studies in Spain.</li>
+      <li>Each species' needs are <b>starting guesses</b>, and we say so.</li>
+      <li>Very few mushroom finds are recorded in Cyprus, so the map could only be checked against
+        <b>a few dozen</b>. <span data-hits>In winter 2025-26, 10 of 11 dated finds fell inside an open window
+        within 5 km. From September to February, windows were open there on about <b>a third</b> of all days.
+        Once the wet season had started, they were open on <b>almost every day</b>.</span></li>
+      <li>So the map is good at telling <b>dry weeks from wet ones</b>. It cannot yet pick the <b>best week</b>
+        inside a wet winter.</li>
+    </ul>
+    <p>Use it to choose <b>where and when to look</b>, never <b>what to pick</b>.</p>
+
+    <h2>Honest limits</h2>
+    <ul>
+      <li>These are <b>best estimates</b>. Species numbers are <b>starting guesses</b> from research.
+        They will improve as we log real trips.</li>
+      <li>Rain is estimated <b>per area</b>, not per slope. A local storm can be missed.</li>
+      <li>The soil data is a <b>computer estimate</b> and Cyprus has few soil samples.
+        Where it is unsure, soil has no effect on the result. Today that is most of the island.</li>
+      <li>Mushrooms are <b>patchy</b>. A "very good" square can still be empty.</li>
+      <li>Fennel king oyster: there is no map of giant fennel. We use places where people recorded it,
+        and fields elsewhere. Records show where people looked, not everywhere fennel grows.</li>
+      <li>Desert truffle: its host plant (<i>Helianthemum</i>) is not mapped. Rock-rose scrub stands in for it.</li>
+    </ul>
+
+    <p class="card"><b>Nature reserves are closed</b> to picking and always shown as closed.</p>
+
+    <h2>The law and the forest</h2>
+    <div class="card">
+      <p>Picking is allowed in state forests without a permit, <b>except in nature reserves</b>.</p>
+      <p><b>Rakes and tools are banned</b>: up to 1 year in prison, up to €5,000 fine, or both.</p>
+      <p><b>No fires</b> in forests or within 2 km of them.</p>
+      <p>Pick by hand or knife. Put the leaf litter back.</p>
+    </div>
+
+    <h2>Data credits and licences</h2>
+    <div id="credits"><p>Loading…</p></div>
+    <p class="tag">Weather run: <span id="run">…</span></p>
+
+    <h2>Species photos</h2>
+    <p>Every species card photo comes from <a href="https://www.inaturalist.org">iNaturalist</a>.
+      We only use photos with a CC0, CC BY, CC BY-SA or CC BY-NC licence. The author and licence of each photo:</p>
+    <ul id="photo-credits" class="photo-credits"><li>Loading…</li></ul>
+
+    <h2>Safety</h2>
+    <div class="safety-card">Conditions only. Never eat a wild mushroom based on this map, an app or an AI.</div>
+    <p>Poisoning: call <a href="tel:112"><b>112</b></a> or the Cyprus Poison Centre <a href="tel:1401"><b>1401</b></a>.
+      Do not wait for symptoms.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+ "version": "V4 + Fable",
+ "date": "2026-11-14",
+ "layers": [
+  {
+   "id": "general",
+   "label": "All forest (general map)",
+   "in_season": true
+  },
+  {
+   "id": "lde",
+   "label": "red pine mushroom · Lactarius deliciosus",
+   "in_season": true,
+   "tier": "key"
+  },
+  {
+   "id": "lsa",
+   "label": "bloody milk cap · Lactarius sanguifluus",
+   "in_season": true,
+   "tier": "key"
+  },
+  {
+   "id": "tca",
+   "label": "matsutake · Tricholoma caligatum",
+   "in_season": true,
+   "tier": "key"
+  },
+  {
+   "id": "slu",
+   "label": "slippery Jacks · Suillus",
+   "in_season": true,
+   "tier": "key"
+  },
+  {
+   "id": "pfe",
+   "label": "fennel king oyster · Pleurotus eryngii var. ferulae",
+   "in_season": true,
+   "tier": "key"
+  },
+  {
+   "id": "bae",
+   "label": "bronze bolete / cep · Boletus aereus / edulis · rare",
+   "in_season": true,
+   "tier": "more"
+  },
+  {
+   "id": "xer",
+   "label": "yellow and red cracked boletes · Xerocomus subtomentosus / chrysenteron group",
+   "in_season": true,
+   "tier": "more"
+  },
+  {
+   "id": "lnu",
+   "label": "wood blewit · Lepista nuda",
+   "in_season": true,
+   "tier": "more"
+  },
+  {
+   "id": "cco",
+   "label": "shaggy ink cap · Coprinus comatus",
+   "in_season": true,
+   "tier": "more"
+  },
+  {
+   "id": "aca",
+   "label": "field mushroom · Agaricus campestris",
+   "in_season": true,
+   "tier": "more"
+  },
+  {
+   "id": "rde",
+   "label": "milk-white brittlegill · Russula delica · Sep-Oct",
+   "in_season": false,
+   "tier": "key"
+  },
+  {
+   "id": "mor",
+   "label": "morels · Morchella esculenta / elata · Feb-Apr",
+   "in_season": false,
+   "tier": "key"
+  },
+  {
+   "id": "ter",
+   "label": "desert truffle · Terfezia · Feb-Mar · rare",
+   "in_season": false,
+   "tier": "more"
+  }
+ ]
+}

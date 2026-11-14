@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#14211b" />
+  <meta name="description" content="Live map of growing conditions for wild mushrooms in Cyprus forests. Conditions only." />
+  <title>Cyprus Mushroom Finder</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 15c0-6 5-11 12-11s12 5 12 11z' fill='%23e0b040'/%3E%3Crect x='12' y='15' width='8' height='12' rx='3' fill='%23e9efe6'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/main-C2Bd5CYC.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/theme-vbfQFcMu.js">
+  <link rel="stylesheet" crossorigin href="./assets/theme-iatmxNqj.css">
+  <link rel="stylesheet" crossorigin href="./assets/main-DxhOcBWN.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Cyprus Mushroom Finder, home" data-tip="Reload the map.">
+        <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M4 15c0-6 5-11 12-11s12 5 12 11z" fill="#e0b040" />
+          <circle cx="11" cy="10" r="1.6" fill="#fff6dc" /><circle cx="19" cy="8.5" r="1.3" fill="#fff6dc" />
+          <rect x="12" y="15" width="8" height="12" rx="3" fill="#e9efe6" />
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name"><span class="brand-cy">Cyprus </span>Mushroom Finder</span><br />
+          <span class="brand-sub">Growing conditions map</span>
+        </span>
+      </a>
+      <button class="sos" type="button" data-emergency aria-haspopup="dialog" data-tip="Mushroom poisoning help: call 112 (ambulance) or the Cyprus Poison Centre 1401. Do not wait for symptoms.">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1z"/></svg>
+        Emergency
+      </button>
+    </header>
+
+    <div class="safety" role="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 1 21h22L12 2Zm0 6c.6 0 1 .4 1 1v5a1 1 0 1 1-2 0V9c0-.6.4-1 1-1Zm0 11.2a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Z"/></svg>
+      <span class="safety-full" id="safety-full">Conditions only. Never eat a wild mushroom based on this map, an app or an AI.</span>
+      <!-- Phones: one line, tap to read the full message (the full text stays in the page for screen readers). -->
+      <button class="safety-short" type="button" aria-expanded="false" aria-controls="safety-full">
+        <span class="safety-short-text">Conditions only. Never eat based on this map.</span>
+        <span class="safety-more" aria-hidden="true">▾</span>
+      </button>
+    </div>
+
+    <main class="stage">
+      <div id="map" role="region" aria-label="Map of growing conditions in Cyprus"></div>
+      <div id="loading" class="loading" role="status"><span class="spinner" aria-hidden="true"></span>
+        <span id="loading-text">Loading the forest map…</span></div>
+      <div id="delayed" class="delayed" role="status" hidden></div>
+      <div class="map-note" data-tip="Cyprus law: rakes and tools are banned in the forest (up to 1 year in prison, up to €5,000 fine, or both). No fires in or within 2 km of forests."><strong>No rakes.</strong> Pick by hand or knife. Put the leaf litter back.</div>
+      <div id="map-legend" class="map-legend" role="img" tabindex="0"></div>
+      <section id="sheet" class="sheet" aria-label="Map controls"></section>
+    </main>
+  </div>
+</body>
+</html>

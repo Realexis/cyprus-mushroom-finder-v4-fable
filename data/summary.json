@@ -1,0 +1,4685 @@
+{
+ "title": "Cyprus Mushroom Finder — growing conditions summary",
+ "safety": "Conditions only. Never eat a wild mushroom based on this map, an app or an AI.",
+ "how_to_read": "Scores 0-100 = how good GROWING CONDITIONS are in ~2 km forest zones. v0.3: for each species, habitat x water x temperature x mushroom clock x a season factor, multiplied, so one poor part makes the score poor. The general score is the best species here that is in season that day. It never says a mushroom is there, and never says anything about eating one. Nature reserves are closed and never listed. Each zone's confidence says how much its score needs rain that has not fallen yet: high = it holds on rain that already fell, medium = partly forecast rain, low = mostly forecast rain. Picking rules: no rakes or tools; pick by hand or knife; put the leaf litter back.",
+ "emergency": "Poisoning: call 112. Cyprus Poison Centre: 1401. Do not wait for symptoms.",
+ "weather_run": "2026-11-14",
+ "generated_utc": "2026-11-14T11:33+00:00",
+ "site": "https://realexis.github.io/cyprus-mushroom-finder/",
+ "days": [
+  {
+   "date": "2026-11-14",
+   "weekday": "Saturday",
+   "confidence": "high",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 2,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 83,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; ground 60% wet; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open, about 2 more days.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 60.4,
+      "soil_temp_c": 12.4,
+      "rain_3d_mm": 2.0,
+      "state": 3.0,
+      "left_days": 2.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.98,
+      "temperature": 1.0,
+      "cycle": 0.89,
+      "prior": 0.98
+     }
+    },
+    {
+     "rank": 2,
+     "where": "3 km NE of Ayios Konstantinos",
+     "spot": 1366,
+     "lat": 34.8904,
+     "lon": 33.0824,
+     "score": 59,
+     "confidence": "high",
+     "why": "Good: ground 66% wet; soil about 12 °C; partner trees and tree cover; season; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.7,
+      "Troodos black pine (likely)": 0.2,
+      "Golden oak (likely)": 0.11
+     },
+     "altitude_m": [
+      718,
+      1361
+     ],
+     "inputs": {
+      "fill_pct": 65.7,
+      "soil_temp_c": 12.4,
+      "rain_3d_mm": 2.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.98,
+      "water": 1.0,
+      "temperature": 0.99,
+      "cycle": 0.63,
+      "prior": 0.96
+     }
+    },
+    {
+     "rank": 3,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 57,
+     "confidence": "high",
+     "why": "Good: ground 64% wet; soil about 11 °C; season; partner trees and tree cover.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 63.9,
+      "soil_temp_c": 10.7,
+      "rain_3d_mm": 2.2,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 1.0,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km S of Kalo Chorio Oreinis",
+     "spot": 1569,
+     "lat": 34.9833,
+     "lon": 33.1681,
+     "score": 56,
+     "confidence": "high",
+     "why": "Good: soil about 15 °C; season; mushroom clock; partner trees and tree cover; ground 46% wet.",
+     "mushroom_clock": "Window open, about 3 more days.",
+     "trees": {
+      "Calabrian pine (likely)": 0.99
+     },
+     "altitude_m": [
+      521,
+      824
+     ],
+     "inputs": {
+      "fill_pct": 46.0,
+      "soil_temp_c": 14.6,
+      "rain_3d_mm": 1.8,
+      "state": 3.0,
+      "left_days": 3.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.9,
+      "water": 0.69,
+      "temperature": 1.0,
+      "cycle": 0.91,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 5,
+     "where": "1 km SE of Kampos",
+     "spot": 1149,
+     "lat": 35.0314,
+     "lon": 32.7425,
+     "score": 50,
+     "confidence": "high",
+     "why": "Good: soil about 14 °C; partner trees and tree cover; season; ground 55% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89,
+      "Golden oak (likely)": 0.11
+     },
+     "altitude_m": [
+      465,
+      1029
+     ],
+     "inputs": {
+      "fill_pct": 55.1,
+      "soil_temp_c": 14.0,
+      "rain_3d_mm": 1.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.89,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.96
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 56,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km W of Ayios Epiphanios",
+       "spot": 1575,
+       "lat": 34.993,
+       "lon": 33.0831,
+       "score": 42,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 65,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 56,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km W of Ayios Epiphanios",
+       "spot": 1575,
+       "lat": 34.993,
+       "lon": 33.0831,
+       "score": 42,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km S of Kalo Chorio Oreinis",
+       "spot": 1569,
+       "lat": 34.9833,
+       "lon": 33.1681,
+       "score": 56,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 84,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 62,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 58,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 60,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 60,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km W of Spilia",
+       "spot": 1528,
+       "lat": 34.9687,
+       "lon": 32.9354,
+       "score": 57,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 51,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 48,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 54,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 38,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km S of Kalo Chorio Oreinis",
+       "spot": 1569,
+       "lat": 34.9833,
+       "lon": 33.1681,
+       "score": 37,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 84,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 61,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 58,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 58,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 57,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 82,
+       "confidence": "high"
+      },
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 65,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-15",
+   "weekday": "Sunday",
+   "confidence": "high",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 1,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 77,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; ground 56% wet; mushroom clock.",
+     "mushroom_clock": "Window open, about 1 more day.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 56.0,
+      "soil_temp_c": 12.1,
+      "rain_3d_mm": 0.5,
+      "state": 3.0,
+      "left_days": 1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.91,
+      "temperature": 1.0,
+      "cycle": 0.89,
+      "prior": 0.98
+     }
+    },
+    {
+     "rank": 2,
+     "where": "3 km NE of Ayios Konstantinos",
+     "spot": 1366,
+     "lat": 34.8904,
+     "lon": 33.0824,
+     "score": 58,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; ground 61% wet; partner trees and tree cover; season; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.7,
+      "Troodos black pine (likely)": 0.2,
+      "Golden oak (likely)": 0.11
+     },
+     "altitude_m": [
+      718,
+      1361
+     ],
+     "inputs": {
+      "fill_pct": 61.2,
+      "soil_temp_c": 12.1,
+      "rain_3d_mm": 0.6,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.98,
+      "water": 0.98,
+      "temperature": 0.99,
+      "cycle": 0.63,
+      "prior": 0.96
+     }
+    },
+    {
+     "rank": 3,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 56,
+     "confidence": "high",
+     "why": "Good: soil about 10 °C; season; partner trees and tree cover; ground 60% wet.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 59.6,
+      "soil_temp_c": 10.4,
+      "rain_3d_mm": 0.9,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.97,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 4,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 49,
+     "confidence": "high",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; ground 53% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 53.2,
+      "soil_temp_c": 12.7,
+      "rain_3d_mm": 0.7,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.85,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 5,
+     "where": "3 km S of Louvaras",
+     "spot": 1350,
+     "lat": 34.8129,
+     "lon": 33.0422,
+     "score": 46,
+     "confidence": "high",
+     "why": "Good: ground 63% wet; soil about 14 °C; season; partner trees and tree cover.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 1.0
+     },
+     "altitude_m": [
+      416,
+      984
+     ],
+     "inputs": {
+      "fill_pct": 62.5,
+      "soil_temp_c": 13.7,
+      "rain_3d_mm": 0.4,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.88,
+      "water": 1.0,
+      "temperature": 1.0,
+      "cycle": 0.52,
+      "prior": 1.0
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 72,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 50,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km W of Ayios Epiphanios",
+       "spot": 1575,
+       "lat": 34.993,
+       "lon": 33.0831,
+       "score": 36,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 76,
+       "confidence": "high"
+      },
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 65,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 51,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 72,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 50,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km W of Ayios Epiphanios",
+       "spot": 1575,
+       "lat": 34.993,
+       "lon": 33.0831,
+       "score": 36,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 76,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 55,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 49,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 78,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 59,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 59,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 58,
+       "confidence": "high"
+      },
+      {
+       "where": "Lagoudera",
+       "spot": 1361,
+       "lat": 34.9591,
+       "lon": 33.0205,
+       "score": 51,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 52,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 45,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 42,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 49,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 37,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 32,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 78,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 60,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 76,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 57,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 56,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 76,
+       "confidence": "high"
+      },
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 65,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 51,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "weekday": "Monday",
+   "confidence": "high",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "3 km NE of Ayios Konstantinos",
+     "spot": 1366,
+     "lat": 34.8904,
+     "lon": 33.0824,
+     "score": 54,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; ground 57% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.7,
+      "Troodos black pine (likely)": 0.2,
+      "Golden oak (likely)": 0.11
+     },
+     "altitude_m": [
+      718,
+      1361
+     ],
+     "inputs": {
+      "fill_pct": 56.6,
+      "soil_temp_c": 11.6,
+      "rain_3d_mm": 0.7,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.92,
+      "temperature": 1.0,
+      "cycle": 0.63,
+      "prior": 0.97
+     }
+    },
+    {
+     "rank": 2,
+     "where": "3 km N of Kannavia",
+     "spot": 1520,
+     "lat": 35.0059,
+     "lon": 32.9696,
+     "score": 52,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 51% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 1.0
+     },
+     "altitude_m": [
+      825,
+      1117
+     ],
+     "inputs": {
+      "fill_pct": 50.8,
+      "soil_temp_c": 11.4,
+      "rain_3d_mm": 1.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.8,
+      "temperature": 1.0,
+      "cycle": 0.67,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 48,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; ground 52% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 52.2,
+      "soil_temp_c": 11.8,
+      "rain_3d_mm": 2.6,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 9.1
+     },
+     "factors_0_to_1": {
+      "habitat": 0.93,
+      "water": 0.83,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km N of Troodos",
+     "spot": 1645,
+     "lat": 34.9533,
+     "lon": 32.8899,
+     "score": 47,
+     "confidence": "high",
+     "why": "Good: soil about 9 °C; season; partner trees and tree cover; ground 57% wet.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.21,
+      "Troodos black pine (likely)": 0.79
+     },
+     "altitude_m": [
+      987,
+      1704
+     ],
+     "inputs": {
+      "fill_pct": 56.5,
+      "soil_temp_c": 8.9,
+      "rain_3d_mm": 0.8,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.92,
+      "temperature": 1.0,
+      "cycle": 0.54,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 5,
+     "where": "3 km S of Louvaras",
+     "spot": 1350,
+     "lat": 34.8129,
+     "lon": 33.0422,
+     "score": 45,
+     "confidence": "high",
+     "why": "Good: soil about 14 °C; season; ground 57% wet; partner trees and tree cover.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 1.0
+     },
+     "altitude_m": [
+      416,
+      984
+     ],
+     "inputs": {
+      "fill_pct": 57.2,
+      "soil_temp_c": 13.5,
+      "rain_3d_mm": 0.5,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.88,
+      "water": 0.94,
+      "temperature": 1.0,
+      "cycle": 0.55,
+      "prior": 1.0
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 25,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 63,
+       "confidence": "high"
+      },
+      {
+       "where": "Kannavia",
+       "spot": 1516,
+       "lat": 34.9841,
+       "lon": 32.9809,
+       "score": 49,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 45,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 25,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "3 km N of Kannavia",
+       "spot": 1520,
+       "lat": 35.0059,
+       "lon": 32.9696,
+       "score": 52,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 52,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 47,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 70,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 54,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 52,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 54,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 54,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 50,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 46,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 36,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km N of Kannavia",
+       "spot": 1520,
+       "lat": 35.0059,
+       "lon": 32.9696,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 30,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 57,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km N of Kannavia",
+       "spot": 1520,
+       "lat": 35.0059,
+       "lon": 32.9696,
+       "score": 52,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 49,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 54,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km N of Kannavia",
+       "spot": 1520,
+       "lat": 35.0059,
+       "lon": 32.9696,
+       "score": 52,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 48,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "Ayios Konstantinos",
+       "spot": 1339,
+       "lat": 34.8719,
+       "lon": 33.0652,
+       "score": 63,
+       "confidence": "high"
+      },
+      {
+       "where": "Kannavia",
+       "spot": 1516,
+       "lat": 34.9841,
+       "lon": 32.9809,
+       "score": 49,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 45,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "weekday": "Tuesday",
+   "confidence": "medium",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "3 km NE of Ayios Konstantinos",
+     "spot": 1366,
+     "lat": 34.8904,
+     "lon": 33.0824,
+     "score": 48,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 52% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.7,
+      "Troodos black pine (likely)": 0.2,
+      "Golden oak (likely)": 0.11
+     },
+     "altitude_m": [
+      718,
+      1361
+     ],
+     "inputs": {
+      "fill_pct": 52.3,
+      "soil_temp_c": 11.4,
+      "rain_3d_mm": 0.4,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.83,
+      "temperature": 0.99,
+      "cycle": 0.62,
+      "prior": 0.97
+     }
+    },
+    {
+     "rank": 2,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 46,
+     "confidence": "high",
+     "why": "Good: soil about 9 °C; season; partner trees and tree cover; ground 52% wet.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 51.6,
+      "soil_temp_c": 9.4,
+      "rain_3d_mm": 0.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.81,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 43,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 50% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 49.5,
+      "soil_temp_c": 10.8,
+      "rain_3d_mm": 2.2,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 5.6
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.77,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km S of Louvaras",
+     "spot": 1350,
+     "lat": 34.8129,
+     "lon": 33.0422,
+     "score": 43,
+     "confidence": "high",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; ground 53% wet.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 1.0
+     },
+     "altitude_m": [
+      416,
+      984
+     ],
+     "inputs": {
+      "fill_pct": 52.5,
+      "soil_temp_c": 13.5,
+      "rain_3d_mm": 0.5,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.88,
+      "water": 0.83,
+      "temperature": 1.0,
+      "cycle": 0.58,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 5,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 43,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 48% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 48.0,
+      "soil_temp_c": 11.3,
+      "rain_3d_mm": 2.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 9.9
+     },
+     "factors_0_to_1": {
+      "habitat": 0.93,
+      "water": 0.73,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 22,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 44,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km W of Spilia",
+       "spot": 1528,
+       "lat": 34.9687,
+       "lon": 32.9354,
+       "score": 41,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 40,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 22,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km SW of Sikopetra",
+       "spot": 1340,
+       "lat": 34.8686,
+       "lon": 33.0936,
+       "score": 46,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 42,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 67,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 49,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 47,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 49,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 48,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 44,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 32,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km SW of Sikopetra",
+       "spot": 1340,
+       "lat": 34.8686,
+       "lon": 33.0936,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Kannavia",
+       "spot": 1514,
+       "lat": 35.0027,
+       "lon": 32.998,
+       "score": 25,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 25,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 50,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 46,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 44,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 48,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 46,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 43,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 44,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km W of Spilia",
+       "spot": 1528,
+       "lat": 34.9687,
+       "lon": 32.9354,
+       "score": 41,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 40,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "weekday": "Wednesday",
+   "confidence": "medium",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km W of Dierona",
+     "spot": 1338,
+     "lat": 34.8282,
+     "lon": 33.0876,
+     "score": 43,
+     "confidence": "high",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; ground 49% wet; mushroom clock.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      469,
+      852
+     ],
+     "inputs": {
+      "fill_pct": 49.3,
+      "soil_temp_c": 13.4,
+      "rain_3d_mm": 0.8,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.91,
+      "water": 0.76,
+      "temperature": 1.0,
+      "cycle": 0.62,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 2,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 42,
+     "confidence": "high",
+     "why": "Good: soil about 9 °C; season; partner trees and tree cover; ground 48% wet.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 48.4,
+      "soil_temp_c": 9.3,
+      "rain_3d_mm": 1.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 1.4
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.74,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 38,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 46% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 45.6,
+      "soil_temp_c": 10.7,
+      "rain_3d_mm": 2.6,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 6.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.68,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km NE of Oikos",
+     "spot": 1525,
+     "lat": 35.0187,
+     "lon": 32.8561,
+     "score": 38,
+     "confidence": "medium",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; ground 44% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      646,
+      1060
+     ],
+     "inputs": {
+      "fill_pct": 44.4,
+      "soil_temp_c": 12.9,
+      "rain_3d_mm": 4.8,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 37.7
+     },
+     "factors_0_to_1": {
+      "habitat": 0.99,
+      "water": 0.65,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 5,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 37,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover; ground 44% wet; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 43.9,
+      "soil_temp_c": 11.4,
+      "rain_3d_mm": 2.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 10.6
+     },
+     "factors_0_to_1": {
+      "habitat": 0.93,
+      "water": 0.64,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km S of Neo Chorio",
+       "spot": 1242,
+       "lat": 34.9911,
+       "lon": 32.3613,
+       "score": 24,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 23,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km N of Gerakies",
+       "spot": 1158,
+       "lat": 35.0437,
+       "lon": 32.8164,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km S of Neo Chorio",
+       "spot": 1242,
+       "lat": 34.9911,
+       "lon": 32.3613,
+       "score": 24,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km SE of Ora",
+       "spot": 1377,
+       "lat": 34.8556,
+       "lon": 33.2068,
+       "score": 23,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 59,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 43,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 45,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 43,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 41,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 28,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Oikos",
+       "spot": 1525,
+       "lat": 35.0187,
+       "lon": 32.8561,
+       "score": 25,
+       "confidence": "medium"
+      },
+      {
+       "where": "7 km NE of Rizokarpaso",
+       "spot": 34,
+       "lat": 35.6508,
+       "lon": 34.4262,
+       "score": 24,
+       "confidence": "medium"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 44,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 42,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 39,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 42,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 42,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km N of Gerakies",
+       "spot": 1158,
+       "lat": 35.0437,
+       "lon": 32.8164,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "weekday": "Thursday",
+   "confidence": "low",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km W of Dierona",
+     "spot": 1338,
+     "lat": 34.8282,
+     "lon": 33.0876,
+     "score": 40,
+     "confidence": "high",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; ground 45% wet; mushroom clock.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      469,
+      852
+     ],
+     "inputs": {
+      "fill_pct": 45.0,
+      "soil_temp_c": 14.1,
+      "rain_3d_mm": 0.7,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.91,
+      "water": 0.67,
+      "temperature": 1.0,
+      "cycle": 0.65,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 2,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 38,
+     "confidence": "high",
+     "why": "Good: soil about 10 °C; season; partner trees and tree cover; ground 45% wet.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 44.7,
+      "soil_temp_c": 10.5,
+      "rain_3d_mm": 1.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 1.5
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.66,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 33,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 41.6,
+      "soil_temp_c": 11.7,
+      "rain_3d_mm": 2.5,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 6.3
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.59,
+      "temperature": 0.99,
+      "cycle": 0.6,
+      "prior": 0.98
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km NE of Oikos",
+     "spot": 1525,
+     "lat": 35.0187,
+     "lon": 32.8561,
+     "score": 33,
+     "confidence": "medium",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      646,
+      1060
+     ],
+     "inputs": {
+      "fill_pct": 40.5,
+      "soil_temp_c": 13.7,
+      "rain_3d_mm": 4.6,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 39.8
+     },
+     "factors_0_to_1": {
+      "habitat": 0.99,
+      "water": 0.57,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 5,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 33,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 40.1,
+      "soil_temp_c": 12.4,
+      "rain_3d_mm": 0.2,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 11.2
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.56,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 25,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 21,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 19,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 37,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 34,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 25,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 21,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 19,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 33,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 51,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 38,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 38,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 33,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 36,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 26,
+       "confidence": "high"
+      },
+      {
+       "where": "Pano Platres",
+       "spot": 1616,
+       "lat": 34.8943,
+       "lon": 32.8669,
+       "score": 24,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 26,
+       "confidence": "high"
+      },
+      {
+       "where": "9 km NE of Rizokarpaso",
+       "spot": 31,
+       "lat": 35.6472,
+       "lon": 34.4545,
+       "score": 23,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 22,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 40,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 38,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 34,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 38,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 38,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 33,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 39,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 37,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 34,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-20",
+   "weekday": "Friday",
+   "confidence": "low",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km W of Dierona",
+     "spot": 1338,
+     "lat": 34.8282,
+     "lon": 33.0876,
+     "score": 36,
+     "confidence": "high",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      469,
+      852
+     ],
+     "inputs": {
+      "fill_pct": 40.7,
+      "soil_temp_c": 14.3,
+      "rain_3d_mm": 0.3,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.91,
+      "water": 0.57,
+      "temperature": 1.0,
+      "cycle": 0.68,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 2,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 33,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 41.1,
+      "soil_temp_c": 10.6,
+      "rain_3d_mm": 1.1,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 1.6
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.58,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 29,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 37.7,
+      "soil_temp_c": 12.1,
+      "rain_3d_mm": 1.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 6.7
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.5,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.98
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km NE of Oikos",
+     "spot": 1525,
+     "lat": 35.0187,
+     "lon": 32.8561,
+     "score": 28,
+     "confidence": "medium",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      646,
+      1060
+     ],
+     "inputs": {
+      "fill_pct": 36.7,
+      "soil_temp_c": 14.3,
+      "rain_3d_mm": 4.2,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 42.6
+     },
+     "factors_0_to_1": {
+      "habitat": 0.99,
+      "water": 0.48,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 5,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 28,
+     "confidence": "high",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 36.4,
+      "soil_temp_c": 12.8,
+      "rain_3d_mm": 0.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 12.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.48,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 21,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 17,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 15,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 32,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 30,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 21,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 17,
+       "confidence": "low"
+      },
+      {
+       "where": "1 km S of Agios Theodoros Soleas",
+       "spot": 1507,
+       "lat": 35.0309,
+       "lon": 32.93,
+       "score": 15,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 36,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 29,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 28,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 35,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 31,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 35,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 28,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 31,
+       "confidence": "high"
+      },
+      {
+       "where": "15 km E of Rizokarpaso",
+       "spot": 42,
+       "lat": 35.6364,
+       "lon": 34.5394,
+       "score": 23,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 22,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 24,
+       "confidence": "high"
+      },
+      {
+       "where": "9 km NE of Rizokarpaso",
+       "spot": 31,
+       "lat": 35.6472,
+       "lon": 34.4545,
+       "score": 23,
+       "confidence": "high"
+      },
+      {
+       "where": "17 km NE of Rizokarpaso",
+       "spot": 38,
+       "lat": 35.6765,
+       "lon": 34.546,
+       "score": 22,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 37,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 29,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 28,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 34,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 32,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 30,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "date": "2026-11-21",
+   "weekday": "Saturday",
+   "confidence": "low",
+   "island": {
+    "median_score": 0,
+    "zones_70_plus": 0,
+    "zones_total": 1647
+   },
+   "top_zones": [
+    {
+     "rank": 1,
+     "where": "2 km W of Dierona",
+     "spot": 1338,
+     "lat": 34.8282,
+     "lon": 33.0876,
+     "score": 32,
+     "confidence": "high",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Soaking rain fell. The mushroom clock is running.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      469,
+      852
+     ],
+     "inputs": {
+      "fill_pct": 37.2,
+      "soil_temp_c": 14.4,
+      "rain_3d_mm": 0.0,
+      "state": 2.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 0.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.91,
+      "water": 0.49,
+      "temperature": 1.0,
+      "cycle": 0.72,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 2,
+     "where": "1 km NW of Karvounas",
+     "spot": 1530,
+     "lat": 34.9501,
+     "lon": 32.9182,
+     "score": 29,
+     "confidence": "high",
+     "why": "Good: soil about 11 °C; season; partner trees and tree cover.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.42,
+      "Troodos black pine (likely)": 0.57
+     },
+     "altitude_m": [
+      954,
+      1644
+     ],
+     "inputs": {
+      "fill_pct": 37.6,
+      "soil_temp_c": 10.7,
+      "rain_3d_mm": 0.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 1.7
+     },
+     "factors_0_to_1": {
+      "habitat": 0.97,
+      "water": 0.5,
+      "temperature": 1.0,
+      "cycle": 0.59,
+      "prior": 1.0
+     }
+    },
+    {
+     "rank": 3,
+     "where": "2 km N of Lagoudera",
+     "spot": 1517,
+     "lat": 34.9809,
+     "lon": 33.0092,
+     "score": 24,
+     "confidence": "high",
+     "why": "Good: soil about 12 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.95
+     },
+     "altitude_m": [
+      715,
+      1161
+     ],
+     "inputs": {
+      "fill_pct": 34.1,
+      "soil_temp_c": 12.4,
+      "rain_3d_mm": 0.7,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 7.3
+     },
+     "factors_0_to_1": {
+      "habitat": 0.96,
+      "water": 0.42,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.98
+     }
+    },
+    {
+     "rank": 4,
+     "where": "3 km NE of Oikos",
+     "spot": 1525,
+     "lat": 35.0187,
+     "lon": 32.8561,
+     "score": 24,
+     "confidence": "medium",
+     "why": "Good: soil about 14 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.97
+     },
+     "altitude_m": [
+      646,
+      1060
+     ],
+     "inputs": {
+      "fill_pct": 33.0,
+      "soil_temp_c": 14.5,
+      "rain_3d_mm": 0.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 46.4
+     },
+     "factors_0_to_1": {
+      "habitat": 0.99,
+      "water": 0.4,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    },
+    {
+     "rank": 5,
+     "where": "4 km E of Farmakas",
+     "spot": 1411,
+     "lat": 34.9211,
+     "lon": 33.1733,
+     "score": 24,
+     "confidence": "high",
+     "why": "Good: soil about 13 °C; season; partner trees and tree cover; mushroom clock.",
+     "mushroom_clock": "Window open.",
+     "trees": {
+      "Calabrian pine (likely)": 0.89
+     },
+     "altitude_m": [
+      881,
+      1333
+     ],
+     "inputs": {
+      "fill_pct": 33.1,
+      "soil_temp_c": 12.8,
+      "rain_3d_mm": 0.0,
+      "state": 3.0,
+      "left_days": -1.0,
+      "rain_dep_pct": 13.0
+     },
+     "factors_0_to_1": {
+      "habitat": 0.94,
+      "water": 0.4,
+      "temperature": 1.0,
+      "cycle": 0.6,
+      "prior": 0.99
+     }
+    }
+   ],
+   "species": {
+    "aca": {
+     "label": "good conditions for Agaricus campestris (field mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Mar",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 17,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 15,
+       "confidence": "low"
+      },
+      {
+       "where": "3 km E of Prodromos",
+       "spot": 1644,
+       "lat": 34.9565,
+       "lon": 32.8615,
+       "score": 12,
+       "confidence": "high"
+      }
+     ]
+    },
+    "bae": {
+     "label": "good conditions for Boletus aereus / edulis (bronze bolete / cep) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 27,
+       "confidence": "high"
+      }
+     ]
+    },
+    "cco": {
+     "label": "good conditions for Coprinus comatus (shaggy ink cap) habitat",
+     "in_season": true,
+     "season": "Nov-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Gourri",
+       "spot": 1578,
+       "lat": 34.9429,
+       "lon": 33.1621,
+       "score": 17,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km SW of Pano Arodes",
+       "spot": 1197,
+       "lat": 34.9258,
+       "lon": 32.3954,
+       "score": 15,
+       "confidence": "low"
+      },
+      {
+       "where": "3 km E of Prodromos",
+       "spot": 1644,
+       "lat": 34.9565,
+       "lon": 32.8615,
+       "score": 12,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lde": {
+     "label": "good conditions for Lactarius deliciosus (red pine mushroom) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km W of Dierona",
+       "spot": 1338,
+       "lat": 34.8282,
+       "lon": 33.0876,
+       "score": 32,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 25,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 24,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lnu": {
+     "label": "good conditions for Lepista nuda (wood blewit) habitat",
+     "in_season": true,
+     "season": "Nov-Feb",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 31,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 29,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 25,
+       "confidence": "high"
+      }
+     ]
+    },
+    "lsa": {
+     "label": "good conditions for Lactarius sanguifluus (bloody milk cap) habitat",
+     "in_season": true,
+     "season": "Sep-Nov",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Farmakas",
+       "spot": 1411,
+       "lat": 34.9211,
+       "lon": 33.1733,
+       "score": 24,
+       "confidence": "high"
+      }
+     ]
+    },
+    "mor": {
+     "label": "good conditions for Morchella esculenta / elata (morels) habitat",
+     "in_season": true,
+     "season": "Feb-Apr",
+     "top_zones": [
+      {
+       "where": "5 km W of Rizokarpaso",
+       "spot": 0,
+       "lat": 35.5813,
+       "lon": 34.3283,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "4 km E of Rizokarpaso",
+       "spot": 10,
+       "lat": 35.6107,
+       "lon": 34.4197,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "pfe": {
+     "label": "good conditions for Pleurotus eryngii var. ferulae (fennel king oyster) habitat",
+     "in_season": true,
+     "season": "Oct-Apr",
+     "top_zones": [
+      {
+       "where": "2 km S of Kakopetria",
+       "spot": 1534,
+       "lat": 34.9719,
+       "lon": 32.907,
+       "score": 26,
+       "confidence": "high"
+      },
+      {
+       "where": "15 km E of Rizokarpaso",
+       "spot": 42,
+       "lat": 35.6364,
+       "lon": 34.5394,
+       "score": 23,
+       "confidence": "high"
+      },
+      {
+       "where": "Gerakies",
+       "spot": 1156,
+       "lat": 35.0033,
+       "lon": 32.8106,
+       "score": 18,
+       "confidence": "high"
+      }
+     ]
+    },
+    "rde": {
+     "label": "good conditions for Russula delica (white brittlegill) habitat",
+     "in_season": true,
+     "season": "Sep-Oct",
+     "top_zones": [
+      {
+       "where": "9 km NE of Rizokarpaso",
+       "spot": 31,
+       "lat": 35.6472,
+       "lon": 34.4545,
+       "score": 23,
+       "confidence": "high"
+      },
+      {
+       "where": "17 km NE of Rizokarpaso",
+       "spot": 38,
+       "lat": 35.6765,
+       "lon": 34.546,
+       "score": 22,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 21,
+       "confidence": "high"
+      }
+     ]
+    },
+    "slu": {
+     "label": "good conditions for Suillus (slippery Jacks) habitat",
+     "in_season": true,
+     "season": "Oct-Feb",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 33,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 29,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 24,
+       "confidence": "high"
+      }
+     ]
+    },
+    "tca": {
+     "label": "good conditions for Tricholoma caligatum (matsutake) habitat",
+     "in_season": true,
+     "season": "Nov-Jan",
+     "top_zones": [
+      {
+       "where": "2 km E of Louvaras",
+       "spot": 1337,
+       "lat": 34.8315,
+       "lon": 33.0593,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "1 km NW of Karvounas",
+       "spot": 1530,
+       "lat": 34.9501,
+       "lon": 32.9182,
+       "score": 29,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 24,
+       "confidence": "high"
+      }
+     ]
+    },
+    "ter": {
+     "label": "good conditions for Terfezia (desert truffle) habitat",
+     "in_season": true,
+     "season": "Feb-Mar",
+     "top_zones": [
+      {
+       "where": "5 km NE of Galinoporni",
+       "spot": 2,
+       "lat": 35.5595,
+       "lon": 34.3392,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "5 km NE of Rizokarpaso",
+       "spot": 8,
+       "lat": 35.6325,
+       "lon": 34.4088,
+       "score": 0,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km NE of Agia Triada",
+       "spot": 28,
+       "lat": 35.5519,
+       "lon": 34.2369,
+       "score": 0,
+       "confidence": "high"
+      }
+     ]
+    },
+    "xer": {
+     "label": "good conditions for Xerocomus subtomentosus / chrysenteron group (yellow and red cracked boletes) habitat",
+     "in_season": true,
+     "season": "Oct-Nov",
+     "top_zones": [
+      {
+       "where": "3 km NE of Ayios Konstantinos",
+       "spot": 1366,
+       "lat": 34.8904,
+       "lon": 33.0824,
+       "score": 30,
+       "confidence": "high"
+      },
+      {
+       "where": "3 km SW of Kakopetria",
+       "spot": 1524,
+       "lat": 34.9751,
+       "lon": 32.8786,
+       "score": 28,
+       "confidence": "high"
+      },
+      {
+       "where": "2 km N of Lagoudera",
+       "spot": 1517,
+       "lat": 34.9809,
+       "lon": 33.0092,
+       "score": 27,
+       "confidence": "high"
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "species_note": "Species scores say 'good conditions for [species] habitat', never that the species is there. In the edge months of its season a species scores lower; further out it scores zero."
+}
