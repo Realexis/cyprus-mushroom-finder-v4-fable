@@ -1,0 +1,1 @@
+{"cells": 107895, "days": 8, "factors": [], "inputs": [], "layout": "int16 little-endian; per square: track_m, road_m; -1 = none. Scores: sp_<key>.bin (see web_v03.py)", "road_layout": "cells_road.bin: float32 little-endian; per square: lat, lon of its centre (Drive there pin); NaN = in/touching a nature reserve"}
